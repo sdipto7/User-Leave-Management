@@ -1,0 +1,47 @@
+CREATE TABLE user_leave_management.user (
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    designation VARCHAR(100) NOT NULL,
+    created DATETIME NOT NULL,
+    updated DATETIME NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE user_leave_management.user_management (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    supervisor_id INT NOT NULL,
+    created DATETIME NOT NULL,
+    updated DATETIME NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user_leave_management.user(id),
+    FOREIGN KEY (supervisor_id) REFERENCES user_leave_management.user(id)
+);
+
+CREATE TABLE user_leave_management.user_leave_stat (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    sick_leave_count INT NULL,
+    casual_leave_count INT NULL,
+    created DATETIME NOT NULL,
+    updated DATETIME NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user_leave_management.user(id)
+);
+
+CREATE TABLE user_leave_management.leave_request (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    leave_type VARCHAR(100) NOT NULL,
+    leave_status VARCHAR(100) NOT NULL,
+    note varchar(100) NOT NULL,
+    start_date DATETIME NOT NULL,
+    end_date DATETIME NOT NULL,
+    created DATETIME NOT NULL,
+    updated DATETIME NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user_leave_management.user(id)
+);
