@@ -1,6 +1,7 @@
 package net.therap.leavemanagement.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author rumi.dipto
@@ -14,10 +15,12 @@ public class UserManagement extends Persistent {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @NotNull(message = "{validation.notNull.msg}")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supervisor_id")
+    @NotNull(message = "{validation.notNull.msg}")
     private User supervisor;
 
     public User getUser() {

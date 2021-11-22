@@ -1,6 +1,8 @@
 package net.therap.leavemanagement.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -15,22 +17,29 @@ public class LeaveRequest extends Persistent {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @NotNull(message = "{validation.notNull.msg}")
     private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "leave_type")
+    @NotNull(message = "{validation.notNull.msg}")
     private LeaveType leaveType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "leave_status")
+    @NotNull(message = "{validation.notNull.msg}")
     private LeaveStatus leaveStatus;
 
+    @Size(min = 5, max = 100, message = "{validation.size.msg}")
+    @NotNull(message = "{validation.notNull.msg}")
     private String note;
 
     @Column(name = "start_date")
+    @NotNull(message = "{validation.notNull.msg}")
     private Date startDate;
 
     @Column(name = "end_date")
+    @NotNull(message = "{validation.notNull.msg}")
     private Date endDate;
 
     public User getUser() {

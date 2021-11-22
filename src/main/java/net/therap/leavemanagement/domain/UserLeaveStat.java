@@ -1,6 +1,8 @@
 package net.therap.leavemanagement.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author rumi.dipto
@@ -14,12 +16,15 @@ public class UserLeaveStat extends Persistent {
 
     @OneToOne
     @JoinColumn(name = "user_id")
+    @NotNull(message = "{validation.notNull.msg}")
     private User user;
 
     @Column(name = "sick_leave_count")
+    @Max(value = 10, message = "{validation.max.msg}")
     private int sickLeaveCount;
 
     @Column(name = "casual_leave_count")
+    @Max(value = 10, message = "{validation.max.msg}")
     private int casualLeaveCount;
 
     public User getUser() {
