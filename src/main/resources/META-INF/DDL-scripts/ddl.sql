@@ -5,9 +5,11 @@ CREATE TABLE user_leave_management.user (
     username VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
     designation VARCHAR(100) NOT NULL,
+    salary DECIMAL NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT unique_username UNIQUE (username)
 );
 
 CREATE TABLE user_leave_management.user_management (
@@ -24,8 +26,8 @@ CREATE TABLE user_leave_management.user_management (
 CREATE TABLE user_leave_management.user_leave_stat (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
-    sick_leave_count INT NULL,
-    casual_leave_count INT NULL,
+    sick_leave_count INT NOT NULL,
+    casual_leave_count INT NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
     PRIMARY KEY (id),
