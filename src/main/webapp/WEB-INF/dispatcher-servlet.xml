@@ -15,6 +15,12 @@
         https://www.springframework.org/schema/context/spring-context.xsd"
        default-autowire="byName">
 
+    <mvc:annotation-driven/>
+
+    <tx:annotation-driven/>
+
+    <context:component-scan base-package="net.therap.leavemanagement"/>
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="suffix" value=".jsp"/>
