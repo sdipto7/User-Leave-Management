@@ -6,10 +6,10 @@ package net.therap.leavemanagement.domain;
  */
 public enum Designation {
 
-    HUMAN_RESOURCE("humanResourse"),
-    TEAMLEAD("teamlead"),
-    DEVELOPER("developer"),
-    TESTER("tester");
+    HumanResource("humanResource"),
+    Teamlead("teamlead"),
+    Developer("developer"),
+    Tester("tester");
 
     private String naturalName;
 

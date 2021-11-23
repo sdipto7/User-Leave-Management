@@ -6,12 +6,12 @@ package net.therap.leavemanagement.domain;
  */
 public enum LeaveStatus {
 
-    APPROVED_BY_TEAMLEAD("approvedByTeamlead"),
-    PENDING_BY_TEAMLEAD("pendingByTeamlead"),
-    DENIED_BY_TEAMLEAD("deniedByTeamlead"),
-    APPROVED_BY_HUMAN_RESOURCE("approvedByHumanResource"),
-    PENDING_BY_HUMAN_RESOURCE("pendingByHumanResource"),
-    DENIED_BY_HUMAN_RESOURCE("deniedByHumanResource");
+    ApprovedByTeamlead("approvedByTeamlead"),
+    PendingByTeamlead("pendingByTeamlead"),
+    DeniedByTeamlead("deniedByTeamlead"),
+    ApprovedByHumanResource("approvedByHumanResource"),
+    PendingByHumanResource("pendingByHumanResource"),
+    DeniedByHumanResource("deniedByHumanResource");
 
     private String naturalName;
 
