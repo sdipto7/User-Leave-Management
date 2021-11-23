@@ -1,5 +1,8 @@
 package net.therap.leavemanagement.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -8,19 +11,21 @@ import javax.validation.constraints.NotNull;
  * @since 11/22/21
  */
 @Entity
-@Table(name = "user_management")
+@Table(name = "lm_user_management")
 public class UserManagement extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @Fetch(value = FetchMode.SELECT)
     @JoinColumn(name = "user_id")
-    @NotNull(message = "{validation.notNull.msg}")
+    @NotNull
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(value = FetchMode.SELECT)
     @JoinColumn(name = "supervisor_id")
-    @NotNull(message = "{validation.notNull.msg}")
+    @NotNull
     private User supervisor;
 
     public User getUser() {

@@ -1,5 +1,8 @@
 package net.therap.leavemanagement.domain;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,36 +13,37 @@ import java.util.Date;
  * @since 11/22/21
  */
 @Entity
-@Table(name = "leave_request")
+@Table(name = "lm_leave_request")
 public class LeaveRequest extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Fetch(value = FetchMode.SELECT)
     @JoinColumn(name = "user_id")
-    @NotNull(message = "{validation.notNull.msg}")
+    @NotNull
     private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "leave_type")
-    @NotNull(message = "{validation.notNull.msg}")
+    @NotNull
     private LeaveType leaveType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "leave_status")
-    @NotNull(message = "{validation.notNull.msg}")
+    @NotNull
     private LeaveStatus leaveStatus;
 
-    @Size(min = 5, max = 100, message = "{validation.size.msg}")
-    @NotNull(message = "{validation.notNull.msg}")
+    @Size(min = 5, max = 100)
+    @NotNull
     private String note;
 
     @Column(name = "start_date")
-    @NotNull(message = "{validation.notNull.msg}")
+    @NotNull
     private Date startDate;
 
     @Column(name = "end_date")
-    @NotNull(message = "{validation.notNull.msg}")
+    @NotNull
     private Date endDate;
 
     public User getUser() {
