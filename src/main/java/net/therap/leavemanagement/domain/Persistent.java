@@ -22,6 +22,9 @@ public class Persistent implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
+    @Version
+    private int version;
+
     @PrePersist
     private void onCreate() {
         created = new Date();
@@ -54,6 +57,14 @@ public class Persistent implements Serializable {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public boolean isNew() {

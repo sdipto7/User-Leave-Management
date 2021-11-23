@@ -8,6 +8,7 @@ CREATE TABLE user_leave_management.user (
     salary DECIMAL NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
+    version INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT unique_username UNIQUE (username)
 );
@@ -18,6 +19,7 @@ CREATE TABLE user_leave_management.user_management (
     supervisor_id INT NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
+    version INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user_leave_management.user(id),
     FOREIGN KEY (supervisor_id) REFERENCES user_leave_management.user(id)
@@ -30,6 +32,7 @@ CREATE TABLE user_leave_management.user_leave_stat (
     casual_leave_count INT NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
+    version INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user_leave_management.user(id)
 );
@@ -44,6 +47,7 @@ CREATE TABLE user_leave_management.leave_request (
     end_date DATETIME NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
+    version INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user_leave_management.user(id)
 );
