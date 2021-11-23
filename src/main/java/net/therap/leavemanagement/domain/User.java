@@ -31,7 +31,7 @@ public class User extends Persistent {
     @NotNull
     private String username;
 
-    @Size(min = 5, max = 255)
+    @Size(min = 5, max = 100)
     @NotNull
     private String password;
 

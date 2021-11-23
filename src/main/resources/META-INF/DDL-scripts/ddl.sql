@@ -3,7 +3,7 @@ CREATE TABLE user_leave_management.lm_user (
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     username VARCHAR(100) NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     designation VARCHAR(100) NOT NULL,
     salary DECIMAL(10,2) NOT NULL,
     created DATETIME NOT NULL,
