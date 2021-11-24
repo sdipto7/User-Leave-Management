@@ -44,6 +44,9 @@ public class User extends Persistent {
     @NotNull
     private BigDecimal salary;
 
+    @NotNull
+    private boolean activated;
+
     public String getFirstName() {
         return firstName;
     }
@@ -90,5 +93,13 @@ public class User extends Persistent {
 
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 }

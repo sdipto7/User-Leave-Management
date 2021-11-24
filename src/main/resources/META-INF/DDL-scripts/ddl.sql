@@ -6,6 +6,7 @@ CREATE TABLE user_leave_management.lm_user (
     password VARCHAR(100) NOT NULL,
     designation VARCHAR(100) NOT NULL,
     salary DECIMAL(10,2) NOT NULL,
+    activated TINYINT(1) NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
     version INT NOT NULL,
