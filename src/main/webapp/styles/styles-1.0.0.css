@@ -1,0 +1,121 @@
+body {
+    background-color: white;
+}
+
+h1 {
+    color: blue;
+}
+
+p {
+    color: red;
+}
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+.active {
+    background-color: #04AA6D;
+}
+
+.button {
+    border: none;
+    background-color: #04799f;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #04AA6D;
+    color: white;
+}
+
+#panel {
+    text-align: center;
+    padding: 3px;
+    background-color: #a2a2c9;
+    color: white;
+    align-items: center;
+}
+
+#error {
+    text-align: left;
+    padding: 3px;
+    color: #9c0202;
+}
+
+#success {
+    text-align: center;
+    padding: 3px;
+    color: #00ab00;
+}
+
+.errorBlock {
+    color: #000;
+    background-color: #ffEEEE;
+    border: 3px solid #a00000;
+    padding: 8px;
+    margin: 16px;
+}
+
+#successBlock {
+    color: #000;
+    align-items: center;
+    background-color: #ffEEEE;
+    border: 3px solid #00c27b;
+    padding: 8px;
+    margin: 16px;
+}

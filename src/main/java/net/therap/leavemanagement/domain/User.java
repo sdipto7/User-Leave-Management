@@ -13,6 +13,13 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name = "lm_user")
+@NamedQueries({
+        @NamedQuery(name = "User.findByUsername",
+                query = "SELECT u FROM User u WHERE u.username = :username"),
+
+        @NamedQuery(name = "User.findAll",
+                query = "SELECT u FROM User u")
+})
 public class User extends Persistent {
 
     private static final long serialVersionUID = 1L;
