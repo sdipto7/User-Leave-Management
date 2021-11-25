@@ -55,7 +55,6 @@ public class LoginController {
                            RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
-            System.out.println("error paisi");
             return "login";
         }
 

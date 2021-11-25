@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 11/21/21
  */
 @Controller
-public class UserController {
+public class HomeController {
 
     @RequestMapping("/")
     public String show() {
