@@ -22,13 +22,25 @@ public class UserDao {
         return em.find(User.class, id);
     }
 
-    public User findByUserName(String username) {
+    public User findByUsername(String username) {
         return em.createNamedQuery("User.findByUsername", User.class)
                 .setParameter("username", username)
                 .getResultList()
                 .stream()
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<User> findAllTeamlead() {
+        return em.createNamedQuery("User.findAllTeamlead", User.class).getResultList();
+    }
+
+    public List<User> findAllDeveloper() {
+        return em.createNamedQuery("User.findAllDeveloper", User.class).getResultList();
+    }
+
+    public List<User> findAllTester() {
+        return em.createNamedQuery("User.findAllTester", User.class).getResultList();
     }
 
     public List<User> findAll() {

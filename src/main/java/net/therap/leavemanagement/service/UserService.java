@@ -21,8 +21,20 @@ public class UserService {
         return userDao.find(id);
     }
 
-    public User findByUserName(String username) {
-        return userDao.findByUserName(username);
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
+    }
+
+    public List<User> findAllTeamlead() {
+        return userDao.findAllTeamlead();
+    }
+
+    public List<User> findAllDeveloper() {
+        return userDao.findAllDeveloper();
+    }
+
+    public List<User> findAllTester() {
+        return userDao.findAllTester();
     }
 
     public List<User> findAll() {

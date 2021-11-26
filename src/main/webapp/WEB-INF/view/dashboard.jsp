@@ -23,7 +23,7 @@
                 <th><fmt:message key="label.actions"/></th>
             </tr>
 
-            <c:url var="showTeamleadListLink" value="/user/teamleadlist"/>
+            <c:url var="showTeamleadListLink" value="/user/teamleadList"/>
 
             <c:url var="showDeveloperListLink" value="/user/developerList"/>
 
@@ -43,34 +43,34 @@
                 <tr>
                     <td><fmt:message key="label.dashboard.body.teamlead"/></td>
                     <td>
-                        <a href="${showTeamleadListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
-                        <a href="${addUserLink}"><fmt:message key="label.dashboard.action.addLink"/></a>
+                        <a href="${showTeamleadListLink}"><fmt:message key="label.link.showList"/></a>
+                        <a href="${addUserLink}"><fmt:message key="label.link.add"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.developer"/></td>
                     <td>
-                        <a href="${showDeveloperListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
-                        <a href="${addUserLink}"><fmt:message key="label.dashboard.action.addLink"/></a>
+                        <a href="${showDeveloperListLink}"><fmt:message key="label.link.showList"/></a>
+                        <a href="${addUserLink}"><fmt:message key="label.link.add"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.tester"/></td>
                     <td>
-                        <a href="${showTesterListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
-                        <a href="${addUserLink}"><fmt:message key="label.dashboard.action.addLink"/></a>
+                        <a href="${showTesterListLink}"><fmt:message key="label.link.showList"/></a>
+                        <a href="${addUserLink}"><fmt:message key="label.link.add"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.leaves"/></td>
                     <td>
-                        <a href="${showLeaveListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
+                        <a href="${showLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.pendingLeaves"/></td>
                     <td>
-                        <a href="${showPendingLeaveListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
+                        <a href="${showPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
             </c:if>
@@ -79,25 +79,25 @@
                 <tr>
                     <td><fmt:message key="label.dashboard.body.developer"/></td>
                     <td>
-                        <a href="${showDeveloperListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
+                        <a href="${showDeveloperListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.tester"/></td>
                     <td>
-                        <a href="${showTesterListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
+                        <a href="${showTesterListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.leaves"/></td>
                     <td>
-                        <a href="${showLeaveListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
+                        <a href="${showLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.pendingLeaves"/></td>
                     <td>
-                        <a href="${showPendingLeaveListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
+                        <a href="${showPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
             </c:if>
@@ -106,8 +106,8 @@
                 <tr>
                     <td><fmt:message key="label.dashboard.body.leaves"/></td>
                     <td>
-                        <a href="${showLeaveListLink}"><fmt:message key="label.dashboard.action.showListLink"/></a>
-                        <a href="${addLeaveLink}"><fmt:message key="label.dashboard.action.addLink"/></a>
+                        <a href="${showLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                        <a href="${addLeaveLink}"><fmt:message key="label.link.add"/></a>
                     </td>
                 </tr>
             </c:if>

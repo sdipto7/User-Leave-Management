@@ -61,7 +61,7 @@ public class LoginController {
         String username = loginCommand.getUsername();
         String password = loginCommand.getPassword();
 
-        User user = userService.findByUserName(username);
+        User user = userService.findByUsername(username);
         if (user != null && authenticationHelper.authCheck(user, password)) {
             session.setAttribute("SESSION_USER", user);
 
