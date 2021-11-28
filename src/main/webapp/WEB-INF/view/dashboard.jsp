@@ -23,7 +23,7 @@
                 <th><fmt:message key="label.actions"/></th>
             </tr>
 
-            <c:url var="showTeamleadListLink" value="/user/teamleadList"/>
+            <c:url var="showTeamLeadListLink" value="user/teamLeadList"/>
 
             <c:url var="showDeveloperListLink" value="/user/developerList"/>
 
@@ -39,11 +39,11 @@
 <%--                <c:param name="userId" value="${SESSION_USER.id}"/>--%>
             </c:url>
 
-            <c:if test="${isSessionUserHumanResource}">
+            <c:if test="${SESSION_USER.designation == 'HUMAN_RESOURCE'}">
                 <tr>
-                    <td><fmt:message key="label.dashboard.body.teamlead"/></td>
+                    <td><fmt:message key="label.dashboard.body.teamLead"/></td>
                     <td>
-                        <a href="${showTeamleadListLink}"><fmt:message key="label.link.showList"/></a>
+                        <a href="${showTeamLeadListLink}"><fmt:message key="label.link.showList"/></a>
                         <a href="${addUserLink}"><fmt:message key="label.link.add"/></a>
                     </td>
                 </tr>
@@ -75,7 +75,7 @@
                 </tr>
             </c:if>
 
-            <c:if test="${isSessionUserTeamlead}">
+            <c:if test="${SESSION_USER.designation == 'TEAM_LEAD'}">
                 <tr>
                     <td><fmt:message key="label.dashboard.body.developer"/></td>
                     <td>
@@ -102,7 +102,7 @@
                 </tr>
             </c:if>
 
-            <c:if test="${isSessionUserDeveloper || isSessionUserTester}">
+            <c:if test="${SESSION_USER.designation == 'DEVELOPER' || SESSION_USER.designation == 'TESTER'}">
                 <tr>
                     <td><fmt:message key="label.dashboard.body.leaves"/></td>
                     <td>

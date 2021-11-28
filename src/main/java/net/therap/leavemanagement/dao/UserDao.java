@@ -31,8 +31,8 @@ public class UserDao {
                 .orElse(null);
     }
 
-    public List<User> findAllTeamlead() {
-        return em.createNamedQuery("User.findAllTeamlead", User.class).getResultList();
+    public List<User> findAllTeamLead() {
+        return em.createNamedQuery("User.findAllTeamLead", User.class).getResultList();
     }
 
     public List<User> findAllDeveloper() {

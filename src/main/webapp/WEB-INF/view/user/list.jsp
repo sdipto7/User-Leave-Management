@@ -27,9 +27,9 @@
 
         <c:forEach var="user" items="${userList}">
 
-<%--            <c:url var="showDetailsLink" value="/user/show">--%>
-<%--                <c:param name="id" value="${user.user.id}"/>--%>
-<%--            </c:url>--%>
+            <c:url var="showDetailsLink" value="/user/details">
+                <c:param name="id" value="${user.id}"/>
+            </c:url>
 
             <tr>
                 <td><c:out value="${user.id}"/></td>

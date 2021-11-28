@@ -17,8 +17,8 @@ import java.math.BigDecimal;
         @NamedQuery(name = "User.findByUsername",
                 query = "SELECT u FROM User u WHERE u.username = :username"),
 
-        @NamedQuery(name = "User.findAllTeamlead",
-                query = "SELECT u FROM User u WHERE u.designation = 'TEAMLEAD'"),
+        @NamedQuery(name = "User.findAllTeamLead",
+                query = "SELECT u FROM User u WHERE u.designation = 'TEAM_LEAD'"),
 
         @NamedQuery(name = "User.findAllDeveloper",
                 query = "SELECT u FROM User u WHERE u.designation = 'DEVELOPER'"),

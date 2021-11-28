@@ -1,15 +1,18 @@
 package net.therap.leavemanagement.controller;
 
+import net.therap.leavemanagement.domain.Designation;
+import net.therap.leavemanagement.domain.LeaveStat;
+import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
+import net.therap.leavemanagement.service.LeaveStatService;
+import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,6 +34,12 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserManagementService userManagementService;
+
+    @Autowired
+    private LeaveStatService leaveStatService;
+
+    @Autowired
     private AuthorizationHelper authorizationHelper;
 
     @InitBinder(USER_COMMAND)
@@ -42,16 +51,16 @@ public class UserController {
         binder.setAllowedFields("firstName", "lastName", "username", "password", "designation", "salary");
     }
 
-    @RequestMapping("/teamleadList")
-    public String showTeamleadList(HttpSession session, ModelMap model) {
+    @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
+    public String showTeamLeadList(HttpSession session, ModelMap model) {
         authorizationHelper.checkHumanResourceAccess(session);
 
-        model.addAttribute(USER_LIST, userService.findAllTeamlead());
+        model.addAttribute(USER_LIST, userService.findAllTeamLead());
 
         return "user/list";
     }
 
-    @RequestMapping("/developerList")
+    @RequestMapping(value = "/developerList", method = RequestMethod.GET)
     public String showDeveloperList(HttpSession session, ModelMap model) {
         authorizationHelper.checkHumanResourceAccess(session);
 
@@ -60,12 +69,41 @@ public class UserController {
         return "user/list";
     }
 
-    @RequestMapping("/testerList")
+    @RequestMapping(value = "/testerList", method = RequestMethod.GET)
     public String showTesterList(HttpSession session, ModelMap model) {
         authorizationHelper.checkHumanResourceAccess(session);
 
         model.addAttribute(USER_LIST, userService.findAllTester());
 
         return "user/list";
+    }
+
+    @RequestMapping(value = "/details", method = RequestMethod.GET)
+    public String showDetails(@RequestParam long id,
+                              HttpSession session,
+                              ModelMap model) {
+
+        authorizationHelper.denyDeveloperTesterAccess(session);
+
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+        User user = userService.find(id);
+        User teamLead = userManagementService.findTeamLeadByUserId(id);
+        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
+
+        if (Designation.TEAM_LEAD.equals(user.getDesignation())) {
+            authorizationHelper.denyTeamLeadAccess(session);
+            model.addAttribute("developerList", userManagementService.findAllDeveloperUnderTeamLead(id));
+            model.addAttribute("testerList", userManagementService.findAllTesterUnderTeamLead(id));
+        }
+
+        if (Designation.TEAM_LEAD.equals(sessionUser.getDesignation())) {
+            authorizationHelper.checkSessionUser(teamLead, session);
+        }
+
+        model.addAttribute(USER_COMMAND, user);
+        model.addAttribute("teamLead", teamLead);
+        model.addAttribute("leaveStat", leaveStat);
+
+        return "user/details";
     }
 }

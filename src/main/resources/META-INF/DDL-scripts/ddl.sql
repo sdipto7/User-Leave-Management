@@ -26,7 +26,7 @@ CREATE TABLE user_leave_management.lm_user_management (
     FOREIGN KEY (supervisor_id) REFERENCES user_leave_management.lm_user(id)
 );
 
-CREATE TABLE user_leave_management.lm_user_leave_stat (
+CREATE TABLE user_leave_management.lm_leave_stat (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     sick_leave_count INT NOT NULL,

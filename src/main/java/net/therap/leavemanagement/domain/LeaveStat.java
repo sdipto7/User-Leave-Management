@@ -12,8 +12,12 @@ import javax.validation.constraints.NotNull;
  * @since 11/22/21
  */
 @Entity
-@Table(name = "lm_user_leave_stat")
-public class UserLeaveStat extends Persistent {
+@Table(name = "lm_leave_stat")
+@NamedQueries({
+        @NamedQuery(name = "LeaveStat.findLeaveStatByUserId",
+                query = "SELECT ls FROM LeaveStat ls WHERE ls.user.id = :id")
+})
+public class LeaveStat extends Persistent {
 
     private static final long serialVersionUID = 1L;
 

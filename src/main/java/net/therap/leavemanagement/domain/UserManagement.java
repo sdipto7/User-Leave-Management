@@ -12,6 +12,18 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "lm_user_management")
+@NamedQueries({
+        @NamedQuery(name = "UserManagement.findTeamLead",
+                query = "SELECT um.supervisor FROM UserManagement um WHERE um.user.id = :id"),
+
+        @NamedQuery(name = "UserManagement.findAllDeveloperUnderTeamLead",
+                query = "SELECT um.user FROM UserManagement um " +
+                        "WHERE um.supervisor.id = :id AND um.user.designation = 'DEVELOPER'"),
+
+        @NamedQuery(name = "UserManagement.findAllTesterUnderTeamLead",
+                query = "SELECT um.user FROM UserManagement um " +
+                        "WHERE um.supervisor.id = :id AND um.user.designation = 'TESTER'")
+})
 public class UserManagement extends Persistent {
 
     private static final long serialVersionUID = 1L;
