@@ -1,9 +1,9 @@
 package net.therap.leavemanagement.controller;
 
-import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
+import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
@@ -42,6 +42,9 @@ public class UserController {
     @Autowired
     private AuthorizationHelper authorizationHelper;
 
+    @Autowired
+    private UserHelper userHelper;
+
     @InitBinder(USER_COMMAND)
     public void initBinder(WebDataBinder binder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
@@ -53,7 +56,7 @@ public class UserController {
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
     public String showTeamLeadList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkHumanResourceAccess(session);
+        authorizationHelper.denyDeveloperTesterAccess(session);
 
         model.addAttribute(USER_LIST, userService.findAllTeamLead());
 
@@ -62,18 +65,18 @@ public class UserController {
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
     public String showDeveloperList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkHumanResourceAccess(session);
+        authorizationHelper.denyDeveloperTesterAccess(session);
 
-        model.addAttribute(USER_LIST, userService.findAllDeveloper());
+        model.addAttribute(USER_LIST, userService.findAllDeveloper(session));
 
         return "user/list";
     }
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
     public String showTesterList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkHumanResourceAccess(session);
+        authorizationHelper.denyDeveloperTesterAccess(session);
 
-        model.addAttribute(USER_LIST, userService.findAllTester());
+        model.addAttribute(USER_LIST, userService.findAllTester(session));
 
         return "user/list";
     }
@@ -85,20 +88,11 @@ public class UserController {
 
         authorizationHelper.denyDeveloperTesterAccess(session);
 
-        User sessionUser = (User) session.getAttribute("SESSION_USER");
         User user = userService.find(id);
         User teamLead = userManagementService.findTeamLeadByUserId(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
 
-        if (Designation.TEAM_LEAD.equals(user.getDesignation())) {
-            authorizationHelper.denyTeamLeadAccess(session);
-            model.addAttribute("developerList", userManagementService.findAllDeveloperUnderTeamLead(id));
-            model.addAttribute("testerList", userManagementService.findAllTesterUnderTeamLead(id));
-        }
-
-        if (Designation.TEAM_LEAD.equals(sessionUser.getDesignation())) {
-            authorizationHelper.checkSessionUser(teamLead, session);
-        }
+        userHelper.setupUserListDataUnderTeamLead(user, model);
 
         model.addAttribute(USER_COMMAND, user);
         model.addAttribute("teamLead", teamLead);
