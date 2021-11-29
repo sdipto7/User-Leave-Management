@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author rumi.dipto
@@ -14,7 +16,15 @@ import javax.xml.ws.WebServiceException;
 @Component
 public class AuthorizationHelper {
 
-    public void checkSessionUser(User user, HttpSession session) {
+    public void checkAccess(List<Designation> designationList, HttpSession session) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        if (!designationList.contains(sessionUser.getDesignation())) {
+            throw new WebServiceException();
+        }
+    }
+
+    public void checkAccess(User user, HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
         if (!user.equals(sessionUser)) {
@@ -22,40 +32,13 @@ public class AuthorizationHelper {
         }
     }
 
-    public void checkHumanResourceAccess(HttpSession session) {
-        User user = (User) session.getAttribute("SESSION_USER");
-        if (!Designation.HUMAN_RESOURCE.equals(user.getDesignation())) {
-            throw new WebServiceException();
-        }
-    }
+    public void checkTeamLead(User teamLead, HttpSession session) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-    public void checkTeamLeadAccess(HttpSession session) {
-        User user = (User) session.getAttribute("SESSION_USER");
-        if (!Designation.TEAM_LEAD.equals(user.getDesignation())) {
-            throw new WebServiceException();
-        }
-    }
-
-    public void denyTeamLeadAccess(HttpSession session) {
-        User user = (User) session.getAttribute("SESSION_USER");
-        if (Designation.TEAM_LEAD.equals(user.getDesignation())) {
-            throw new WebServiceException();
-        }
-    }
-
-    public void checkDeveloperTesterAccess(HttpSession session) {
-        User user = (User) session.getAttribute("SESSION_USER");
-        if (!Designation.DEVELOPER.equals(user.getDesignation())
-                || !Designation.TESTER.equals(user.getDesignation())) {
-            throw new WebServiceException();
-        }
-    }
-
-    public void denyDeveloperTesterAccess(HttpSession session) {
-        User user = (User) session.getAttribute("SESSION_USER");
-        if (Designation.DEVELOPER.equals(user.getDesignation())
-                || Designation.TESTER.equals(user.getDesignation())) {
-            throw new WebServiceException();
+        if (Objects.nonNull(teamLead) && Designation.TEAM_LEAD.equals(sessionUser.getDesignation())) {
+            if (!teamLead.equals(sessionUser)) {
+                throw new WebServiceException();
+            }
         }
     }
 }

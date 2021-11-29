@@ -42,14 +42,14 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    private String show(ModelMap model) {
+    private String showLoginForm(ModelMap model) {
         model.addAttribute(LOGIN_COMMAND, new LoginCommand());
 
         return "login";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    private String process(@Valid @ModelAttribute(LOGIN_COMMAND) LoginCommand loginCommand,
+    private String processLoginForm(@Valid @ModelAttribute(LOGIN_COMMAND) LoginCommand loginCommand,
                            Errors errors,
                            HttpSession session,
                            RedirectAttributes redirectAttributes) {

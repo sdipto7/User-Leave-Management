@@ -14,10 +14,6 @@ public class AuthenticationHelper {
     public Boolean authCheck(User user, String password) {
         String hashedPassword = HashGenerator.getMd5(password);
 
-        if (hashedPassword.equals(user.getPassword())) {
-            return true;
-        } else {
-            return false;
-        }
+        return hashedPassword.equals(user.getPassword());
     }
 }

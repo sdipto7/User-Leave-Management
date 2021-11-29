@@ -1,5 +1,6 @@
 package net.therap.leavemanagement.controller;
 
+import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 import static net.therap.leavemanagement.controller.UserController.USER_COMMAND;
 
@@ -56,7 +58,7 @@ public class UserController {
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
     public String showTeamLeadList(HttpSession session, ModelMap model) {
-        authorizationHelper.denyDeveloperTesterAccess(session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
 
         model.addAttribute(USER_LIST, userService.findAllTeamLead());
 
@@ -65,7 +67,7 @@ public class UserController {
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
     public String showDeveloperList(HttpSession session, ModelMap model) {
-        authorizationHelper.denyDeveloperTesterAccess(session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
 
         model.addAttribute(USER_LIST, userService.findAllDeveloper(session));
 
@@ -74,7 +76,7 @@ public class UserController {
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
     public String showTesterList(HttpSession session, ModelMap model) {
-        authorizationHelper.denyDeveloperTesterAccess(session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
 
         model.addAttribute(USER_LIST, userService.findAllTester(session));
 
@@ -86,11 +88,13 @@ public class UserController {
                               HttpSession session,
                               ModelMap model) {
 
-        authorizationHelper.denyDeveloperTesterAccess(session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
 
         User user = userService.find(id);
-        User teamLead = userManagementService.findTeamLeadByUserId(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
+
+        User teamLead = userManagementService.findTeamLeadByUserId(id);
+        authorizationHelper.checkTeamLead(teamLead, session);
 
         userHelper.setupUserListDataUnderTeamLead(user, model);
 
