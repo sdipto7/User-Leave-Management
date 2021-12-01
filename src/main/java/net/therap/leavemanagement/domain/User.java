@@ -118,4 +118,16 @@ public class User extends Persistent {
     public void setActivated(boolean activated) {
         this.activated = activated;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", designation=" + designation +
+                ", salary=" + salary +
+                '}';
+    }
 }

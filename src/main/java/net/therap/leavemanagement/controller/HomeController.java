@@ -1,6 +1,7 @@
 package net.therap.leavemanagement.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -11,7 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @RequestMapping("/")
-    public String show() {
+    public String showStartPage() {
         return "index";
+    }
+
+    @RequestMapping("/success")
+    public String showSuccessPage() {
+        return "success";
     }
 }

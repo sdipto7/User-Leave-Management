@@ -1,7 +1,9 @@
 package net.therap.leavemanagement.dao;
 
 import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.domain.UserManagement;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,13 +32,21 @@ public class UserManagementDao {
         return em.createNamedQuery("UserManagement.findAllDeveloperUnderTeamLead", User.class)
                 .setParameter("id", id)
                 .getResultList();
-
     }
 
     public List<User> findAllTesterUnderTeamLead(long id) {
         return em.createNamedQuery("UserManagement.findAllTesterUnderTeamLead", User.class)
                 .setParameter("id", id)
                 .getResultList();
+    }
 
+    @Transactional
+    public UserManagement saveOrUpdate(UserManagement userManagement) {
+        if (userManagement.isNew()) {
+            em.persist(userManagement);
+        } else {
+            userManagement = em.merge(userManagement);
+        }
+        return userManagement;
     }
 }

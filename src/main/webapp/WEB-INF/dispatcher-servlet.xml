@@ -25,10 +25,35 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+    </bean>
+
+    <mvc:annotation-driven validator="validator"/>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" primary="true">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <mvc:annotation-driven conversion-service="conversionService"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="conversionService" ref="conversionService"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <ref bean="userFormatter"/>
+            </set>
+        </property>
+    </bean>
+
     <mvc:interceptors>
         <bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
             <property name="entityManagerFactory" ref="entityManagerFactory"/>
         </bean>
     </mvc:interceptors>
-
 </beans>

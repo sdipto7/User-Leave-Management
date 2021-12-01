@@ -59,6 +59,13 @@ public class UserDao {
     }
 
     @Transactional
+    public User updatePassword(User user) {
+        user = em.merge(user);
+
+        return user;
+    }
+
+    @Transactional
     public void delete(User user) {
         em.remove(user);
     }

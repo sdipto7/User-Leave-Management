@@ -13,38 +13,38 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<fmt:message key="label.user.details.body.userName"/> <c:out value="${user.username}"/>
+<fmt:message key="label.user.userName"/> <c:out value="${user.username}"/>
 <br>
-<fmt:message key="label.user.details.body.firstName"/> <c:out value="${user.firstName}"/>
+<fmt:message key="label.user.firstName"/> <c:out value="${user.firstName}"/>
 <br>
-<fmt:message key="label.user.details.body.lastName"/> <c:out value="${user.lastName}"/>
+<fmt:message key="label.user.lastName"/> <c:out value="${user.lastName}"/>
 <br>
-<fmt:message key="label.user.details.body.salary"/> <c:out value="${user.salary}"/>
+<fmt:message key="label.user.salary"/> <c:out value="${user.salary}"/>
 <br>
-<fmt:message key="label.user.details.body.sickLeaves"/> <c:out value="${leaveStat.sickLeaveCount}"/>
+<fmt:message key="label.user.sickLeaves"/> <c:out value="${leaveStat.sickLeaveCount}"/>
 <br>
-<fmt:message key="label.user.details.body.casualLeaves"/> <c:out value="${leaveStat.casualLeaveCount}"/>
+<fmt:message key="label.user.casualLeaves"/> <c:out value="${leaveStat.casualLeaveCount}"/>
 <br>
 <c:if test="${user.designation == 'DEVELOPER' || user.designation == 'TESTER'}">
-    <fmt:message key="label.user.details.body.teamLead"/> <c:out value="${teamLead.firstName}"/>
+    <fmt:message key="label.user.teamLead"/> <c:out value="${teamLead.firstName}"/>
 </c:if>
 <br><br>
 
 <c:if test="${SESSION_USER.designation == 'HUMAN_RESOURCE'}">
 
-    <%--    <c:url var="showTEUpdateFormLink" value="/teamLead/edit">--%>
-    <%--        <c:param name="id" value="${user.id}"/>--%>
-    <%--    </c:url>--%>
+        <c:url var="updateUserLink" value="/user/form/">
+            <c:param name="id" value="${user.id}"/>
+        </c:url>
 
     <input type="button" value="Edit"
-           onclick="window.location.href='${showTEUpdateFormLink}'; return false;"
+           onclick="window.location.href='${updateUserLink}'; return false;"
            class="button">
 
     <br><br>
 
-    <form action="/user/action" method="post">
-        <input type="hidden" name="id" value="${userCommand.user.id}">
-        <input type="submit" value="Delete" class="button" name="_action_delete">
+    <form action="/user/delete" method="post">
+        <input type="hidden" name="id" value="${user.id}">
+        <input type="submit" value="Delete" class="button">
     </form>
 
 </c:if>

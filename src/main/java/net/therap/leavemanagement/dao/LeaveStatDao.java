@@ -2,6 +2,7 @@ package net.therap.leavemanagement.dao;
 
 import net.therap.leavemanagement.domain.LeaveStat;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,5 +24,16 @@ public class LeaveStatDao {
                 .stream()
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Transactional
+    public LeaveStat saveOrUpdate(LeaveStat leaveStat) {
+        if (leaveStat.isNew()) {
+            em.persist(leaveStat);
+        } else {
+            leaveStat = em.merge(leaveStat);
+        }
+
+        return leaveStat;
     }
 }

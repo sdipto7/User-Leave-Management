@@ -12,9 +12,6 @@
     <title><fmt:message key="label.login.title"/></title>
 </head>
 <body>
-<div id="successBlock">
-    <c:out value="${logoutMessage}"/>
-</div>
 <form:form action="login" method="post" modelAttribute="loginCommand">
     <label for="username"><fmt:message key="label.login.body.username"/></label>
     <form:input path="username"/>
@@ -36,5 +33,12 @@
 <div id="error">
     <c:out value="${error}"/>
 </div>
+
+<c:if test="${!empty logoutMessage}">
+    <div id="successBlock">
+        <c:out value="${logoutMessage}"/>
+    </div>
+</c:if>
+
 </body>
 </html>

@@ -1,5 +1,7 @@
 package net.therap.leavemanagement.controller;
 
+import net.therap.leavemanagement.command.UserCommand;
+import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
@@ -8,17 +10,23 @@ import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
+import net.therap.leavemanagement.validator.UserCommandValidator;
+import net.therap.leavemanagement.validator.UserProfileCommandValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Arrays;
 
-import static net.therap.leavemanagement.controller.UserController.USER_COMMAND;
+import static net.therap.leavemanagement.controller.UserController.*;
 
 /**
  * @author rumi.dipto
@@ -26,11 +34,17 @@ import static net.therap.leavemanagement.controller.UserController.USER_COMMAND;
  */
 @Controller
 @RequestMapping("/user")
-@SessionAttributes(USER_COMMAND)
+@SessionAttributes({USER_COMMAND, USER_COMMAND_SAVE, USER_COMMAND_PROFILE})
 public class UserController {
 
     public static final String USER_COMMAND = "user";
-    public static final String USER_LIST = "userList";
+    public static final String USER_COMMAND_SAVE = "userCommand";
+    public static final String USER_COMMAND_PROFILE = "userProfileCommand";
+    public static final String USER_PROFILE_PAGE = "/user/profile";
+    public static final String USER_LIST_PAGE = "/user/list";
+    public static final String USER_DETAILS_PAGE = "/user/details";
+    public static final String USER_SAVE_PAGE = "/user/save";
+    public static final String SUCCESS_URL = "redirect:/success";
 
     @Autowired
     private UserService userService;
@@ -47,40 +61,77 @@ public class UserController {
     @Autowired
     private UserHelper userHelper;
 
-    @InitBinder(USER_COMMAND)
-    public void initBinder(WebDataBinder binder) {
+    @Autowired
+    private UserCommandValidator userCommandValidator;
+
+    @Autowired
+    private UserProfileCommandValidator userProfileCommandValidator;
+
+    @InitBinder(USER_COMMAND_SAVE)
+    public void initBinderToSaveUser(WebDataBinder binder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
 
-        binder.setDisallowedFields("id", "activated", "created", "updated", "version");
-        binder.setAllowedFields("firstName", "lastName", "username", "password", "designation", "salary");
+        binder.setDisallowedFields("user.id", "user.activated", "user.created", "user.updated", "user.version");
+        binder.setAllowedFields("user.firstName", "user.lastName", "user.username",
+                "user.password", "user.designation", "user.salary", "teamLead");
+        binder.addValidators(userCommandValidator);
+    }
+
+    @InitBinder(USER_COMMAND_PROFILE)
+    public void initBinderToUpdatePassword(WebDataBinder binder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        binder.registerCustomEditor(String.class, stringTrimmerEditor);
+
+        binder.setDisallowedFields("user.id", "user.activated", "user.created", "user.updated", "user.version");
+        binder.setAllowedFields("user.firstName", "user.lastName", "user.username",
+                "user.password", "user.designation", "user.salary");
+        binder.addValidators(userProfileCommandValidator);
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    private String showProfile(@RequestParam long id,
+                               HttpSession session,
+                               ModelMap model) {
+
+        User user = userService.find(id);
+        authorizationHelper.checkAccess(user, session);
+
+        UserProfileCommand userProfileCommand = new UserProfileCommand();
+        userProfileCommand.setUser(user);
+
+        model.addAttribute(USER_COMMAND_PROFILE, userProfileCommand);
+        model.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(id));
+        model.addAttribute("leaveStat", leaveStatService.findLeaveStatByUserId(id));
+
+        return USER_PROFILE_PAGE;
     }
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
     public String showTeamLeadList(HttpSession session, ModelMap model) {
         authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
 
-        model.addAttribute(USER_LIST, userService.findAllTeamLead());
+        model.addAttribute("userList", userService.findAllTeamLead());
 
-        return "user/list";
+        return USER_LIST_PAGE;
     }
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
     public String showDeveloperList(HttpSession session, ModelMap model) {
         authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
 
-        model.addAttribute(USER_LIST, userService.findAllDeveloper(session));
+        model.addAttribute("userList", userService.findAllDeveloper(session));
 
-        return "user/list";
+        return USER_LIST_PAGE;
     }
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
     public String showTesterList(HttpSession session, ModelMap model) {
         authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
 
-        model.addAttribute(USER_LIST, userService.findAllTester(session));
+        model.addAttribute("userList", userService.findAllTester(session));
 
-        return "user/list";
+        return USER_LIST_PAGE;
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.GET)
@@ -102,6 +153,90 @@ public class UserController {
         model.addAttribute("teamLead", teamLead);
         model.addAttribute("leaveStat", leaveStat);
 
-        return "user/details";
+        return USER_DETAILS_PAGE;
+    }
+
+    @RequestMapping(value = "/form", method = RequestMethod.GET)
+    public String showForm(@RequestParam(defaultValue = "0") long id,
+                           HttpSession session,
+                           ModelMap model) {
+
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
+
+        UserCommand userCommand = new UserCommand();
+        userCommand.setUser(userHelper.getOrCreateUser(id));
+
+        model.addAttribute(USER_COMMAND_SAVE, userCommand);
+        model.addAttribute("teamLeadList", userService.findAllTeamLead());
+        model.addAttribute("designationList", Arrays.asList(Designation.values()));
+
+        return USER_SAVE_PAGE;
+    }
+
+    @RequestMapping(value = "/form/save", method = RequestMethod.POST)
+    public String saveOrUpdate(@Valid @ModelAttribute(USER_COMMAND_SAVE) UserCommand userCommand,
+                               Errors errors,
+                               SessionStatus sessionStatus,
+                               HttpSession session,
+                               ModelMap model,
+                               RedirectAttributes redirectAttributes) {
+
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
+
+        if (errors.hasErrors()) {
+            model.addAttribute("teamLeadList", userService.findAllTeamLead());
+            model.addAttribute("designationList", Arrays.asList(Designation.values()));
+
+            return USER_SAVE_PAGE;
+        }
+
+        userService.saveOrUpdate(userCommand);
+
+        sessionStatus.setComplete();
+        redirectAttributes.addAttribute("doneMessage",
+                "Regular Employee " + userCommand.getUser().getFirstName() + " saved successfully");
+
+        return SUCCESS_URL;
+    }
+
+    @RequestMapping(value = "/profile/updatePassword", method = RequestMethod.POST)
+    public String updatePassword(@Valid @ModelAttribute(USER_COMMAND_PROFILE) UserProfileCommand userProfileCommand,
+                                 Errors errors,
+                                 HttpSession session,
+                                 SessionStatus sessionStatus,
+                                 RedirectAttributes redirectAttributes) {
+
+        authorizationHelper.checkAccess(userProfileCommand.getUser(), session);
+
+        if (errors.hasErrors()) {
+            return USER_PROFILE_PAGE;
+        }
+
+
+        userService.updatePassword(userProfileCommand);
+        sessionStatus.setComplete();
+
+        redirectAttributes.addAttribute("doneMessage",
+                "Password updated successfully");
+
+        return SUCCESS_URL;
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam long id,
+                         HttpSession session,
+                         RedirectAttributes redirectAttributes,
+                         SessionStatus sessionStatus) {
+
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
+
+        User user = userService.find(id);
+        userService.delete(user);
+
+        sessionStatus.setComplete();
+        redirectAttributes.addAttribute("doneMessage",
+                "User " + user.getFirstName() + " is deleted successfully");
+
+        return SUCCESS_URL;
     }
 }
