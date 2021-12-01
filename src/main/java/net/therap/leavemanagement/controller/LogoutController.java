@@ -16,7 +16,6 @@ public class LogoutController {
 
     public static final String LOGIN_URL = "redirect:/login";
 
-
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
         session.invalidate();
