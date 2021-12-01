@@ -1,6 +1,7 @@
 package net.therap.leavemanagement.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,7 +18,9 @@ public class HomeController {
     }
 
     @RequestMapping("/success")
-    public String showSuccessPage() {
+    public String showSuccessPage(@ModelAttribute("doneMessage") String msg, ModelMap model) {
+        model.addAttribute("message", msg);
+
         return "success";
     }
 }

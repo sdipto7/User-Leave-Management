@@ -17,14 +17,14 @@
 
     <context:component-scan base-package="net.therap.leavemanagement"/>
 
-<!--    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
-<!--        <property name="basename" value="classpath:messages"/>-->
-<!--    </bean>-->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+    </bean>
 
-<!--    <mvc:annotation-driven validator="validator"/>-->
-<!--    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" primary="true">-->
-<!--        <property name="validationMessageSource" ref="messageSource"/>-->
-<!--    </bean>-->
+    <mvc:annotation-driven validator="validator"/>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" primary="true">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
