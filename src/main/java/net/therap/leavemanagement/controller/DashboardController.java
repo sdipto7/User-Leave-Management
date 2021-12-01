@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DashboardController {
 
+    public static final String DASHBOARD_PAGE = "/dashboard";
+
     @RequestMapping("/dashboard")
     private String showDashboard() {
-        return "dashboard";
+        return DASHBOARD_PAGE;
     }
 }

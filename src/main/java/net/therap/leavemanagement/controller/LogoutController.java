@@ -3,8 +3,9 @@ package net.therap.leavemanagement.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author rumi.dipto
@@ -13,11 +14,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LogoutController {
 
+    public static final String LOGIN_URL = "redirect:/login";
+
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(SessionStatus sessionStatus, RedirectAttributes redirectAttributes) {
-        sessionStatus.setComplete();
+    public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        session.invalidate();
         redirectAttributes.addFlashAttribute("logoutMessage", "Successfully logged out");
 
-        return "redirect:/login";
+        return LOGIN_URL;
     }
 }

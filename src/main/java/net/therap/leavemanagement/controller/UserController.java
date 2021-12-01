@@ -194,7 +194,7 @@ public class UserController {
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "Regular Employee " + userCommand.getUser().getFirstName() + " saved successfully");
+                "User " + userCommand.getUser().getFirstName() + " saved successfully");
 
         return SUCCESS_URL;
     }

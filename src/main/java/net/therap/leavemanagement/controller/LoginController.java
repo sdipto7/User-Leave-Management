@@ -28,6 +28,9 @@ import static net.therap.leavemanagement.controller.LoginController.LOGIN_COMMAN
 public class LoginController {
 
     public static final String LOGIN_COMMAND = "loginCommand";
+    public static final String LOGIN_PAGE = "/login";
+    public static final String LOGIN_URL = "redirect:/login";
+    public static final String DASHBOARD_URL = "redirect:/dashboard";
 
     @Autowired
     private UserService userService;
@@ -45,17 +48,17 @@ public class LoginController {
     private String showLoginForm(ModelMap model) {
         model.addAttribute(LOGIN_COMMAND, new LoginCommand());
 
-        return "login";
+        return LOGIN_PAGE;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     private String processLoginForm(@Valid @ModelAttribute(LOGIN_COMMAND) LoginCommand loginCommand,
-                           Errors errors,
-                           HttpSession session,
-                           RedirectAttributes redirectAttributes) {
+                                    Errors errors,
+                                    HttpSession session,
+                                    RedirectAttributes redirectAttributes) {
 
         if (errors.hasErrors()) {
-            return "login";
+            return LOGIN_PAGE;
         }
 
         String username = loginCommand.getUsername();
@@ -65,11 +68,11 @@ public class LoginController {
         if (user != null && authenticationHelper.authCheck(user, password)) {
             session.setAttribute("SESSION_USER", user);
 
-            return "redirect:/dashboard";
+            return DASHBOARD_URL;
         } else {
             redirectAttributes.addFlashAttribute("error", "Enter credential correctly");
 
-            return "redirect:/login";
+            return LOGIN_URL;
         }
     }
 }

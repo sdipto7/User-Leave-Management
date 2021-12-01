@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
+    public static final String INDEX_PAGE = "/index";
+    public static final String SUCCESS_PAGE = "/success";
+
     @RequestMapping("/")
     public String showStartPage() {
-        return "index";
+        return INDEX_PAGE;
     }
 
     @RequestMapping("/success")
     public String showSuccessPage(@ModelAttribute("doneMessage") String msg, ModelMap model) {
         model.addAttribute("message", msg);
 
-        return "success";
+        return SUCCESS_PAGE;
     }
 }
