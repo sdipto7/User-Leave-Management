@@ -32,10 +32,10 @@ public class UserManagementService {
     }
 
     @Transactional
-    public void saveOrUpdate(User user, User teamLead){
+    public void saveOrUpdate(User user, User teamLead) {
         UserManagement userManagement = new UserManagement();
         userManagement.setUser(user);
-        userManagement.setSupervisor(teamLead);
+        userManagement.setTeamLead(teamLead);
 
         userManagementDao.saveOrUpdate(userManagement);
     }

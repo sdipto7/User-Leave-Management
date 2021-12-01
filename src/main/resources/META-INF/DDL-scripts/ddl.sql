@@ -17,13 +17,13 @@ CREATE TABLE user_leave_management.lm_user (
 CREATE TABLE user_leave_management.lm_user_management (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
-    supervisor_id INT NOT NULL,
+    team_lead_id INT NOT NULL,
     created DATETIME NOT NULL,
     updated DATETIME NULL,
     version INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user_leave_management.lm_user(id),
-    FOREIGN KEY (supervisor_id) REFERENCES user_leave_management.lm_user(id)
+    FOREIGN KEY (team_lead_id) REFERENCES user_leave_management.lm_user(id)
 );
 
 CREATE TABLE user_leave_management.lm_leave_stat (

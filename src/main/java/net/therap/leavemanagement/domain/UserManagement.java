@@ -14,15 +14,15 @@ import javax.validation.constraints.NotNull;
 @Table(name = "lm_user_management")
 @NamedQueries({
         @NamedQuery(name = "UserManagement.findTeamLead",
-                query = "SELECT um.supervisor FROM UserManagement um WHERE um.user.id = :id"),
+                query = "SELECT um.teamLead FROM UserManagement um WHERE um.user.id = :id"),
 
         @NamedQuery(name = "UserManagement.findAllDeveloperUnderTeamLead",
                 query = "SELECT um.user FROM UserManagement um " +
-                        "WHERE um.supervisor.id = :id AND um.user.designation = 'DEVELOPER'"),
+                        "WHERE um.teamLead.id = :id AND um.user.designation = 'DEVELOPER'"),
 
         @NamedQuery(name = "UserManagement.findAllTesterUnderTeamLead",
                 query = "SELECT um.user FROM UserManagement um " +
-                        "WHERE um.supervisor.id = :id AND um.user.designation = 'TESTER'")
+                        "WHERE um.teamLead.id = :id AND um.user.designation = 'TESTER'")
 })
 public class UserManagement extends Persistent {
 
@@ -36,9 +36,9 @@ public class UserManagement extends Persistent {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.SELECT)
-    @JoinColumn(name = "supervisor_id")
+    @JoinColumn(name = "team_lead_id")
     @NotNull
-    private User supervisor;
+    private User teamLead;
 
     public User getUser() {
         return user;
@@ -48,11 +48,11 @@ public class UserManagement extends Persistent {
         this.user = user;
     }
 
-    public User getSupervisor() {
-        return supervisor;
+    public User getTeamLead() {
+        return teamLead;
     }
 
-    public void setSupervisor(User supervisor) {
-        this.supervisor = supervisor;
+    public void setTeamLead(User teamLead) {
+        this.teamLead = teamLead;
     }
 }
