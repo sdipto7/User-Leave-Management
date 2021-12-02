@@ -14,7 +14,10 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "lm_leave_request")
-public class LeaveRequest extends Persistent {
+@NamedQueries({
+        @NamedQuery(name = "Leave.findAll", query = "SELECT l FROM Leave l")
+})
+public class Leave extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
