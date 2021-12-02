@@ -19,6 +19,8 @@
 <br>
 <fmt:message key="label.user.lastName"/> <c:out value="${user.lastName}"/>
 <br>
+<fmt:message key="label.user.designation"/> <c:out value="${user.designation.naturalName}"/>
+<br>
 <fmt:message key="label.user.salary"/> <c:out value="${user.salary}"/>
 <br>
 <fmt:message key="label.user.sickLeaves"/> <c:out value="${leaveStat.sickLeaveCount}"/>

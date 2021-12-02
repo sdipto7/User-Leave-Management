@@ -17,7 +17,7 @@
 
 <form:form action="/user/form/save" method="post" modelAttribute="userCommand">
     <label for="user.firstName"><fmt:message key="label.user.save.body.firstName"/></label>
-    <form:input path = "user.firstName"/>
+    <form:input path="user.firstName"/>
     <form:errors path="user.firstName" cssClass="errorBlock" element="div"/>
 
     <br><br>
@@ -41,7 +41,7 @@
     <br><br>
 
     <label for="user.designation"><fmt:message key="label.user.save.body.designation"/></label>
-    <form:radiobuttons path="user.designation" items="${designationList}"/>
+    <form:radiobuttons path="user.designation" items="${designationList}" itemLabel="naturalName"/>
     <form:errors path="user.designation" cssClass="errorBlock" element="div"/>
 
     <br><br>

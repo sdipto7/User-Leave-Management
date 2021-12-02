@@ -35,20 +35,16 @@
                 <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.firstName}"/></td>
                 <td><c:out value="${user.lastName}"/></td>
-                <td><c:out value="${user.designation}"/></td>
+                <td><c:out value="${user.designation.naturalName}"/></td>
                 <td><c:out value="${user.salary}"/></td>
 
                 <td>
                     <a href="${showDetailsLink}"><fmt:message key="label.link.details"/></a>
                 </td>
-
             </tr>
         </c:forEach>
     </table>
-
 </div>
 </div>
 </body>
-</html>
-
 </html>
