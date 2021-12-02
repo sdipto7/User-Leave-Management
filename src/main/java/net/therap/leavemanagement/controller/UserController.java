@@ -72,7 +72,6 @@ public class UserController {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
 
-        binder.setDisallowedFields("user.id", "user.activated", "user.created", "user.updated", "user.version");
         binder.setAllowedFields("user.firstName", "user.lastName", "user.username",
                 "user.password", "user.designation", "user.salary", "teamLead");
         binder.addValidators(userCommandValidator);
@@ -83,7 +82,6 @@ public class UserController {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
 
-        binder.setDisallowedFields("user.id", "user.activated", "user.created", "user.updated", "user.version");
         binder.setAllowedFields("user.firstName", "user.lastName", "user.username",
                 "user.password", "user.designation", "user.salary");
         binder.addValidators(userProfileCommandValidator);
