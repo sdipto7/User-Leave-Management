@@ -17,7 +17,23 @@ public class LeaveService {
     @Autowired
     private LeaveDao leaveDao;
 
-    public List<Leave> findAll(){
-        return leaveDao.findAll();
+    public Leave find(long id) {
+        return leaveDao.find(id);
+    }
+
+    public List<Leave> findUserLeaveList(long id) {
+        return leaveDao.findUserLeaveList(id);
+    }
+
+    public List<Leave> findUserPendingLeaveList(long id) {
+        return leaveDao.findUserPendingLeaveList(id);
+    }
+
+    public List<Leave> findAllLeave() {
+        return leaveDao.findAllLeave();
+    }
+
+    public List<Leave> findAllPendingLeave() {
+        return leaveDao.findAllPendingLeave();
     }
 }

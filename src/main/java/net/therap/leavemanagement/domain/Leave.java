@@ -15,7 +15,17 @@ import java.util.Date;
 @Entity
 @Table(name = "lm_leave_request")
 @NamedQueries({
-        @NamedQuery(name = "Leave.findAll", query = "SELECT l FROM Leave l")
+        @NamedQuery(name = "Leave.findAllLeave",
+                query = "SELECT l FROM Leave l"),
+        @NamedQuery(name = "Leave.findAllPendingLeave",
+                query = "SELECT l FROM Leave l " +
+                        "WHERE l.leaveStatus = 'PendingByTeamlead' OR l.leaveStatus = 'PendingByHumanResource'"),
+        @NamedQuery(name = "Leave.findUserLeaveList",
+                query = "SELECT l FROM Leave l WHERE l.user.id = :id"),
+        @NamedQuery(name = "Leave.findUserPendingLeaveList",
+                query = "SELECT l FROM Leave l " +
+                        "WHERE l.user.id = :id " +
+                        "AND (l.leaveStatus = 'PendingByTeamlead' OR l.leaveStatus = 'PendingByHumanResource')"),
 })
 public class Leave extends Persistent {
 

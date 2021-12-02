@@ -31,13 +31,17 @@
 
             <c:url var="addUserLink" value="/user/form"/>
 
-            <c:url var="showMyLeaveListLink" value="/leave/myLeaveList"/>
+            <c:url var="showUserLeaveListLink" value="/leave/userLeaveList">
+                <c:param name="userId" value="${SESSION_USER.id}"/>
+            </c:url>
 
-            <c:url var="showMyPendingLeaveListLink" value="/leave/myPendingLeaveList"/>
+            <c:url var="showUserPendingLeaveListLink" value="/leave/userPendingLeaveList">
+                <c:param name="userId" value="${SESSION_USER.id}"/>
+            </c:url>
 
-            <c:url var="showLeaveListLink" value="/leave/userLeaveList"/>
+            <c:url var="showAllLeaveListLink" value="/leave/allLeaveList"/>
 
-            <c:url var="showPendingLeaveListLink" value="/leave/userPendingLeaveList"/>
+            <c:url var="showAllPendingLeaveListLink" value="/leave/allPendingLeaveList"/>
 
             <c:url var="addLeaveLink" value="/leave/form">
                 <c:param name="userId" value="${SESSION_USER.id}"/>
@@ -67,26 +71,26 @@
                 <tr>
                     <td><fmt:message key="label.dashboard.body.leaves"/></td>
                     <td>
-                        <a href="${showLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                        <a href="${showAllLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
                 <tr>
                     <td><fmt:message key="label.dashboard.body.pendingLeaves"/></td>
                     <td>
-                        <a href="${showPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                        <a href="${showAllPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                     </td>
                 </tr>
             </c:if>
             <tr>
                 <td><fmt:message key="label.dashboard.body.myleaves"/></td>
                 <td>
-                    <a href="${showMyLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                    <a href="${showUserLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                 </td>
             </tr>
             <tr>
                 <td><fmt:message key="label.dashboard.body.myPendingLeaves"/></td>
                 <td>
-                    <a href="${showMyPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                    <a href="${showUserPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
                 </td>
             </tr>
         </table>
