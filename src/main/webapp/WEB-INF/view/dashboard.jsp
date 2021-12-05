@@ -47,7 +47,7 @@
                 <c:param name="userId" value="${SESSION_USER.id}"/>
             </c:url>
 
-            <c:if test="${SESSION_USER.designation == 'HUMAN_RESOURCE'}">
+            <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
                 <tr>
                     <td><fmt:message key="label.dashboard.body.teamLead"/></td>
                     <td>
@@ -55,7 +55,8 @@
                     </td>
                 </tr>
             </c:if>
-            <c:if test="${SESSION_USER.designation == 'HUMAN_RESOURCE' || SESSION_USER.designation == 'TEAM_LEAD'}">
+            <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive' ||
+                            SESSION_USER.designation.naturalName == 'Team Lead'}">
                 <tr>
                     <td><fmt:message key="label.dashboard.body.developer"/></td>
                     <td>
@@ -97,7 +98,7 @@
 
         <br><br>
 
-        <c:if test="${SESSION_USER.designation == 'HUMAN_RESOURCE'}">
+        <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
             <input type="button" value="Add New User"
                    onclick="window.location.href='${addUserLink}'; return false;"
                    class="button">

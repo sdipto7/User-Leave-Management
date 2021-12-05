@@ -44,7 +44,7 @@ public class UserService {
     public List<User> findAllDeveloper(HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (sessionUser.getDesignation() == Designation.HUMAN_RESOURCE) {
+        if (sessionUser.getDesignation() == Designation.HR_EXECUTIVE) {
             return userDao.findAllDeveloper();
         } else {
             return userManagementService.findAllDeveloperUnderTeamLead(sessionUser.getId());
@@ -54,7 +54,7 @@ public class UserService {
     public List<User> findAllTester(HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (sessionUser.getDesignation() == Designation.HUMAN_RESOURCE) {
+        if (sessionUser.getDesignation() == Designation.HR_EXECUTIVE) {
             return userDao.findAllTester();
         } else {
             return userManagementService.findAllTesterUnderTeamLead(sessionUser.getId());

@@ -33,7 +33,8 @@
 <br>
 <fmt:message key="label.user.casualLeaves"/> <c:out value="${leaveStat.casualLeaveCount}"/>
 <br>
-<c:if test="${user.designation == 'DEVELOPER' || user.designation == 'TESTER'}">
+<c:if test="${userProfileCommand.user.designation.naturalName == 'Developer' ||
+                userProfileCommand.user.designation.naturalName == 'Tester'}">
     <fmt:message key="label.user.teamLead"/> <c:out value="${teamLead.firstName}"/>
 </c:if>
 

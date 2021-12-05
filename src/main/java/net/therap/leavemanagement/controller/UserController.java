@@ -107,7 +107,7 @@ public class UserController {
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
     public String showTeamLeadList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
         model.addAttribute("userList", userService.findAllTeamLead());
 
@@ -116,7 +116,7 @@ public class UserController {
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
     public String showDeveloperList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
         model.addAttribute("userList", userService.findAllDeveloper(session));
 
@@ -125,7 +125,7 @@ public class UserController {
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
     public String showTesterList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
         model.addAttribute("userList", userService.findAllTester(session));
 
@@ -137,7 +137,7 @@ public class UserController {
                               HttpSession session,
                               ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
@@ -159,7 +159,7 @@ public class UserController {
                            HttpSession session,
                            ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
         UserCommand userCommand = new UserCommand();
         userCommand.setUser(userHelper.getOrCreateUser(id));
@@ -179,7 +179,7 @@ public class UserController {
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
         if (errors.hasErrors()) {
             model.addAttribute("teamLeadList", userService.findAllTeamLead());
@@ -226,7 +226,7 @@ public class UserController {
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
         User user = userService.find(id);
         userService.delete(user);

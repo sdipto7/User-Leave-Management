@@ -27,12 +27,12 @@
 <br>
 <fmt:message key="label.user.casualLeaves"/> <c:out value="${leaveStat.casualLeaveCount}"/>
 <br>
-<c:if test="${user.designation == 'DEVELOPER' || user.designation == 'TESTER'}">
+<c:if test="${user.designation.naturalName == 'Developer' || user.designation.naturalName == 'Tester'}">
     <fmt:message key="label.user.teamLead"/> <c:out value="${teamLead.firstName}"/>
 </c:if>
 <br><br>
 
-<c:if test="${SESSION_USER.designation == 'HUMAN_RESOURCE'}">
+<c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
 
         <c:url var="updateUserLink" value="/user/form/">
             <c:param name="id" value="${user.id}"/>
@@ -53,7 +53,7 @@
 
 <br><br>
 
-<c:if test="${user.designation == 'TEAM_LEAD'}">
+<c:if test="${user.designation.naturalName == 'Team Lead'}">
 
     <h2><fmt:message key="label.user.details.body.developer"/></h2>
 

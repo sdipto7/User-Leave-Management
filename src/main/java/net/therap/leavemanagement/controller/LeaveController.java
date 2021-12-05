@@ -41,7 +41,7 @@ public class LeaveController {
 
     @RequestMapping(value = "/allLeaveList", method = RequestMethod.GET)
     public String showAllLeaveList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
         model.addAttribute("leaveList", leaveService.findAllLeave());
 
@@ -50,7 +50,7 @@ public class LeaveController {
 
     @RequestMapping(value = "/allPendingLeaveList", method = RequestMethod.GET)
     public String showAllPendingLeaveList(HttpSession session, ModelMap model) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HUMAN_RESOURCE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
         model.addAttribute("leaveList", leaveService.findAllPendingLeave());
 
