@@ -1,7 +1,9 @@
 package net.therap.leavemanagement.controller;
 
 import net.therap.leavemanagement.domain.Designation;
+import net.therap.leavemanagement.domain.Leave;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
+import net.therap.leavemanagement.helper.LeaveHelper;
 import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import java.util.Arrays;
 public class LeaveController {
 
     public static final String LEAVE_LIST_PAGE = "/leave/list";
+    public static final String LEAVE_DETAILS_PAGE = "/leave/details";
 
     @Autowired
     private AuthorizationHelper authorizationHelper;
@@ -32,6 +35,9 @@ public class LeaveController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LeaveHelper leaveHelper;
 
     @RequestMapping(value = "/allLeaveList", method = RequestMethod.GET)
     public String showAllLeaveList(HttpSession session, ModelMap model) {
@@ -73,5 +79,18 @@ public class LeaveController {
         model.addAttribute("leaveList", leaveService.findUserPendingLeaveList(userId));
 
         return LEAVE_LIST_PAGE;
+    }
+
+    @RequestMapping(value = "/details", method = RequestMethod.GET)
+    public String showDetails(@RequestParam long id,
+                              HttpSession session,
+                              ModelMap model) {
+
+        Leave leave = leaveService.find(id);
+        leaveHelper.checkAccessByUserDesignation(leave.getUser().getId(), session);
+
+        model.addAttribute("leave", leave);
+
+        return LEAVE_DETAILS_PAGE;
     }
 }

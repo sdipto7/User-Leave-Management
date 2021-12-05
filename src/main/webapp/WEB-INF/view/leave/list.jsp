@@ -23,9 +23,8 @@
     <%--    </c:if>--%>
 
     <table id="table">
-
         <tr>
-            <th><fmt:message key="label.leave.list.body.columnHeader.user.firstName"/></th>
+            <th><fmt:message key="label.leaveList.body.columnHeader.user.firstName"/></th>
             <th><fmt:message key="label.leaveList.body.columnHeader.user.lastName"/></th>
             <th><fmt:message key="label.leaveList.body.columnHeader.user.designation"/></th>
             <th><fmt:message key="label.leaveList.body.columnHeader.leave.type"/></th>
@@ -35,9 +34,9 @@
 
         <c:forEach var="leave" items="${leaveList}">
 
-            <%--            <c:url var="showDetailsLink" value="/leave/details">--%>
-            <%--                <c:param name="id" value="${leave.id}"/>--%>
-            <%--            </c:url>--%>
+            <c:url var="showDetailsLink" value="/leave/details">
+                <c:param name="id" value="${leave.id}"/>
+            </c:url>
 
             <tr>
                 <td><c:out value="${leave.user.firstName}"/></td>
@@ -45,15 +44,12 @@
                 <td><c:out value="${leave.user.designation.naturalName}"/></td>
                 <td><c:out value="${leave.leaveType.naturalName}"/></td>
                 <td><c:out value="${leave.leaveStatus.naturalName}"/></td>
-
                 <td>
                     <a href="${showDetailsLink}"><fmt:message key="label.link.details"/></a>
                 </td>
-
             </tr>
         </c:forEach>
     </table>
-
 </div>
 </div>
 </body>

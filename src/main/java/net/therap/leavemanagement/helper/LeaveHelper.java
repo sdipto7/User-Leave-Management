@@ -1,0 +1,42 @@
+package net.therap.leavemanagement.helper;
+
+import net.therap.leavemanagement.domain.Designation;
+import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.service.UserManagementService;
+import net.therap.leavemanagement.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpSession;
+
+/**
+ * @author rumi.dipto
+ * @since 12/2/21
+ */
+@Component
+public class LeaveHelper {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserManagementService userManagementService;
+
+    @Autowired
+    private AuthorizationHelper authorizationHelper;
+
+    public void checkAccessByUserDesignation(long userId, HttpSession session) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+        User user = userService.find(userId);
+
+        if (sessionUser.getDesignation().equals(user.getDesignation())) {
+            authorizationHelper.checkAccess(user, session);
+        } else if (sessionUser.getDesignation().equals(Designation.TEAM_LEAD) &&
+                (user.getDesignation().equals(Designation.DEVELOPER) ||
+                        user.getDesignation().equals(Designation.TESTER))) {
+
+            User teamLead = userManagementService.findTeamLeadByUserId(userId);
+            authorizationHelper.checkTeamLead(teamLead, session);
+        }
+    }
+}
