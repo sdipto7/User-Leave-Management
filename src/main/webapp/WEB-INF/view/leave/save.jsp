@@ -14,7 +14,7 @@
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 <br>
 
-<form:form action="/leave/form/save" method="post" modelAttribute="leave">
+<form:form action="/leave/submit" method="post" modelAttribute="leave">
   <label for="startDate"><fmt:message key="label.leave.save.body.startDate"/></label>
   <form:input path="startDate"/>
   <form:errors path="startDate" cssClass="errorBlock" element="div"/>
@@ -39,7 +39,7 @@
 
   <br><br>
 
-  <input type="submit" value="Save" class="button">
+  <input type="submit" value="Save" class="button" name="action_save_or_update">
 </form:form>
 </body>
 </html>

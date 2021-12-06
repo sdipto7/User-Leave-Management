@@ -121,7 +121,7 @@ public class LeaveController {
         return LEAVE_SAVE_PAGE;
     }
 
-    @RequestMapping(value = "/form/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/submit", params = "action_save_or_update", method = RequestMethod.POST)
     public String saveOrUpdate(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
                                Errors errors,
                                SessionStatus sessionStatus,
