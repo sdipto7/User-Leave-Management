@@ -1,6 +1,8 @@
 package net.therap.leavemanagement.helper;
 
 import net.therap.leavemanagement.domain.Designation;
+import net.therap.leavemanagement.domain.Leave;
+import net.therap.leavemanagement.domain.LeaveStatus;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
@@ -38,5 +40,20 @@ public class LeaveHelper {
             User teamLead = userManagementService.findTeamLeadByUserId(userId);
             authorizationHelper.checkTeamLead(teamLead, session);
         }
+    }
+
+    public Leave getLeaveByUserDesignation(User user) {
+        Leave leave = new Leave();
+        leave.setUser(user);
+
+        if (user.getDesignation().equals(Designation.HR_EXECUTIVE)) {
+            leave.setLeaveStatus(LeaveStatus.APPROVED_BY_HR_EXECUTIVE);
+        } else if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+            leave.setLeaveStatus(LeaveStatus.PENDING_BY_HR_EXECUTIVE);
+        } else {
+            leave.setLeaveStatus(LeaveStatus.PENDING_BY_TEAM_LEAD);
+        }
+
+        return leave;
     }
 }

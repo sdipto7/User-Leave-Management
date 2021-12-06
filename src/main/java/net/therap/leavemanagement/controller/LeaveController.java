@@ -2,6 +2,8 @@ package net.therap.leavemanagement.controller;
 
 import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.Leave;
+import net.therap.leavemanagement.domain.LeaveType;
+import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
 import net.therap.leavemanagement.service.LeaveService;
@@ -9,12 +11,16 @@ import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.Arrays;
+
+import static net.therap.leavemanagement.controller.LeaveController.LEAVE_COMMAND;
 
 /**
  * @author rumi.dipto
@@ -22,10 +28,14 @@ import java.util.Arrays;
  */
 @Controller
 @RequestMapping("/leave")
+@SessionAttributes(LEAVE_COMMAND)
 public class LeaveController {
 
+    public static final String LEAVE_COMMAND = "leave";
     public static final String LEAVE_LIST_PAGE = "/leave/list";
     public static final String LEAVE_DETAILS_PAGE = "/leave/details";
+    public static final String LEAVE_SAVE_PAGE = "/leave/save";
+    public static final String SUCCESS_URL = "redirect:/success";
 
     @Autowired
     private AuthorizationHelper authorizationHelper;
@@ -92,5 +102,45 @@ public class LeaveController {
         model.addAttribute("leave", leave);
 
         return LEAVE_DETAILS_PAGE;
+    }
+
+    @RequestMapping(value = "/form", method = RequestMethod.GET)
+    public String showForm(@RequestParam long userId,
+                           HttpSession session,
+                           ModelMap model) {
+
+        User user = userService.find(userId);
+        authorizationHelper.checkAccess(user, session);
+
+        Leave leave = leaveHelper.getLeaveByUserDesignation(user);
+        model.addAttribute(LEAVE_COMMAND, leave);
+        model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
+
+        return LEAVE_SAVE_PAGE;
+    }
+
+    @RequestMapping(value = "/form/save", method = RequestMethod.POST)
+    public String saveOrUpdate(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
+                               Errors errors,
+                               SessionStatus sessionStatus,
+                               HttpSession session,
+                               ModelMap model,
+                               RedirectAttributes redirectAttributes) {
+
+        authorizationHelper.checkAccess(leave.getUser(), session);
+
+        if (errors.hasErrors()) {
+            model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
+
+            return LEAVE_SAVE_PAGE;
+        }
+
+        leaveService.saveOrUpdate(leave);
+
+        sessionStatus.setComplete();
+        redirectAttributes.addAttribute("doneMessage",
+                "Leave request is submitted successfully");
+
+        return SUCCESS_URL;
     }
 }

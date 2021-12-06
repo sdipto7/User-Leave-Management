@@ -31,7 +31,7 @@ public class Leave extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SELECT)
     @JoinColumn(name = "user_id")
     @NotNull

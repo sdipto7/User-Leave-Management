@@ -2,6 +2,7 @@ package net.therap.leavemanagement.dao;
 
 import net.therap.leavemanagement.domain.Leave;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,5 +40,21 @@ public class LeaveDao {
 
     public List<Leave> findAllPendingLeave() {
         return em.createNamedQuery("Leave.findAllPendingLeave", Leave.class).getResultList();
+    }
+
+    @Transactional
+    public Leave saveOrUpdate(Leave leave) {
+        if (leave.isNew()) {
+            em.persist(leave);
+        } else {
+            leave = em.merge(leave);
+        }
+
+        return leave;
+    }
+
+    @Transactional
+    public void delete(Leave leave) {
+        em.remove(leave);
     }
 }

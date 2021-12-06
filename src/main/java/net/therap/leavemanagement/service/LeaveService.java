@@ -36,4 +36,12 @@ public class LeaveService {
     public List<Leave> findAllPendingLeave() {
         return leaveDao.findAllPendingLeave();
     }
+
+    public void saveOrUpdate(Leave leave) {
+        leaveDao.saveOrUpdate(leave);
+    }
+
+    public void delete(Leave leave) {
+        leaveDao.delete(leave);
+    }
 }

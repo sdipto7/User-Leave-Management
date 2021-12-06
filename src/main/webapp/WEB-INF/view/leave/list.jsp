@@ -40,7 +40,7 @@
 
             <tr>
                 <td><c:out value="${leave.user.firstName}"/></td>
-                <td><c:out value="${leave.user.lastname}"/></td>
+                <td><c:out value="${leave.user.lastName}"/></td>
                 <td><c:out value="${leave.user.designation.naturalName}"/></td>
                 <td><c:out value="${leave.leaveType.naturalName}"/></td>
                 <td><c:out value="${leave.leaveStatus.naturalName}"/></td>
