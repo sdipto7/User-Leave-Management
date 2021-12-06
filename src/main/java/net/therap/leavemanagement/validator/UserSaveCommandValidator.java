@@ -15,7 +15,7 @@ import java.util.Objects;
  * @since 11/30/21
  */
 @Component
-public class UserCommandValidator implements Validator {
+public class UserSaveCommandValidator implements Validator {
 
     @Autowired
     private UserService userService;

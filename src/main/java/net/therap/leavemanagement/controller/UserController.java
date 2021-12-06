@@ -11,7 +11,7 @@ import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
-import net.therap.leavemanagement.validator.UserCommandValidator;
+import net.therap.leavemanagement.validator.UserSaveCommandValidator;
 import net.therap.leavemanagement.validator.UserProfileCommandValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -62,7 +62,7 @@ public class UserController {
     private UserHelper userHelper;
 
     @Autowired
-    private UserCommandValidator userCommandValidator;
+    private UserSaveCommandValidator userSaveCommandValidator;
 
     @Autowired
     private UserProfileCommandValidator userProfileCommandValidator;
@@ -74,7 +74,7 @@ public class UserController {
 
         binder.setAllowedFields("user.firstName", "user.lastName", "user.username",
                 "user.password", "user.designation", "user.salary", "teamLead");
-        binder.addValidators(userCommandValidator);
+        binder.addValidators(userSaveCommandValidator);
     }
 
     @InitBinder(USER_COMMAND_PROFILE)
