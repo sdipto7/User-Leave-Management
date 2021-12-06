@@ -13,8 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class DayCounter {
 
     public static int getLeaveDayCount(Date startDate, Date endDate) {
-        long timeDifference = endDate.getTime() - startDate.getTime();
-        int dayCount = (int) TimeUnit.DAYS.convert(timeDifference, TimeUnit.MILLISECONDS);
+        int dayCount = getDayCount(startDate, endDate) + 1;
 
         String startDay = new SimpleDateFormat("EEEE").format(startDate);
         String endDay = new SimpleDateFormat("EEEE").format(endDate);
@@ -22,6 +21,13 @@ public class DayCounter {
         if (Day.SUN.getNaturalName().equals(startDay) || Day.THU.getNaturalName().equals(endDay)) {
             dayCount += 2;
         }
+
+        return dayCount;
+    }
+
+    public static int getDayCount(Date startDate, Date endDate) {
+        long timeDifference = endDate.getTime() - startDate.getTime();
+        int dayCount = (int) TimeUnit.DAYS.convert(timeDifference, TimeUnit.MILLISECONDS);
 
         return dayCount;
     }
