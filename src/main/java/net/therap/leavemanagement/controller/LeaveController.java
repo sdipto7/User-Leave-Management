@@ -8,6 +8,7 @@ import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
 import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.UserService;
+import net.therap.leavemanagement.util.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,7 +36,6 @@ public class LeaveController {
     public static final String LEAVE_LIST_PAGE = "/leave/list";
     public static final String LEAVE_DETAILS_PAGE = "/leave/details";
     public static final String LEAVE_SAVE_PAGE = "/leave/save";
-    public static final String SUCCESS_URL = "redirect:/success";
 
     @Autowired
     private AuthorizationHelper authorizationHelper;
@@ -141,6 +141,6 @@ public class LeaveController {
         redirectAttributes.addAttribute("doneMessage",
                 "Leave request is submitted successfully");
 
-        return SUCCESS_URL;
+        return Url.SUCCESS_URL;
     }
 }

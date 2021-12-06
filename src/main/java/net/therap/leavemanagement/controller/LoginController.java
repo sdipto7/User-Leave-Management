@@ -4,6 +4,7 @@ import net.therap.leavemanagement.command.LoginCommand;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthenticationHelper;
 import net.therap.leavemanagement.service.UserService;
+import net.therap.leavemanagement.util.Url;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -29,8 +30,6 @@ public class LoginController {
 
     public static final String LOGIN_COMMAND = "loginCommand";
     public static final String LOGIN_PAGE = "/login";
-    public static final String LOGIN_URL = "redirect:/login";
-    public static final String DASHBOARD_URL = "redirect:/dashboard";
 
     @Autowired
     private UserService userService;
@@ -68,11 +67,11 @@ public class LoginController {
         if (user != null && authenticationHelper.authCheck(user, password)) {
             session.setAttribute("SESSION_USER", user);
 
-            return DASHBOARD_URL;
+            return Url.DASHBOARD_URL;
         } else {
             redirectAttributes.addFlashAttribute("error", "Enter credential correctly");
 
-            return LOGIN_URL;
+            return Url.LOGIN_URL;
         }
     }
 }
