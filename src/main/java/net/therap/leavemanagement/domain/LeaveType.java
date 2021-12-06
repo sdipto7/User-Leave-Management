@@ -6,8 +6,8 @@ package net.therap.leavemanagement.domain;
  */
 public enum LeaveType {
 
-    Sick("sick"),
-    Casual("casual");
+    Sick("Sick"),
+    Casual("Casual");
 
     private String naturalName;
 
