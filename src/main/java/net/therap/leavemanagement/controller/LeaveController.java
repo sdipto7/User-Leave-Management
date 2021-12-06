@@ -8,7 +8,7 @@ import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
 import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.UserService;
-import net.therap.leavemanagement.util.Url;
+import net.therap.leavemanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -141,6 +141,6 @@ public class LeaveController {
         redirectAttributes.addAttribute("doneMessage",
                 "Leave request is submitted successfully");
 
-        return Url.SUCCESS_URL;
+        return Constants.SUCCESS_URL;
     }
 }

@@ -4,7 +4,7 @@ import net.therap.leavemanagement.command.LoginCommand;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthenticationHelper;
 import net.therap.leavemanagement.service.UserService;
-import net.therap.leavemanagement.util.Url;
+import net.therap.leavemanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -67,11 +67,11 @@ public class LoginController {
         if (user != null && authenticationHelper.authCheck(user, password)) {
             session.setAttribute("SESSION_USER", user);
 
-            return Url.DASHBOARD_URL;
+            return Constants.DASHBOARD_URL;
         } else {
             redirectAttributes.addFlashAttribute("error", "Enter credential correctly");
 
-            return Url.LOGIN_URL;
+            return Constants.LOGIN_URL;
         }
     }
 }

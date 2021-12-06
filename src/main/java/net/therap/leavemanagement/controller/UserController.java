@@ -10,7 +10,7 @@ import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
-import net.therap.leavemanagement.util.Url;
+import net.therap.leavemanagement.util.Constants;
 import net.therap.leavemanagement.validator.UserCommandValidator;
 import net.therap.leavemanagement.validator.UserProfileCommandValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +194,7 @@ public class UserController {
         redirectAttributes.addAttribute("doneMessage",
                 "User " + userCommand.getUser().getFirstName() + " saved successfully");
 
-        return Url.SUCCESS_URL;
+        return Constants.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/submit", params = "action_update_password", method = RequestMethod.POST)
@@ -217,7 +217,7 @@ public class UserController {
         redirectAttributes.addFlashAttribute("doneMessage",
                 "Password updated successfully");
 
-        return Url.SUCCESS_URL;
+        return Constants.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
@@ -235,6 +235,6 @@ public class UserController {
         redirectAttributes.addAttribute("doneMessage",
                 "User " + user.getFirstName() + " is deleted successfully");
 
-        return Url.SUCCESS_URL;
+        return Constants.SUCCESS_URL;
     }
 }
