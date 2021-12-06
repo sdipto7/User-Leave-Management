@@ -57,7 +57,7 @@ public class LeaveHelper {
         return leave;
     }
 
-    public void updateLeaveStatus(Leave leave, HttpSession session) {
+    public void updateLeaveStatusToApprove(Leave leave, HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
         if ((sessionUser.getDesignation().equals(Designation.TEAM_LEAD)) &&
@@ -69,6 +69,22 @@ public class LeaveHelper {
                 (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE))) {
 
             leave.setLeaveStatus(LeaveStatus.APPROVED_BY_HR_EXECUTIVE);
+
+        }
+    }
+
+    public void updateLeaveStatusToDeny(Leave leave, HttpSession session) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        if ((sessionUser.getDesignation().equals(Designation.TEAM_LEAD)) &&
+                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD))) {
+
+            leave.setLeaveStatus(LeaveStatus.DENIED_BY_TEAM_LEAD);
+
+        } else if ((sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE)) &&
+                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE))) {
+
+            leave.setLeaveStatus(LeaveStatus.DENIED_BY_HR_EXECUTIVE);
 
         }
     }

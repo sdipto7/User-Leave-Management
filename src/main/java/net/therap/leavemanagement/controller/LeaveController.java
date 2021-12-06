@@ -180,13 +180,35 @@ public class LeaveController {
         User teamLead = userManagementService.findTeamLeadByUserId(leave.getUser().getId());
         authorizationHelper.checkTeamLead(teamLead, session);
 
-        leaveHelper.updateLeaveStatus(leave, session);
+        leaveHelper.updateLeaveStatusToApprove(leave, session);
 
         leaveService.saveOrUpdate(leave);
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",
                 "Leave request is approved");
+
+        return Constant.SUCCESS_URL;
+    }
+
+    @RequestMapping(value = "/action", params = "action_deny", method = RequestMethod.POST)
+    public String denyRequest(@ModelAttribute(LEAVE_COMMAND) Leave leave,
+                              HttpSession session,
+                              RedirectAttributes redirectAttributes,
+                              SessionStatus sessionStatus) {
+
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+
+        User teamLead = userManagementService.findTeamLeadByUserId(leave.getUser().getId());
+        authorizationHelper.checkTeamLead(teamLead, session);
+
+        leaveHelper.updateLeaveStatusToDeny(leave, session);
+
+        leaveService.saveOrUpdate(leave);
+
+        sessionStatus.setComplete();
+        redirectAttributes.addFlashAttribute("doneMessage",
+                "Leave request is denied");
 
         return Constant.SUCCESS_URL;
     }

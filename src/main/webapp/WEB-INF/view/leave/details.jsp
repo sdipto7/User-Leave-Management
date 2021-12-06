@@ -47,10 +47,10 @@
 
     <br>
 
-    <form action="/leave/action" method="post">
-        <input type="hidden" name="id" value="${leave.id}">
-        <input type="submit" value="Reject" class="button" name="action_reject">
-    </form>
+    <form:form action="/leave/action" method="post">
+        <input type="hidden" name="leave" value="${leave}">
+        <input type="submit" value="Reject" class="button" name="action_deny">
+    </form:form>
 </c:if>
 
 <c:if test="${(((SESSION_USER.designation.naturalName == 'Developer') || (SESSION_USER.designation.naturalName == 'Tester'))
