@@ -1,7 +1,7 @@
 package net.therap.leavemanagement.dao;
 
 import net.therap.leavemanagement.domain.Leave;
-import net.therap.leavemanagement.util.Constants;
+import net.therap.leavemanagement.util.Constant;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class LeaveDao {
 
-    @PersistenceContext(unitName = Constants.UNIT_NAME)
+    @PersistenceContext(unitName = Constant.UNIT_NAME)
     private EntityManager em;
 
     public Leave find(long id) {

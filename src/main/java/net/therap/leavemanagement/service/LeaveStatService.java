@@ -4,7 +4,7 @@ import net.therap.leavemanagement.dao.LeaveStatDao;
 import net.therap.leavemanagement.domain.Leave;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.LeaveType;
-import net.therap.leavemanagement.helper.DateHelper;
+import net.therap.leavemanagement.util.DayCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +18,6 @@ public class LeaveStatService {
 
     @Autowired
     private LeaveStatDao leaveStatDao;
-
-    @Autowired
-    private DateHelper dateHelper;
 
     public LeaveStat findLeaveStatByUserId(long userId) {
         return leaveStatDao.findLeaveStatByUserId(userId);
@@ -37,7 +34,7 @@ public class LeaveStatService {
     @Transactional
     public void update(Leave leave) {
         LeaveStat leaveStat = findLeaveStatByUserId(leave.getUser().getId());
-        int dayCount = dateHelper.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
+        int dayCount = DayCounter.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
 
         if (leave.getLeaveType().equals(LeaveType.Casual)) {
             leaveStat.setCasualLeaveCount(leaveStat.getCasualLeaveCount() + dayCount);

@@ -6,11 +6,10 @@ import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
-import net.therap.leavemanagement.helper.LeaveStatHelper;
 import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
-import net.therap.leavemanagement.util.Constants;
+import net.therap.leavemanagement.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -53,9 +52,6 @@ public class LeaveController {
 
     @Autowired
     private LeaveHelper leaveHelper;
-
-    @Autowired
-    private LeaveStatHelper leaveStatHelper;
 
     @RequestMapping(value = "/allLeaveList", method = RequestMethod.GET)
     public String showAllLeaveList(HttpSession session, ModelMap model) {
@@ -152,7 +148,7 @@ public class LeaveController {
         redirectAttributes.addAttribute("doneMessage",
                 "Leave request is submitted successfully");
 
-        return Constants.SUCCESS_URL;
+        return Constant.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
@@ -170,7 +166,7 @@ public class LeaveController {
         redirectAttributes.addAttribute("doneMessage",
                 "Leave Request is successfully deleted");
 
-        return Constants.SUCCESS_URL;
+        return Constant.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/action", params = "action_approve", method = RequestMethod.POST)
@@ -192,6 +188,6 @@ public class LeaveController {
         redirectAttributes.addFlashAttribute("doneMessage",
                 "Leave request is approved");
 
-        return Constants.SUCCESS_URL;
+        return Constant.SUCCESS_URL;
     }
 }

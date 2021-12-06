@@ -1,6 +1,6 @@
 package net.therap.leavemanagement.controller;
 
-import net.therap.leavemanagement.util.Constants;
+import net.therap.leavemanagement.util.Constant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +20,6 @@ public class LogoutController {
         session.invalidate();
         redirectAttributes.addFlashAttribute("logoutMessage", "Successfully logged out");
 
-        return Constants.LOGIN_URL;
+        return Constant.LOGIN_URL;
     }
 }
