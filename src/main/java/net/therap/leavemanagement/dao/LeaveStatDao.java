@@ -18,9 +18,9 @@ public class LeaveStatDao {
     @PersistenceContext(unitName = Constants.UNIT_NAME)
     private EntityManager em;
 
-    public LeaveStat findLeaveStatByUserId(long id) {
+    public LeaveStat findLeaveStatByUserId(long userId) {
         return em.createNamedQuery("LeaveStat.findLeaveStatByUserId", LeaveStat.class)
-                .setParameter("id", id)
+                .setParameter("id", userId)
                 .getResultList()
                 .stream()
                 .findFirst()

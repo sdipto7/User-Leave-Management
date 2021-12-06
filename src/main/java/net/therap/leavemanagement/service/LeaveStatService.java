@@ -1,8 +1,10 @@
 package net.therap.leavemanagement.service;
 
 import net.therap.leavemanagement.dao.LeaveStatDao;
+import net.therap.leavemanagement.domain.Leave;
 import net.therap.leavemanagement.domain.LeaveStat;
-import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.domain.LeaveType;
+import net.therap.leavemanagement.helper.DateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,19 +17,33 @@ import org.springframework.transaction.annotation.Transactional;
 public class LeaveStatService {
 
     @Autowired
-    LeaveStatDao leaveStatDao;
+    private LeaveStatDao leaveStatDao;
 
-    public LeaveStat findLeaveStatByUserId(long id) {
-        return leaveStatDao.findLeaveStatByUserId(id);
+    @Autowired
+    private DateHelper dateHelper;
+
+    public LeaveStat findLeaveStatByUserId(long userId) {
+        return leaveStatDao.findLeaveStatByUserId(userId);
     }
 
     @Transactional
-    public void saveOrUpdate(User user) {
-        LeaveStat leaveStat = new LeaveStat();
-
-        leaveStat.setUser(user);
+    public void save(LeaveStat leaveStat) {
         leaveStat.setSickLeaveCount(0);
         leaveStat.setCasualLeaveCount(0);
+
+        leaveStatDao.saveOrUpdate(leaveStat);
+    }
+
+    @Transactional
+    public void update(Leave leave) {
+        LeaveStat leaveStat = findLeaveStatByUserId(leave.getUser().getId());
+        int dayCount = dateHelper.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
+
+        if (leave.getLeaveType().equals(LeaveType.Casual)) {
+            leaveStat.setCasualLeaveCount(leaveStat.getCasualLeaveCount() + dayCount);
+        } else {
+            leaveStat.setSickLeaveCount(leaveStat.getSickLeaveCount() + dayCount);
+        }
 
         leaveStatDao.saveOrUpdate(leaveStat);
     }

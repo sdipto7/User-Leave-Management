@@ -56,4 +56,20 @@ public class LeaveHelper {
 
         return leave;
     }
+
+    public void updateLeaveStatus(Leave leave, HttpSession session) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        if ((sessionUser.getDesignation().equals(Designation.TEAM_LEAD)) &&
+                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD))) {
+
+            leave.setLeaveStatus(LeaveStatus.PENDING_BY_HR_EXECUTIVE);
+
+        } else if ((sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE)) &&
+                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE))) {
+
+            leave.setLeaveStatus(LeaveStatus.APPROVED_BY_HR_EXECUTIVE);
+
+        }
+    }
 }

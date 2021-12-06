@@ -4,6 +4,7 @@ import net.therap.leavemanagement.command.UserCommand;
 import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.dao.UserDao;
 import net.therap.leavemanagement.domain.Designation;
+import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.util.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,8 @@ public class UserService {
     @Transactional
     public void saveOrUpdate(UserCommand userCommand) {
         User user = userCommand.getUser();
+        long id = user.getId();
+
         user.setPassword(HashGenerator.getMd5(user.getPassword()));
         user.setActivated(false);
         userDao.saveOrUpdate(user);
@@ -75,7 +78,11 @@ public class UserService {
         User teamLead = userCommand.getTeamLead();
         userManagementService.saveOrUpdate(user, teamLead);
 
-        leaveStatService.saveOrUpdate(user);
+        if (id == 0) {
+            LeaveStat leaveStat = new LeaveStat();
+            leaveStat.setUser(user);
+            leaveStatService.save(leaveStat);
+        }
     }
 
     public void updatePassword(UserProfileCommand userProfileCommand) {

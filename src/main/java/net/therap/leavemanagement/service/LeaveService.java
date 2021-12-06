@@ -2,8 +2,10 @@ package net.therap.leavemanagement.service;
 
 import net.therap.leavemanagement.dao.LeaveDao;
 import net.therap.leavemanagement.domain.Leave;
+import net.therap.leavemanagement.domain.LeaveStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ public class LeaveService {
 
     @Autowired
     private LeaveDao leaveDao;
+
+    @Autowired
+    private LeaveStatService leaveStatService;
 
     public Leave find(long id) {
         return leaveDao.find(id);
@@ -37,7 +42,12 @@ public class LeaveService {
         return leaveDao.findAllPendingLeave();
     }
 
+    @Transactional
     public void saveOrUpdate(Leave leave) {
+        if (leave.getLeaveStatus().equals(LeaveStatus.APPROVED_BY_HR_EXECUTIVE)) {
+            leaveStatService.update(leave);
+        }
+
         leaveDao.saveOrUpdate(leave);
     }
 

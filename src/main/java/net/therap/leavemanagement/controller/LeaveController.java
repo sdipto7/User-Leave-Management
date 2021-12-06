@@ -6,7 +6,9 @@ import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
+import net.therap.leavemanagement.helper.LeaveStatHelper;
 import net.therap.leavemanagement.service.LeaveService;
+import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,13 @@ public class LeaveController {
     private UserService userService;
 
     @Autowired
+    private UserManagementService userManagementService;
+
+    @Autowired
     private LeaveHelper leaveHelper;
+
+    @Autowired
+    private LeaveStatHelper leaveStatHelper;
 
     @RequestMapping(value = "/allLeaveList", method = RequestMethod.GET)
     public String showAllLeaveList(HttpSession session, ModelMap model) {
@@ -161,6 +169,28 @@ public class LeaveController {
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
                 "Leave Request is successfully deleted");
+
+        return Constants.SUCCESS_URL;
+    }
+
+    @RequestMapping(value = "/action", params = "action_approve", method = RequestMethod.POST)
+    public String approveRequest(@ModelAttribute(LEAVE_COMMAND) Leave leave,
+                                 HttpSession session,
+                                 RedirectAttributes redirectAttributes,
+                                 SessionStatus sessionStatus) {
+
+        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+
+        User teamLead = userManagementService.findTeamLeadByUserId(leave.getUser().getId());
+        authorizationHelper.checkTeamLead(teamLead, session);
+
+        leaveHelper.updateLeaveStatus(leave, session);
+
+        leaveService.saveOrUpdate(leave);
+
+        sessionStatus.setComplete();
+        redirectAttributes.addFlashAttribute("doneMessage",
+                "Leave request is approved");
 
         return Constants.SUCCESS_URL;
     }

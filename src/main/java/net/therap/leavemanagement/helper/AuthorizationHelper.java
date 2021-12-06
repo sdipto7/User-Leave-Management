@@ -35,7 +35,7 @@ public class AuthorizationHelper {
     public void checkTeamLead(User teamLead, HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (Objects.nonNull(teamLead) && Designation.TEAM_LEAD.equals(sessionUser.getDesignation())) {
+        if (Objects.nonNull(teamLead) && sessionUser.getDesignation().equals(Designation.TEAM_LEAD)) {
             if (!teamLead.equals(sessionUser)) {
                 throw new WebServiceException();
             }

@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title><fmt:message key="label.leave.details.title"/></title>
@@ -39,10 +40,10 @@
   ((SESSION_USER.designation.naturalName == 'HR Executive') &&
  (leave.leaveStatus.naturalName == 'Pending by HR Executive'))}">
 
-    <form action="/leave/action" method="post">
-        <input type="hidden" name="id" value="${leave.id}">
+    <form:form action="/leave/action" method="post">
+        <input type="hidden" name="leave" value="${leave}">
         <input type="submit" value="Approve" class="button" name="action_approve">
-    </form>
+    </form:form>
 
     <br>
 
