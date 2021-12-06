@@ -11,15 +11,15 @@ import java.util.Objects;
  * @author rumi.dipto
  * @since 12/6/21
  */
-public class LoginFilter implements Filter {
+public class ValidSessionFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession session = ((HttpServletRequest) request).getSession();
 
-        if (Objects.isNull(session.getAttribute("SESSION_USER"))) {
-            httpServletResponse.sendRedirect("/login");
+        if (Objects.nonNull(session.getAttribute("SESSION_USER"))) {
+            httpServletResponse.sendRedirect("/dashboard");
         } else {
             chain.doFilter(request, response);
         }
