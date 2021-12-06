@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author rumi.dipto
  * @since 11/29/21
  */
-public class UserCommand implements Serializable {
+public class UserSaveCommand implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

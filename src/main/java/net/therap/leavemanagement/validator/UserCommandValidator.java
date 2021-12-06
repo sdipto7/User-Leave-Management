@@ -1,6 +1,6 @@
 package net.therap.leavemanagement.validator;
 
-import net.therap.leavemanagement.command.UserCommand;
+import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ public class UserCommandValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return UserCommand.class.isAssignableFrom(clazz);
+        return UserSaveCommand.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserCommand userCommand = (UserCommand) target;
-        User user = userCommand.getUser();
+        UserSaveCommand userSaveCommand = (UserSaveCommand) target;
+        User user = userSaveCommand.getUser();
         User duplicateUser = userService.findByUsername(user.getUsername());
 
         if (Objects.nonNull(duplicateUser) && !user.equals(duplicateUser)) {

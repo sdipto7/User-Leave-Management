@@ -1,7 +1,7 @@
 package net.therap.leavemanagement.controller;
 
-import net.therap.leavemanagement.command.UserCommand;
 import net.therap.leavemanagement.command.UserProfileCommand;
+import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
@@ -161,10 +161,10 @@ public class UserController {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
-        UserCommand userCommand = new UserCommand();
-        userCommand.setUser(userHelper.getOrCreateUser(id));
+        UserSaveCommand userSaveCommand = new UserSaveCommand();
+        userSaveCommand.setUser(userHelper.getOrCreateUser(id));
 
-        model.addAttribute(USER_COMMAND_SAVE, userCommand);
+        model.addAttribute(USER_COMMAND_SAVE, userSaveCommand);
         model.addAttribute("teamLeadList", userService.findAllTeamLead());
         model.addAttribute("designationList", Arrays.asList(Designation.values()));
 
@@ -172,7 +172,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/submit", params = "action_save_or_update", method = RequestMethod.POST)
-    public String saveOrUpdate(@Valid @ModelAttribute(USER_COMMAND_SAVE) UserCommand userCommand,
+    public String saveOrUpdate(@Valid @ModelAttribute(USER_COMMAND_SAVE) UserSaveCommand userSaveCommand,
                                Errors errors,
                                SessionStatus sessionStatus,
                                HttpSession session,
@@ -188,11 +188,11 @@ public class UserController {
             return USER_SAVE_PAGE;
         }
 
-        userService.saveOrUpdate(userCommand);
+        userService.saveOrUpdate(userSaveCommand);
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "User " + userCommand.getUser().getFirstName() + " saved successfully");
+                "User " + userSaveCommand.getUser().getFirstName() + " saved successfully");
 
         return Constant.SUCCESS_URL;
     }

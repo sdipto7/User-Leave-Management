@@ -1,6 +1,6 @@
 package net.therap.leavemanagement.service;
 
-import net.therap.leavemanagement.command.UserCommand;
+import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.dao.UserDao;
 import net.therap.leavemanagement.domain.Designation;
@@ -67,15 +67,15 @@ public class UserService {
     }
 
     @Transactional
-    public void saveOrUpdate(UserCommand userCommand) {
-        User user = userCommand.getUser();
+    public void saveOrUpdate(UserSaveCommand userSaveCommand) {
+        User user = userSaveCommand.getUser();
         long id = user.getId();
 
         user.setPassword(HashGenerator.getMd5(user.getPassword()));
         user.setActivated(false);
         userDao.saveOrUpdate(user);
 
-        User teamLead = userCommand.getTeamLead();
+        User teamLead = userSaveCommand.getTeamLead();
         userManagementService.saveOrUpdate(user, teamLead);
 
         if (id == 0) {
