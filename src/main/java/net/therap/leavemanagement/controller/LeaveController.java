@@ -72,7 +72,8 @@ public class LeaveController {
                                     HttpSession session,
                                     ModelMap model) {
 
-        authorizationHelper.checkAccess(userService.find(userId), session);
+        User user = userService.find(userId);
+        authorizationHelper.checkAccess(user, session);
 
         model.addAttribute("leaveList", leaveService.findUserLeaveList(userId));
 
@@ -84,7 +85,8 @@ public class LeaveController {
                                            HttpSession session,
                                            ModelMap model) {
 
-        authorizationHelper.checkAccess(userService.find(userId), session);
+        User user = userService.find(userId);
+        authorizationHelper.checkAccess(user, session);
 
         model.addAttribute("leaveList", leaveService.findUserPendingLeaveList(userId));
 
@@ -127,7 +129,8 @@ public class LeaveController {
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
 
-        authorizationHelper.checkAccess(leave.getUser(), session);
+        User user = leave.getUser();
+        authorizationHelper.checkAccess(user, session);
 
         if (errors.hasErrors()) {
             model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
