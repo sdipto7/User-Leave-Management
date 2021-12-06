@@ -40,7 +40,7 @@
 
 <br><br>
 
-<form:form action="/user/profile/updatePassword" method="post" modelAttribute="userProfileCommand">
+<form:form action="/user/submit" method="post" modelAttribute="userProfileCommand">
 
     <label for="currentPassword"><fmt:message key="label.user.profile.body.currentPassword"/></label>
     <form:password path="currentPassword"/>
@@ -60,7 +60,7 @@
 
     <br><br>
 
-    <input type="submit" value="Change Password" class="button">
+    <input type="submit" value="Change Password" class="button" name="action_update_password">
 </form:form>
 
 </body>

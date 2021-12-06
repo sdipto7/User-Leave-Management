@@ -15,7 +15,7 @@
 
 <br>
 
-<form:form action="/user/form/save" method="post" modelAttribute="userCommand">
+<form:form action="/user/submit" method="post" modelAttribute="userSaveCommand">
     <label for="user.firstName"><fmt:message key="label.user.save.body.firstName"/></label>
     <form:input path="user.firstName"/>
     <form:errors path="user.firstName" cssClass="errorBlock" element="div"/>
@@ -60,7 +60,7 @@
 
     <br><br>
 
-    <input type="submit" value="Save" class="button">
+    <input type="submit" value="Save" class="button" name="action_save_or_update">
 </form:form>
 </body>
 </html>

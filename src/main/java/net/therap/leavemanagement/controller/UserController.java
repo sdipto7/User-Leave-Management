@@ -10,6 +10,7 @@ import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
+import net.therap.leavemanagement.util.Url;
 import net.therap.leavemanagement.validator.UserCommandValidator;
 import net.therap.leavemanagement.validator.UserProfileCommandValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +39,12 @@ import static net.therap.leavemanagement.controller.UserController.*;
 public class UserController {
 
     public static final String USER_COMMAND = "user";
-    public static final String USER_COMMAND_SAVE = "userCommand";
+    public static final String USER_COMMAND_SAVE = "userSaveCommand";
     public static final String USER_COMMAND_PROFILE = "userProfileCommand";
     public static final String USER_PROFILE_PAGE = "/user/profile";
     public static final String USER_LIST_PAGE = "/user/list";
     public static final String USER_DETAILS_PAGE = "/user/details";
     public static final String USER_SAVE_PAGE = "/user/save";
-    public static final String SUCCESS_URL = "redirect:/success";
 
     @Autowired
     private UserService userService;
@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @InitBinder(USER_COMMAND_PROFILE)
-    public void initBinderToUpdatePassword(WebDataBinder binder) {
+    public void initBinderToUpdateProfile(WebDataBinder binder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
 
@@ -171,7 +171,7 @@ public class UserController {
         return USER_SAVE_PAGE;
     }
 
-    @RequestMapping(value = "/form/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/submit", params = "action_save_or_update", method = RequestMethod.POST)
     public String saveOrUpdate(@Valid @ModelAttribute(USER_COMMAND_SAVE) UserCommand userCommand,
                                Errors errors,
                                SessionStatus sessionStatus,
@@ -194,10 +194,10 @@ public class UserController {
         redirectAttributes.addAttribute("doneMessage",
                 "User " + userCommand.getUser().getFirstName() + " saved successfully");
 
-        return SUCCESS_URL;
+        return Url.SUCCESS_URL;
     }
 
-    @RequestMapping(value = "/profile/updatePassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/submit", params = "action_update_password", method = RequestMethod.POST)
     public String updatePassword(@Valid @ModelAttribute(USER_COMMAND_PROFILE) UserProfileCommand userProfileCommand,
                                  Errors errors,
                                  HttpSession session,
@@ -214,13 +214,13 @@ public class UserController {
         userService.updatePassword(userProfileCommand);
         sessionStatus.setComplete();
 
-        redirectAttributes.addAttribute("doneMessage",
+        redirectAttributes.addFlashAttribute("doneMessage",
                 "Password updated successfully");
 
-        return SUCCESS_URL;
+        return Url.SUCCESS_URL;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
     public String delete(@RequestParam long id,
                          HttpSession session,
                          RedirectAttributes redirectAttributes,
@@ -235,6 +235,6 @@ public class UserController {
         redirectAttributes.addAttribute("doneMessage",
                 "User " + user.getFirstName() + " is deleted successfully");
 
-        return SUCCESS_URL;
+        return Url.SUCCESS_URL;
     }
 }
