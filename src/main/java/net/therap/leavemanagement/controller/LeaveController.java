@@ -101,7 +101,7 @@ public class LeaveController {
         Leave leave = leaveService.find(id);
         leaveHelper.checkAccessByUserDesignation(leave.getUser().getId(), session);
 
-        model.addAttribute("leave", leave);
+        model.addAttribute(LEAVE_COMMAND, leave);
 
         return LEAVE_DETAILS_PAGE;
     }
@@ -143,6 +143,24 @@ public class LeaveController {
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
                 "Leave request is submitted successfully");
+
+        return Constants.SUCCESS_URL;
+    }
+
+    @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
+    public String delete(@ModelAttribute(LEAVE_COMMAND) Leave leave,
+                         HttpSession session,
+                         RedirectAttributes redirectAttributes,
+                         SessionStatus sessionStatus) {
+
+        User user = leave.getUser();
+        authorizationHelper.checkAccess(user, session);
+
+        leaveService.delete(leave);
+
+        sessionStatus.setComplete();
+        redirectAttributes.addAttribute("doneMessage",
+                "Leave Request is successfully deleted");
 
         return Constants.SUCCESS_URL;
     }

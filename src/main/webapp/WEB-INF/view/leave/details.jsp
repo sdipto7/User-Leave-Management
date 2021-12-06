@@ -41,24 +41,24 @@
 
     <form action="/leave/action" method="post">
         <input type="hidden" name="id" value="${leave.id}">
-        <input type="submit" value="Approve" class="button" name="_action_approve">
+        <input type="submit" value="Approve" class="button" name="action_approve">
     </form>
 
     <br>
 
     <form action="/leave/action" method="post">
         <input type="hidden" name="id" value="${leave.id}">
-        <input type="submit" value="Reject" class="button" name="_action_reject">
+        <input type="submit" value="Reject" class="button" name="action_reject">
     </form>
 </c:if>
 
-<c:if test="${((SESSION_USER.designation.naturalName == 'Developer') || (SESSION_USER.designation.naturalName == 'Tester'))
-                && (leave.leaveStatus.naturalName == 'Pending by HR Executive')}">
-    <form action="/leave/action" method="post">
-        <input type="hidden" name="id" value="${leave.id}">
-        <input type="submit" value="Delete" class="button" name="_action_delete">
-    </form>
+<c:if test="${(((SESSION_USER.designation.naturalName == 'Developer') || (SESSION_USER.designation.naturalName == 'Tester'))
+                && (leave.leaveStatus.naturalName == 'Pending by Team Lead')) || (SESSION_USER.designation.naturalName == 'Team Lead'
+                && leave.leaveStatus.naturalName == 'Pending by HR Executive')}">
+    <form:form action="/leave/submit" method="post">
+        <input type="hidden" name="leave" value="${leave}">
+        <input type="submit" value="Delete" class="button" name="action_delete">
+    </form:form>
 </c:if>
-
 </body>
 </html>

@@ -44,10 +44,10 @@
 
     <br><br>
 
-    <form action="/user/submit" method="post">
+    <form:form action="/user/submit" method="post">
         <input type="hidden" name="id" value="${user.id}">
         <input type="submit" value="Delete" class="button" name="action_delete">
-    </form>
+    </form:form>
 
 </c:if>
 
