@@ -11,8 +11,8 @@ import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
-import net.therap.leavemanagement.validator.UserSaveCommandValidator;
 import net.therap.leavemanagement.validator.UserProfileCommandValidator;
+import net.therap.leavemanagement.validator.UserSaveCommandValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -221,14 +221,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
-    public String delete(@RequestParam long id,
+    public String delete(@ModelAttribute(USER_COMMAND) User user,
                          HttpSession session,
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
-        User user = userService.find(id);
         userService.delete(user);
 
         sessionStatus.setComplete();

@@ -46,7 +46,7 @@
     <br><br>
 
     <form:form action="/user/submit" method="post">
-        <input type="hidden" name="id" value="${user.id}">
+        <input type="hidden" name="user" value="${user}">
         <input type="submit" value="Delete" class="button" name="action_delete">
     </form:form>
 
