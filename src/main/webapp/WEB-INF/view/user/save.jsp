@@ -9,6 +9,8 @@
 <html>
 <head>
     <title><fmt:message key="label.user.save.title"/></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="<c:url value="/js/script-1.0.0.js"/>"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
@@ -52,11 +54,13 @@
 
     <br><br>
 
-    <label for="teamLead"><fmt:message key="label.user.save.body.dropdown.teamLead"/></label>
-    <form:select path="teamLead">
-        <form:options items="${teamLeadList}" itemLabel="firstName" itemValue="id"/>
-    </form:select>
-    <form:errors path="teamLead" cssClass="errorBlock" element="div"/>
+    <div id="teamLeadSection" style="display: none">
+        <label for="teamLead"><fmt:message key="label.user.save.body.dropdown.teamLead"/></label>
+        <form:select path="teamLead">
+            <form:options items="${teamLeadList}" itemLabel="firstName" itemValue="id"/>
+        </form:select>
+        <form:errors path="teamLead" cssClass="errorBlock" element="div"/>
+    </div>
 
     <br><br>
 

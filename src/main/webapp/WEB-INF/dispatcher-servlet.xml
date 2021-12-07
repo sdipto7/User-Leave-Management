@@ -18,7 +18,9 @@
 
     <tx:annotation-driven/>
 
-    <mvc:resources mapping="/styles/*" location="/styles/" cache-period="3600"/>
+    <mvc:resources mapping="/styles/*" location="/styles/"/>
+
+    <mvc:resources mapping="/js/*" location="/js/"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>

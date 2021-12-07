@@ -1,7 +1,7 @@
 package net.therap.leavemanagement.service;
 
-import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.command.UserProfileCommand;
+import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.dao.UserDao;
 import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
@@ -75,8 +75,12 @@ public class UserService {
         user.setActivated(false);
         userDao.saveOrUpdate(user);
 
-        User teamLead = userSaveCommand.getTeamLead();
-        userManagementService.saveOrUpdate(user, teamLead);
+        if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
+                (user.getDesignation().equals(Designation.TESTER))) {
+
+            User teamLead = userSaveCommand.getTeamLead();
+            userManagementService.saveOrUpdate(user, teamLead);
+        }
 
         if (id == 0) {
             LeaveStat leaveStat = new LeaveStat();
