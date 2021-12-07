@@ -19,19 +19,19 @@ import java.util.Date;
                 query = "SELECT l FROM Leave l"),
         @NamedQuery(name = "Leave.findAllPendingLeave",
                 query = "SELECT l FROM Leave l " +
-                        "WHERE l.leaveStatus = 'PendingByTeamlead' OR l.leaveStatus = 'PendingByHumanResource'"),
+                        "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE'"),
         @NamedQuery(name = "Leave.findUserLeaveList",
                 query = "SELECT l FROM Leave l WHERE l.user.id = :id"),
         @NamedQuery(name = "Leave.findUserPendingLeaveList",
                 query = "SELECT l FROM Leave l " +
                         "WHERE l.user.id = :id " +
-                        "AND (l.leaveStatus = 'PendingByTeamlead' OR l.leaveStatus = 'PendingByHumanResource')"),
+                        "AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE')"),
 })
 public class Leave extends Persistent {
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @Fetch(value = FetchMode.SELECT)
     @JoinColumn(name = "user_id")
     @NotNull
