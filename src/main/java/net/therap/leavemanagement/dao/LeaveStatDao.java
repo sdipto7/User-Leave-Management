@@ -37,4 +37,9 @@ public class LeaveStatDao {
 
         return leaveStat;
     }
+
+    @Transactional
+    public void delete(LeaveStat leaveStat) {
+        em.remove(em.contains(leaveStat) ? leaveStat : em.merge(leaveStat));
+    }
 }

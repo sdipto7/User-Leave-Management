@@ -36,11 +36,13 @@
 
     <br><br>
 
-    <label for="user.password"><fmt:message key="label.user.save.body.password"/></label>
-    <form:password path="user.password"/>
-    <form:errors path="user.password" cssClass="errorBlock" element="div"/>
+    <c:if test="${userSaveCommand.user.id == 0}">
+        <label for="user.password"><fmt:message key="label.user.save.body.password"/></label>
+        <form:password path="user.password"/>
+        <form:errors path="user.password" cssClass="errorBlock" element="div"/>
 
-    <br><br>
+        <br><br>
+    </c:if>
 
     <label for="user.designation"><fmt:message key="label.user.save.body.designation"/></label>
     <form:radiobuttons path="user.designation" items="${designationList}" itemLabel="naturalName"/>

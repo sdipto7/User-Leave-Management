@@ -44,4 +44,9 @@ public class LeaveStatService {
 
         leaveStatDao.saveOrUpdate(leaveStat);
     }
+
+    @Transactional
+    public void delete(LeaveStat leaveStat) {
+        leaveStatDao.delete(leaveStat);
+    }
 }

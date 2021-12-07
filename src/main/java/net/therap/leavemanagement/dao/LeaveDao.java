@@ -56,6 +56,6 @@ public class LeaveDao {
 
     @Transactional
     public void delete(Leave leave) {
-        em.remove(leave);
+        em.remove(em.contains(leave) ? leave : em.merge(leave));
     }
 }

@@ -19,6 +19,14 @@ public class UserManagementService {
     @Autowired
     private UserManagementDao userManagementDao;
 
+    public List<UserManagement> findAllUserManagementByTeamLeadId(long teamLeadId) {
+        return userManagementDao.findAllUserManagementByTeamLeadId(teamLeadId);
+    }
+
+    public UserManagement findUserManagementByUserId(long userId) {
+        return userManagementDao.findUserManagementByUserId(userId);
+    }
+
     public User findTeamLeadByUserId(long id) {
         return userManagementDao.findTeamLeadByUserId(id);
     }
@@ -38,5 +46,10 @@ public class UserManagementService {
         userManagement.setTeamLead(teamLead);
 
         userManagementDao.saveOrUpdate(userManagement);
+    }
+
+    @Transactional
+    public void delete(UserManagement userManagement) {
+        userManagementDao.delete(userManagement);
     }
 }

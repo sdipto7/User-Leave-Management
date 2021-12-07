@@ -6,6 +6,7 @@ import net.therap.leavemanagement.dao.UserDao;
 import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.domain.UserManagement;
 import net.therap.leavemanagement.util.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,7 +96,23 @@ public class UserService {
         userDao.updatePassword(user);
     }
 
+    @Transactional
     public void delete(User user) {
+        long userId = user.getId();
+
+        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(userId);
+        leaveStatService.delete(leaveStat);
+
+        if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+            for (UserManagement userManagement : userManagementService.findAllUserManagementByTeamLeadId(userId)) {
+                userManagementService.delete(userManagement);
+            }
+        } else if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
+                (user.getDesignation().equals(Designation.TESTER))) {
+
+            userManagementService.delete(userManagementService.findUserManagementByUserId(userId));
+        }
+
         userDao.delete(user);
     }
 }

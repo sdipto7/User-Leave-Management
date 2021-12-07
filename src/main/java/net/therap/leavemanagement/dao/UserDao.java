@@ -68,6 +68,6 @@ public class UserDao {
 
     @Transactional
     public void delete(User user) {
-        em.remove(user);
+        em.remove(em.contains(user) ? user : em.merge(user));
     }
 }

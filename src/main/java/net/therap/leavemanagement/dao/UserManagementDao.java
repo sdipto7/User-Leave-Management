@@ -20,6 +20,21 @@ public class UserManagementDao {
     @PersistenceContext(unitName = Constant.UNIT_NAME)
     private EntityManager em;
 
+    public List<UserManagement> findAllUserManagementByTeamLeadId(long teamLeadId) {
+        return em.createNamedQuery("UserManagement.findAllUserManagementByTeamLeadId", UserManagement.class)
+                .setParameter("teamLeadId", teamLeadId)
+                .getResultList();
+    }
+
+    public UserManagement findUserManagementByUserId(long userId) {
+        return em.createNamedQuery("UserManagement.findUserManagementByUserId", UserManagement.class)
+                .setParameter("userId", userId)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public User findTeamLeadByUserId(long id) {
         return em.createNamedQuery("UserManagement.findTeamLead", User.class)
                 .setParameter("id", id)
@@ -49,5 +64,10 @@ public class UserManagementDao {
             userManagement = em.merge(userManagement);
         }
         return userManagement;
+    }
+
+    @Transactional
+    public void delete(UserManagement userManagement) {
+        em.remove(em.contains(userManagement) ? userManagement : em.merge(userManagement));
     }
 }

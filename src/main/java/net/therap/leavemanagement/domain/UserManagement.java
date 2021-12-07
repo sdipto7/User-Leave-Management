@@ -13,6 +13,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "lm_user_management")
 @NamedQueries({
+        @NamedQuery(name = "UserManagement.findUserManagementByUserId",
+                query = "SELECT um FROM UserManagement um WHERE um.user.id = :userId"),
+
+        @NamedQuery(name = "UserManagement.findAllUserManagementByTeamLeadId",
+                query = "SELECT um FROM UserManagement um WHERE um.teamLead.id = :teamLeadId"),
+
         @NamedQuery(name = "UserManagement.findTeamLead",
                 query = "SELECT um.teamLead FROM UserManagement um WHERE um.user.id = :id"),
 
