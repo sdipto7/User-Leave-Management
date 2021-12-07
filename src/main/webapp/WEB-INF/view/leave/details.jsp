@@ -53,9 +53,11 @@
     </form:form>
 </c:if>
 
-<c:if test="${(((SESSION_USER.designation.naturalName == 'Developer') || (SESSION_USER.designation.naturalName == 'Tester'))
-                && (leave.leaveStatus.naturalName == 'Pending by Team Lead')) || (SESSION_USER.designation.naturalName == 'Team Lead'
-                && leave.leaveStatus.naturalName == 'Pending by HR Executive')}">
+<c:if test="${(((SESSION_USER.designation.naturalName == 'Developer') or (SESSION_USER.designation.naturalName == 'Tester'))
+                and (leave.leaveStatus.naturalName == 'Pending by Team Lead')) or
+                ((SESSION_USER.designation.naturalName == 'Team Lead') and (leave.leaveStatus.naturalName == 'Pending by HR Executive')
+                and (leave.user.designation.naturalName == 'Team Lead'))}">
+
     <form:form action="/leave/submit" method="post">
         <input type="hidden" name="leave" value="${leave}">
         <input type="submit" value="Delete" class="button" name="action_delete">
