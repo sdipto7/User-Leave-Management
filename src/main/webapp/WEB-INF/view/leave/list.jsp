@@ -6,6 +6,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="url" value="${pageContext.request.getAttribute('javax.servlet.forward.request_uri')}"/>
 <html>
 <head>
     <title><fmt:message key="label.leave.list.title"/></title>
@@ -32,7 +33,7 @@
             <th><fmt:message key="label.actions"/></th>
         </tr>
 
-        <c:forEach var="leave" items="${leaveList}">
+        <c:forEach var="leave" items="${leavePagedListHolder.pageList}">
 
             <c:url var="showDetailsLink" value="/leave/details">
                 <c:param name="id" value="${leave.id}"/>
@@ -50,7 +51,21 @@
             </tr>
         </c:forEach>
     </table>
-</div>
+
+    <c:forEach begin="1" end="${leavePagedListHolder.pageCount}" step="1" varStatus="pageIndexStatus">
+
+        <c:if test="${(leavePagedListHolder.page + 1) == pageIndexStatus.index}">
+            <a class="page-link" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
+        </c:if>
+
+        <c:url value="${url}" var="pageLink">
+            <c:param name="page" value="${pageIndexStatus.index}"/>
+        </c:url>
+
+        <c:if test="${(leavePagedListHolder.page + 1) != pageIndexStatus.index}">
+            <a href="${pageLink}"><c:out value="${pageIndexStatus.index}"/></a>
+        </c:if>
+    </c:forEach>
 </div>
 </body>
 </html>

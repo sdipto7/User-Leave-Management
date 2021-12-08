@@ -39,9 +39,9 @@
                 <c:param name="userId" value="${SESSION_USER.id}"/>
             </c:url>
 
-            <c:url var="showAllLeaveListLink" value="/leave/allLeaveList"/>
+            <c:url var="showAllLeaveListLink" value="/leave/allUserLeaveList"/>
 
-            <c:url var="showAllPendingLeaveListLink" value="/leave/allPendingLeaveList"/>
+            <c:url var="showAllPendingLeaveListLink" value="leave/allUserPendingLeaveList"/>
 
             <c:url var="addLeaveLink" value="/leave/form">
                 <c:param name="userId" value="${SESSION_USER.id}"/>

@@ -7,9 +7,12 @@ import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author rumi.dipto
@@ -55,6 +58,20 @@ public class LeaveHelper {
         }
 
         return leave;
+    }
+
+    public void showListByPage(List<Leave> leaveList, String page, HttpSession session) {
+        PagedListHolder<Leave> leavePagedListHolder = new PagedListHolder<>();
+
+        if (Objects.isNull(page)) {
+            leavePagedListHolder.setSource(leaveList);
+            leavePagedListHolder.setPageSize(2);
+            session.setAttribute("leavePagedListHolder", leavePagedListHolder);
+        } else {
+            leavePagedListHolder = (PagedListHolder<Leave>) session.getAttribute("leavePagedListHolder");
+            int pageNumber = Integer.parseInt(page);
+            leavePagedListHolder.setPage(pageNumber - 1);
+        }
     }
 
     public void updateLeaveStatusToApprove(Leave leave, HttpSession session) {

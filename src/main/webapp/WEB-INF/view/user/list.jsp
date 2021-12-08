@@ -49,7 +49,7 @@
     <c:forEach begin="1" end="${userPagedListHolder.pageCount}" step="1" varStatus="pageIndexStatus">
 
         <c:if test="${(userPagedListHolder.page + 1) == pageIndexStatus.index}">
-            <a class="page-link" href="#" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
+            <a class="page-link" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
         </c:if>
 
         <c:url value="${url}" var="pageLink">

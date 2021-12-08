@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 
 import static net.therap.leavemanagement.controller.LeaveController.LEAVE_COMMAND;
 
@@ -53,46 +54,54 @@ public class LeaveController {
     @Autowired
     private LeaveHelper leaveHelper;
 
-    @RequestMapping(value = "/allLeaveList", method = RequestMethod.GET)
-    public String showAllLeaveList(HttpSession session, ModelMap model) {
+    @RequestMapping(value = "/allUserLeaveList", method = RequestMethod.GET)
+    public String showAllUserLeaveList(@RequestParam(required = false, value = "page") String page,
+                                       HttpSession session) {
+
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
-        model.addAttribute("leaveList", leaveService.findAllLeave());
+        List<Leave> allUserLeaveList = leaveService.findAllLeave();
+        leaveHelper.showListByPage(allUserLeaveList, page, session);
 
         return LEAVE_LIST_PAGE;
     }
 
-    @RequestMapping(value = "/allPendingLeaveList", method = RequestMethod.GET)
-    public String showAllPendingLeaveList(HttpSession session, ModelMap model) {
+    @RequestMapping(value = "/allUserPendingLeaveList", method = RequestMethod.GET)
+    public String showAllUserPendingLeaveList(@RequestParam(required = false, value = "page") String page,
+                                              HttpSession session) {
+
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
-        model.addAttribute("leaveList", leaveService.findAllPendingLeave());
+        List<Leave> allUserPendingLeaveList = leaveService.findAllPendingLeave();
+        leaveHelper.showListByPage(allUserPendingLeaveList, page, session);
 
         return LEAVE_LIST_PAGE;
     }
 
     @RequestMapping(value = "/userLeaveList", method = RequestMethod.GET)
     public String showUserLeaveList(@RequestParam long userId,
-                                    HttpSession session,
-                                    ModelMap model) {
+                                    @RequestParam(required = false, value = "page") String page,
+                                    HttpSession session) {
 
         User user = userService.find(userId);
         authorizationHelper.checkAccess(user, session);
 
-        model.addAttribute("leaveList", leaveService.findUserLeaveList(userId));
+        List<Leave> userLeaveList = leaveService.findUserLeaveList(userId);
+        leaveHelper.showListByPage(userLeaveList, page, session);
 
         return LEAVE_LIST_PAGE;
     }
 
     @RequestMapping(value = "/userPendingLeaveList", method = RequestMethod.GET)
     public String showUserPendingLeaveList(@RequestParam long userId,
-                                           HttpSession session,
-                                           ModelMap model) {
+                                           @RequestParam(required = false, value = "page") String page,
+                                           HttpSession session) {
 
         User user = userService.find(userId);
         authorizationHelper.checkAccess(user, session);
 
-        model.addAttribute("leaveList", leaveService.findUserPendingLeaveList(userId));
+        List<Leave> userPendingLeaveList = leaveService.findUserPendingLeaveList(userId);
+        leaveHelper.showListByPage(userPendingLeaveList, page, session);
 
         return LEAVE_LIST_PAGE;
     }
