@@ -28,11 +28,9 @@ public class LeaveStat extends Persistent {
     private User user;
 
     @Column(name = "sick_leave_count")
-    @Max(value = 10)
     private int sickLeaveCount;
 
     @Column(name = "casual_leave_count")
-    @Max(value = 10)
     private int casualLeaveCount;
 
     public User getUser() {

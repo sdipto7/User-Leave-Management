@@ -10,10 +10,13 @@ import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
+import net.therap.leavemanagement.validator.LeaveValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -53,6 +56,18 @@ public class LeaveController {
 
     @Autowired
     private LeaveHelper leaveHelper;
+
+    @Autowired
+    private LeaveValidator leaveValidator;
+
+    @InitBinder(LEAVE_COMMAND)
+    public void initBinderToSaveUser(WebDataBinder binder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        binder.registerCustomEditor(String.class, stringTrimmerEditor);
+
+        binder.setAllowedFields("user", "leaveType", "leaveStatus", "note", "startDate", "endDate");
+        binder.addValidators(leaveValidator);
+    }
 
     @RequestMapping(value = "/allUserLeaveList", method = RequestMethod.GET)
     public String showAllUserLeaveList(@RequestParam(required = false, value = "page") String page,

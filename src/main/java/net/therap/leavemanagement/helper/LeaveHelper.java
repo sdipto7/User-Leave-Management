@@ -65,7 +65,7 @@ public class LeaveHelper {
 
         if (Objects.isNull(page)) {
             leavePagedListHolder.setSource(leaveList);
-            leavePagedListHolder.setPageSize(2);
+            leavePagedListHolder.setPageSize(5);
             session.setAttribute("leavePagedListHolder", leavePagedListHolder);
         } else {
             leavePagedListHolder = (PagedListHolder<Leave>) session.getAttribute("leavePagedListHolder");
