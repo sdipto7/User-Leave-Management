@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 
 import static net.therap.leavemanagement.controller.UserController.*;
 
@@ -106,28 +107,34 @@ public class UserController {
     }
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
-    public String showTeamLeadList(HttpSession session, ModelMap model) {
+    public String showTeamLeadList(@RequestParam(value = "page", required = false) String page,
+                                   HttpSession session) {
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
-        model.addAttribute("userList", userService.findAllTeamLead());
+        List<User> teamLeadList = userService.findAllTeamLead();
+        userHelper.showListByPage(teamLeadList, page, session);
 
         return USER_LIST_PAGE;
     }
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
-    public String showDeveloperList(HttpSession session, ModelMap model) {
+    public String showDeveloperList(@RequestParam(value = "page", required = false) String page,
+                                    HttpSession session) {
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
-        model.addAttribute("userList", userService.findAllDeveloper(session));
+        List<User> developerList = userService.findAllDeveloper(session);
+        userHelper.showListByPage(developerList, page, session);
 
         return USER_LIST_PAGE;
     }
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
-    public String showTesterList(HttpSession session, ModelMap model) {
+    public String showTesterList(@RequestParam(value = "page", required = false) String page,
+                                 HttpSession session) {
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
-        model.addAttribute("userList", userService.findAllTester(session));
+        List<User> testerList = userService.findAllTester(session);
+        userHelper.showListByPage(testerList, page, session);
 
         return USER_LIST_PAGE;
     }

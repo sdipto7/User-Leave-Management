@@ -5,8 +5,13 @@ import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author rumi.dipto
@@ -27,6 +32,20 @@ public class UserHelper {
                     userManagementService.findAllDeveloperUnderTeamLead(user.getId()));
             model.addAttribute("testerList",
                     userManagementService.findAllTesterUnderTeamLead(user.getId()));
+        }
+    }
+
+    public void showListByPage(List<User> userList, String page, HttpSession session) {
+        PagedListHolder<User> userPagedListHolder = new PagedListHolder<>();
+
+        if (Objects.isNull(page)) {
+            userPagedListHolder.setSource(userList);
+            userPagedListHolder.setPageSize(5);
+            session.setAttribute("userPagedListHolder", userPagedListHolder);
+        } else {
+            userPagedListHolder = (PagedListHolder<User>) session.getAttribute("userPagedListHolder");
+            int pageNumber = Integer.parseInt(page);
+            userPagedListHolder.setPage(pageNumber - 1);
         }
     }
 
