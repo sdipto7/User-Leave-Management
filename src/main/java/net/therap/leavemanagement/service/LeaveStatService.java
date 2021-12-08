@@ -36,7 +36,7 @@ public class LeaveStatService {
         LeaveStat leaveStat = findLeaveStatByUserId(leave.getUser().getId());
         int dayCount = DayCounter.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
 
-        if (leave.getLeaveType().equals(LeaveType.Casual)) {
+        if (leave.getLeaveType().equals(LeaveType.CASUAL)) {
             leaveStat.setCasualLeaveCount(leaveStat.getCasualLeaveCount() + dayCount);
         } else {
             leaveStat.setSickLeaveCount(leaveStat.getSickLeaveCount() + dayCount);

@@ -41,7 +41,7 @@ public class LeaveValidator implements Validator {
                 errors.rejectValue("endDate", "validation.leave.behindDate");
             }
 
-            if (leave.getLeaveType().equals(LeaveType.Casual)) {
+            if (leave.getLeaveType().equals(LeaveType.CASUAL)) {
                 leaveTakenCount = leaveStat.getCasualLeaveCount();
             } else {
                 leaveTakenCount = leaveStat.getSickLeaveCount();
