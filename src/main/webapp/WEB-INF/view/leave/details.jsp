@@ -22,11 +22,11 @@
 
 <br>
 
-<fmt:message key="label.leave.details.body.leaveType"/> <c:out value="${leave.leaveType}"/>
+<fmt:message key="label.leave.details.body.leaveType"/> <c:out value="${leave.leaveType.naturalName}"/>
 
 <br>
 
-<fmt:message key="label.leave.details.body.leaveStatus"/> <c:out value="${leave.leaveStatus}"/>
+<fmt:message key="label.leave.details.body.leaveStatus"/> <c:out value="${leave.leaveStatus.naturalName}"/>
 
 <br>
 

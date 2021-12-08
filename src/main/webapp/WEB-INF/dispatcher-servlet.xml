@@ -43,6 +43,8 @@
         </property>
     </bean>
 
+    <mvc:annotation-driven/>
+
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
