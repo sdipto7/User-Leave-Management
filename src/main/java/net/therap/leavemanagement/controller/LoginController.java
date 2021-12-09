@@ -41,6 +41,7 @@ public class LoginController {
     public void initBinder(WebDataBinder binder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
+        binder.setAllowedFields("username", "password");
     }
 
     @RequestMapping(method = RequestMethod.GET)
