@@ -14,7 +14,9 @@ import java.util.Objects;
 public class InvalidSessionFilter implements Filter {
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession session = ((HttpServletRequest) request).getSession();
 

@@ -50,13 +50,32 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>exceptionFilter</filter-name>
-        <filter-class>net.therap.leavemanagement.filter.ExceptionFilter</filter-class>
+        <filter-name>userActivationFilter</filter-name>
+        <filter-class>net.therap.leavemanagement.filter.UserActivationFilter</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>exceptionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <filter-name>userActivationFilter</filter-name>
+        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/user/teamLeadList</url-pattern>
+        <url-pattern>/user/developerList</url-pattern>
+        <url-pattern>/user/testerList</url-pattern>
+        <url-pattern>/user/details</url-pattern>
+        <url-pattern>/user/form</url-pattern>
+        <url-pattern>/user/submit</url-pattern>
+        <url-pattern>/leave/*</url-pattern>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/success</url-pattern>
     </filter-mapping>
+
+        <filter>
+            <filter-name>exceptionFilter</filter-name>
+            <filter-class>net.therap.leavemanagement.filter.ExceptionFilter</filter-class>
+        </filter>
+
+        <filter-mapping>
+            <filter-name>exceptionFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
 
 </web-app>

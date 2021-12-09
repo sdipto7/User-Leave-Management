@@ -83,8 +83,7 @@ public class UserController {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
 
-        binder.setAllowedFields("user.firstName", "user.lastName", "user.username",
-                "user.password", "user.designation", "user.salary");
+        binder.setAllowedFields("user", "currentPassword", "newPassword", "confirmedNewPassword");
         binder.addValidators(userProfileCommandValidator);
     }
 
@@ -204,21 +203,27 @@ public class UserController {
         return Constant.SUCCESS_URL;
     }
 
-    @RequestMapping(value = "/submit", params = "action_update_password", method = RequestMethod.POST)
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     public String updatePassword(@Valid @ModelAttribute(USER_COMMAND_PROFILE) UserProfileCommand userProfileCommand,
                                  Errors errors,
                                  HttpSession session,
                                  SessionStatus sessionStatus,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes,
+                                 ModelMap model) {
 
-        authorizationHelper.checkAccess(userProfileCommand.getUser(), session);
+        User user = userProfileCommand.getUser();
+        authorizationHelper.checkAccess(user, session);
 
         if (errors.hasErrors()) {
+            model.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(user.getId()));
+            model.addAttribute("leaveStat", leaveStatService.findLeaveStatByUserId(user.getId()));
+
             return USER_PROFILE_PAGE;
         }
 
-
         userService.updatePassword(userProfileCommand);
+        session.setAttribute("SESSION_USER", userProfileCommand.getUser());
+
         sessionStatus.setComplete();
 
         redirectAttributes.addFlashAttribute("doneMessage",

@@ -73,12 +73,13 @@ public class UserService {
         long id = user.getId();
 
         user.setPassword(HashGenerator.getMd5(user.getPassword()));
-        user.setActivated(false);
+        if (id == 0) {
+            user.setActivated(false);
+        }
         userDao.saveOrUpdate(user);
 
         if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
                 (user.getDesignation().equals(Designation.TESTER))) {
-
             User teamLead = userSaveCommand.getTeamLead();
             userManagementService.saveOrUpdate(user, teamLead);
         }
@@ -93,7 +94,8 @@ public class UserService {
     public void updatePassword(UserProfileCommand userProfileCommand) {
         User user = userProfileCommand.getUser();
         user.setPassword(HashGenerator.getMd5(userProfileCommand.getNewPassword()));
-        userDao.updatePassword(user);
+        user.setActivated(true);
+        userDao.saveOrUpdate(user);
     }
 
     @Transactional
