@@ -1,6 +1,8 @@
 package net.therap.leavemanagement.controller;
 
+import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.util.Constant;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,8 +17,13 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LogoutController {
 
+    private static final Logger logger = Logger.getLogger(LoginController.class);
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+        logger.info(sessionUser.getFirstName() + sessionUser.getLastName() + " logged out successfully");
+
         session.invalidate();
         redirectAttributes.addFlashAttribute("logoutMessage", "Successfully logged out");
 

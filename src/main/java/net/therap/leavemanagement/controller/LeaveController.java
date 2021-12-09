@@ -11,6 +11,7 @@ import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.LeaveValidator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -37,11 +38,6 @@ import static net.therap.leavemanagement.controller.LeaveController.LEAVE_COMMAN
 @SessionAttributes(LEAVE_COMMAND)
 public class LeaveController {
 
-    public static final String LEAVE_COMMAND = "leave";
-    public static final String LEAVE_LIST_PAGE = "/leave/list";
-    public static final String LEAVE_DETAILS_PAGE = "/leave/details";
-    public static final String LEAVE_SAVE_PAGE = "/leave/save";
-
     @Autowired
     private AuthorizationHelper authorizationHelper;
 
@@ -59,6 +55,13 @@ public class LeaveController {
 
     @Autowired
     private LeaveValidator leaveValidator;
+
+    private static final Logger logger = Logger.getLogger(LeaveController.class);
+
+    public static final String LEAVE_COMMAND = "leave";
+    public static final String LEAVE_LIST_PAGE = "/leave/list";
+    public static final String LEAVE_DETAILS_PAGE = "/leave/details";
+    public static final String LEAVE_SAVE_PAGE = "/leave/save";
 
     @InitBinder(LEAVE_COMMAND)
     public void initBinderToSaveUser(WebDataBinder binder) {
@@ -167,6 +170,7 @@ public class LeaveController {
         }
 
         leaveService.saveOrUpdate(leave);
+        logger.info(user.getFirstName() + user.getLastName() + " added a new leave request");
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -185,6 +189,7 @@ public class LeaveController {
         authorizationHelper.checkAccess(user, session);
 
         leaveService.delete(leave);
+        logger.info(user.getFirstName() + user.getLastName() + " deleted own leave request");
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -201,12 +206,15 @@ public class LeaveController {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
-        User teamLead = userManagementService.findTeamLeadByUserId(leave.getUser().getId());
+        User user = leave.getUser();
+        User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
         authorizationHelper.checkTeamLead(teamLead, session);
 
         leaveHelper.updateLeaveStatusToApprove(leave, session);
 
         leaveService.saveOrUpdate(leave);
+        logger.info(teamLead.getFirstName() + teamLead.getLastName() + " gave approval to the leave request of " +
+                user.getFirstName() + user.getLastName());
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",
@@ -223,12 +231,15 @@ public class LeaveController {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
-        User teamLead = userManagementService.findTeamLeadByUserId(leave.getUser().getId());
+        User user = leave.getUser();
+        User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
         authorizationHelper.checkTeamLead(teamLead, session);
 
         leaveHelper.updateLeaveStatusToDeny(leave, session);
 
         leaveService.saveOrUpdate(leave);
+        logger.info(teamLead.getFirstName() + teamLead.getLastName() + " denied the leave request of " +
+                user.getFirstName() + user.getLastName());
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",

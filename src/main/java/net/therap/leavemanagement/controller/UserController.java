@@ -13,6 +13,7 @@ import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.UserProfileCommandValidator;
 import net.therap.leavemanagement.validator.UserSaveCommandValidator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -39,14 +40,6 @@ import static net.therap.leavemanagement.controller.UserController.*;
 @SessionAttributes({USER_COMMAND, USER_COMMAND_SAVE, USER_COMMAND_PROFILE})
 public class UserController {
 
-    public static final String USER_COMMAND = "user";
-    public static final String USER_COMMAND_SAVE = "userSaveCommand";
-    public static final String USER_COMMAND_PROFILE = "userProfileCommand";
-    public static final String USER_PROFILE_PAGE = "/user/profile";
-    public static final String USER_LIST_PAGE = "/user/list";
-    public static final String USER_DETAILS_PAGE = "/user/details";
-    public static final String USER_SAVE_PAGE = "/user/save";
-
     @Autowired
     private UserService userService;
 
@@ -67,6 +60,16 @@ public class UserController {
 
     @Autowired
     private UserProfileCommandValidator userProfileCommandValidator;
+
+    private static final Logger logger = Logger.getLogger(UserController.class);
+
+    public static final String USER_COMMAND = "user";
+    public static final String USER_COMMAND_SAVE = "userSaveCommand";
+    public static final String USER_COMMAND_PROFILE = "userProfileCommand";
+    public static final String USER_PROFILE_PAGE = "/user/profile";
+    public static final String USER_LIST_PAGE = "/user/list";
+    public static final String USER_DETAILS_PAGE = "/user/details";
+    public static final String USER_SAVE_PAGE = "/user/save";
 
     @InitBinder(USER_COMMAND_SAVE)
     public void initBinderToSaveUser(WebDataBinder binder) {
@@ -195,6 +198,7 @@ public class UserController {
         }
 
         userService.saveOrUpdate(userSaveCommand);
+        logger.info(userSaveCommand.getUser().getFirstName() + " saved successfully");
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -223,6 +227,7 @@ public class UserController {
 
         userService.updatePassword(userProfileCommand);
         session.setAttribute("SESSION_USER", userProfileCommand.getUser());
+        logger.info(user.getFirstName() + user.getLastName() + " updated own password successfully");
 
         sessionStatus.setComplete();
 
@@ -241,6 +246,7 @@ public class UserController {
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
 
         userService.delete(user);
+        logger.info(user.getFirstName() + user.getLastName() + " is deleted successfully");
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
