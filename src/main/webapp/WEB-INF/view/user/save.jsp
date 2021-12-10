@@ -44,11 +44,15 @@
         <br><br>
     </c:if>
 
-    <label for="user.designation"><fmt:message key="label.user.save.body.designation"/></label>
-    <form:radiobuttons path="user.designation" items="${designationList}" itemLabel="naturalName"/>
-    <form:errors path="user.designation" cssClass="errorBlock" element="div"/>
+    <c:if test="${(userSaveCommand.user.id == 0 ||
+     ((userSaveCommand.user.id != 0) && ((userSaveCommand.user.designation.naturalName == 'Developer')
+        || (userSaveCommand.user.designation.naturalName == 'Tester'))))}">
+        <label for="user.designation"><fmt:message key="label.user.save.body.designation"/></label>
+        <form:radiobuttons path="user.designation" items="${designationList}" itemLabel="naturalName"/>
+        <form:errors path="user.designation" cssClass="errorBlock" element="div"/>
 
-    <br><br>
+        <br><br>
+    </c:if>
 
     <label for="user.salary"><fmt:message key="label.user.save.body.salary"/></label>
     <form:input path="user.salary"/>

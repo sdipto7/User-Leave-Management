@@ -3,10 +3,7 @@ package net.therap.leavemanagement.service;
 import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.dao.UserDao;
-import net.therap.leavemanagement.domain.Designation;
-import net.therap.leavemanagement.domain.LeaveStat;
-import net.therap.leavemanagement.domain.User;
-import net.therap.leavemanagement.domain.UserManagement;
+import net.therap.leavemanagement.domain.*;
 import net.therap.leavemanagement.util.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +27,9 @@ public class UserService {
 
     @Autowired
     private LeaveStatService leaveStatService;
+
+    @Autowired
+    private LeaveService leaveService;
 
     public User find(long id) {
         return userDao.find(id);
@@ -72,23 +72,42 @@ public class UserService {
         User user = userSaveCommand.getUser();
         long id = user.getId();
 
-        user.setPassword(HashGenerator.getMd5(user.getPassword()));
-        if (id == 0) {
-            user.setActivated(false);
+        if (userSaveCommand.isRoleChanged()) {
+            updateWithRoleChange(user);
+        } else {
+            if (id == 0) {
+                user.setPassword(HashGenerator.getMd5(user.getPassword()));
+                user.setActivated(false);
+            }
+            userDao.saveOrUpdate(user);
+
+            if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
+                    (user.getDesignation().equals(Designation.TESTER))) {
+                User teamLead = userSaveCommand.getTeamLead();
+                userManagementService.saveOrUpdate(user, teamLead);
+            }
+
+            if (id == 0) {
+                LeaveStat leaveStat = new LeaveStat();
+                leaveStat.setUser(user);
+                leaveStatService.save(leaveStat);
+            }
+        }
+    }
+
+    @Transactional
+    public void updateWithRoleChange(User user) {
+        UserManagement userManagement = userManagementService.findUserManagementByUserId(user.getId());
+        userManagementService.delete(userManagement);
+
+        List<Leave> pendingLeaveList = leaveService.findUserPendingLeaveList(user.getId());
+        for (Leave pendingLeave : pendingLeaveList) {
+            if (pendingLeave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD)) {
+                pendingLeave.setLeaveStatus(LeaveStatus.PENDING_BY_HR_EXECUTIVE);
+                leaveService.saveOrUpdate(pendingLeave);
+            }
         }
         userDao.saveOrUpdate(user);
-
-        if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
-                (user.getDesignation().equals(Designation.TESTER))) {
-            User teamLead = userSaveCommand.getTeamLead();
-            userManagementService.saveOrUpdate(user, teamLead);
-        }
-
-        if (id == 0) {
-            LeaveStat leaveStat = new LeaveStat();
-            leaveStat.setUser(user);
-            leaveStatService.save(leaveStat);
-        }
     }
 
     public void updatePassword(UserProfileCommand userProfileCommand) {
