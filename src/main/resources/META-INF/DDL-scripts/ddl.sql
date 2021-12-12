@@ -52,3 +52,12 @@ CREATE TABLE user_leave_management.lm_leave_request (
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user_leave_management.lm_user(id)
 );
+
+CREATE TABLE user_leave_management.lm_notification (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    message varchar (100) NOT NULL,
+    seen TINYINT(1) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user_leave_management.lm_user(id)
+);

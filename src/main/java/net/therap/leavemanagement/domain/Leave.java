@@ -50,7 +50,7 @@ public class Leave extends Persistent {
     @NotNull
     private LeaveStatus leaveStatus;
 
-    @Size(min = 5, max = 100)
+    @Size(min = 2, max = 100)
     @NotNull
     private String note;
 
