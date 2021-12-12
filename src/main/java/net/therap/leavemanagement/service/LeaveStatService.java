@@ -4,6 +4,7 @@ import net.therap.leavemanagement.dao.LeaveStatDao;
 import net.therap.leavemanagement.domain.Leave;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.LeaveType;
+import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.util.DayCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,12 @@ public class LeaveStatService {
 
     @Transactional
     public void delete(LeaveStat leaveStat) {
+        leaveStatDao.delete(leaveStat);
+    }
+
+    @Transactional
+    public void deleteByUser(User user) {
+        LeaveStat leaveStat = leaveStatDao.findLeaveStatByUserId(user.getId());
         leaveStatDao.delete(leaveStat);
     }
 }

@@ -3,7 +3,10 @@ package net.therap.leavemanagement.service;
 import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.dao.UserDao;
-import net.therap.leavemanagement.domain.*;
+import net.therap.leavemanagement.domain.Designation;
+import net.therap.leavemanagement.domain.LeaveStat;
+import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.domain.UserManagement;
 import net.therap.leavemanagement.util.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author rumi.dipto
@@ -98,16 +100,13 @@ public class UserService {
 
     @Transactional
     public void updateWithRoleChange(User user) {
-        UserManagement userManagement = userManagementService.findUserManagementByUserId(user.getId());
+        long userId = user.getId();
+
+        UserManagement userManagement = userManagementService.findUserManagementByUserId(userId);
         userManagementService.delete(userManagement);
 
-        List<Leave> pendingLeaveList = leaveService.findUserPendingLeaveList(user.getId());
-        for (Leave pendingLeave : pendingLeaveList) {
-            if (pendingLeave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD)) {
-                pendingLeave.setLeaveStatus(LeaveStatus.PENDING_BY_HR_EXECUTIVE);
-                leaveService.saveOrUpdate(pendingLeave);
-            }
-        }
+        leaveService.updateLeaveStatusWithUserRoleChange(userId);
+
         userDao.saveOrUpdate(user);
     }
 
@@ -120,33 +119,11 @@ public class UserService {
 
     @Transactional
     public void delete(User user) {
-        long userId = user.getId();
+        leaveStatService.deleteByUser(user);
 
-        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(userId);
-        leaveStatService.delete(leaveStat);
+        leaveService.deleteByUser(user);
 
-        List<Leave> leaveList = leaveService.findUserLeaveList(userId);
-        if (leaveList.size() > 0) {
-            leaveList.forEach(leave -> {
-                leaveService.delete(leave);
-            });
-        }
-
-        if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
-            List<UserManagement> userManagementList = userManagementService.findAllUserManagementByTeamLeadId(userId);
-            if (userManagementList.size() > 0) {
-                userManagementList.forEach(userManagement -> {
-                    userManagementService.delete(userManagement);
-                });
-            }
-        } else if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
-                (user.getDesignation().equals(Designation.TESTER))) {
-
-            UserManagement userManagement = userManagementService.findUserManagementByUserId(userId);
-            if (Objects.nonNull(userManagement)) {
-                userManagementService.delete(userManagement);
-            }
-        }
+        userManagementService.deleteByUser(user);
 
         userDao.delete(user);
     }
