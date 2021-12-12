@@ -16,12 +16,15 @@ import java.util.Date;
 @Table(name = "lm_leave_request")
 @NamedQueries({
         @NamedQuery(name = "Leave.findAllLeave",
-                query = "SELECT l FROM Leave l"),
+                query = "SELECT l FROM Leave l WHERE l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE'"),
+
         @NamedQuery(name = "Leave.findAllPendingLeave",
                 query = "SELECT l FROM Leave l " +
                         "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE'"),
+
         @NamedQuery(name = "Leave.findUserLeaveList",
-                query = "SELECT l FROM Leave l WHERE l.user.id = :id"),
+                query = "SELECT l FROM Leave l WHERE l.user.id = :id AND l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE'"),
+
         @NamedQuery(name = "Leave.findUserPendingLeaveList",
                 query = "SELECT l FROM Leave l " +
                         "WHERE l.user.id = :id " +
