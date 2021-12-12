@@ -16,13 +16,6 @@
 
 <div class="row">
 
-    <%--    <c:if test="${(isSessionUserHr) && (leaveListType.naturalName != 'Pending')}">--%>
-    <%--        <fmt:message key="label.leaveList.body.employeeCount.Current"/> <c:out value="${totalEmployeeOnLeaveCurrent}"/>--%>
-    <%--        <br>--%>
-    <%--        <fmt:message key="label.leaveList.body.employeeCount.Previous"/> <c:out value="${totalEmployeeOnLeavePrevious}"/>--%>
-    <%--        <br><br>--%>
-    <%--    </c:if>--%>
-
     <table id="table">
         <tr>
             <th><fmt:message key="label.leaveList.body.columnHeader.user.firstName"/></th>
