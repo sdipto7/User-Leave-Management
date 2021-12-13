@@ -64,10 +64,8 @@ public class LeaveController {
     public static final String LEAVE_SAVE_PAGE = "/leave/save";
 
     @InitBinder(LEAVE_COMMAND)
-    public void initBinderToSaveUser(WebDataBinder binder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        binder.registerCustomEditor(String.class, stringTrimmerEditor);
-
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setAllowedFields("user", "leaveType", "leaveStatus", "note", "startDate", "endDate");
         binder.addValidators(leaveValidator);
     }

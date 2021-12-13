@@ -73,9 +73,7 @@ public class UserController {
 
     @InitBinder(USER_COMMAND_SAVE)
     public void initBinderToSaveUser(WebDataBinder binder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        binder.registerCustomEditor(String.class, stringTrimmerEditor);
-
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setAllowedFields("user.firstName", "user.lastName", "user.username",
                 "user.password", "user.designation", "user.salary", "teamLead");
         binder.addValidators(userSaveCommandValidator);
@@ -83,9 +81,7 @@ public class UserController {
 
     @InitBinder(USER_COMMAND_PROFILE)
     public void initBinderToUpdateProfile(WebDataBinder binder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        binder.registerCustomEditor(String.class, stringTrimmerEditor);
-
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setAllowedFields("user", "currentPassword", "newPassword", "confirmedNewPassword");
         binder.addValidators(userProfileCommandValidator);
     }
