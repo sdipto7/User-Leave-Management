@@ -62,9 +62,7 @@ public class UserManagementService {
         if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
             List<UserManagement> userManagementList = userManagementDao.findAllUserManagementByTeamLeadId(userId);
             if (userManagementList.size() > 0) {
-                userManagementList.forEach(userManagement -> {
-                    userManagementDao.delete(userManagement);
-                });
+                userManagementList.forEach(userManagement -> userManagementDao.delete(userManagement));
             }
         } else if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
                 (user.getDesignation().equals(Designation.TESTER))) {

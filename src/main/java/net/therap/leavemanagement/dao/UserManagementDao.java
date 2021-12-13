@@ -68,6 +68,6 @@ public class UserManagementDao {
 
     @Transactional
     public void delete(UserManagement userManagement) {
-        em.remove(em.contains(userManagement) ? userManagement : em.merge(userManagement));
+        em.remove(em.find(UserManagement.class, userManagement.getId()));
     }
 }
