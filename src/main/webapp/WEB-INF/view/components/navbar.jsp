@@ -16,10 +16,16 @@
     <c:param name="id" value="${SESSION_USER.id}"/>
 </c:url>
 
+<c:url var="showNotificationLink" value="/notification">
+    <c:param name="userId" value="${SESSION_USER.id}"/>
+</c:url>
+
 <ul>
     <li><a href="${showProfileLink}"><fmt:message key="label.navbar.body.profile"/></a></li>
 
     <li><a href="/dashboard"><fmt:message key="label.navbar.body.dashboard"/></a></li>
+
+    <li><a href="${showNotificationLink}"><fmt:message key="label.navbar.body.notification"/></a></li>
 
     <li style="float:right"><a href="/logout"><fmt:message key="label.navbar.body.logoutButton"/></a></li>
 </ul>

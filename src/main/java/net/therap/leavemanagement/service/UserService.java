@@ -34,8 +34,15 @@ public class UserService {
     @Autowired
     private LeaveService leaveService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     public User find(long id) {
         return userDao.find(id);
+    }
+
+    public User findHrExecutive() {
+        return userDao.findHrExecutive();
     }
 
     public User findByUsername(String username) {
@@ -120,6 +127,8 @@ public class UserService {
     @Transactional
     public void delete(User user) {
         leaveStatService.deleteByUser(user);
+
+        notificationService.deleteByUser(user);
 
         leaveService.deleteByUser(user);
 

@@ -13,6 +13,10 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "lm_notification")
+@NamedQueries({
+        @NamedQuery(name = "Notification.findAllNotification",
+                query = "SELECT n FROM Notification n WHERE n.user.id = :userId AND n.seen = FALSE")
+})
 public class Notification extends Persistent {
 
     private static final long serialVersionUID = 1L;

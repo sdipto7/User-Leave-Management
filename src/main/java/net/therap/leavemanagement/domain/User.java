@@ -14,6 +14,9 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "lm_user")
 @NamedQueries({
+        @NamedQuery(name = "User.findHrExecutive",
+                query = "SELECT u FROM User u WHERE u.designation = 'HR_EXECUTIVE'"),
+
         @NamedQuery(name = "User.findByUsername",
                 query = "SELECT u FROM User u WHERE u.username = :username"),
 

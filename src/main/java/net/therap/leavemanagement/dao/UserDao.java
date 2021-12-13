@@ -23,6 +23,14 @@ public class UserDao {
         return em.find(User.class, id);
     }
 
+    public User findHrExecutive() {
+        return em.createNamedQuery("User.findHrExecutive", User.class)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public User findByUsername(String username) {
         return em.createNamedQuery("User.findByUsername", User.class)
                 .setParameter("username", username)

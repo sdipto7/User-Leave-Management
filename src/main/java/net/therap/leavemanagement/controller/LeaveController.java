@@ -168,6 +168,7 @@ public class LeaveController {
         }
 
         leaveService.saveOrUpdate(leave);
+        leaveHelper.setNewLeaveNotificationByUserDesignation(leave);
         logger.info(user.getFirstName() + user.getLastName() + " added a new leave request");
 
         sessionStatus.setComplete();
@@ -211,6 +212,7 @@ public class LeaveController {
         leaveHelper.updateLeaveStatusToApprove(leave, session);
 
         leaveService.saveOrUpdate(leave);
+        leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "approved");
         logger.info(teamLead.getFirstName() + teamLead.getLastName() + " gave approval to the leave request of " +
                 user.getFirstName() + user.getLastName());
 
@@ -236,6 +238,7 @@ public class LeaveController {
         leaveHelper.updateLeaveStatusToDeny(leave, session);
 
         leaveService.saveOrUpdate(leave);
+        leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "denied");
         logger.info(teamLead.getFirstName() + teamLead.getLastName() + " denied the leave request of " +
                 user.getFirstName() + user.getLastName());
 

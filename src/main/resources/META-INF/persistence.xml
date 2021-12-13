@@ -12,6 +12,7 @@
         <class>net.therap.leavemanagement.domain.UserManagement</class>
         <class>net.therap.leavemanagement.domain.LeaveStat</class>
         <class>net.therap.leavemanagement.domain.Leave</class>
+        <class>net.therap.leavemanagement.domain.Notification</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>

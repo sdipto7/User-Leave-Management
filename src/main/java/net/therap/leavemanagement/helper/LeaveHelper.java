@@ -1,9 +1,7 @@
 package net.therap.leavemanagement.helper;
 
-import net.therap.leavemanagement.domain.Designation;
-import net.therap.leavemanagement.domain.Leave;
-import net.therap.leavemanagement.domain.LeaveStatus;
-import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.domain.*;
+import net.therap.leavemanagement.service.NotificationService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,9 @@ public class LeaveHelper {
 
     @Autowired
     private UserManagementService userManagementService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private AuthorizationHelper authorizationHelper;
@@ -104,5 +105,49 @@ public class LeaveHelper {
             leave.setLeaveStatus(LeaveStatus.DENIED_BY_HR_EXECUTIVE);
 
         }
+    }
+
+    public void setNewLeaveNotificationByUserDesignation(Leave leave) {
+        User user = leave.getUser();
+
+        Notification notification = new Notification();
+        notification.setSeen(false);
+
+        if (user.getDesignation().equals(Designation.HR_EXECUTIVE)) {
+            notification.setUser(user);
+            notification.setMessage("Leave request is added and auto approved");
+        } else if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+            User hrExecutive = userService.findHrExecutive();
+            notification.setUser(hrExecutive);
+            notification.setMessage(user.getFirstName() + " requested for a " +
+                    leave.getLeaveType().getNaturalName() + "leave");
+        } else {
+            User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
+            notification.setUser(teamLead);
+            notification.setMessage(user.getFirstName() + " requested for a " +
+                    leave.getLeaveType().getNaturalName() + "leave");
+        }
+
+        notificationService.saveOrUpdate(notification);
+    }
+
+    public void setLeaveStatusNotificationByUserDesignation(Leave leave, String status) {
+        User user = leave.getUser();
+
+        Notification notification = new Notification();
+        notification.setSeen(false);
+        notification.setUser(user);
+
+        if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+            notification.setMessage("Your leave request is " + status + " by HR");
+        } else if (user.getDesignation().equals(Designation.DEVELOPER) || user.getDesignation().equals(Designation.TESTER)) {
+            if (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE)) {
+                notification.setMessage("Your leave request is " + status + " by your Team Lead");
+            } else if (leave.getLeaveStatus().equals(LeaveStatus.APPROVED_BY_HR_EXECUTIVE)) {
+                notification.setMessage("Your leave request is " + status + " by HR");
+            }
+        }
+
+        notificationService.saveOrUpdate(notification);
     }
 }

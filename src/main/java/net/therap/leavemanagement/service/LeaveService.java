@@ -72,9 +72,7 @@ public class LeaveService {
     public void deleteByUser(User user) {
         List<Leave> leaveList = leaveDao.findUserLeaveList(user.getId());
         if (leaveList.size() > 0) {
-            leaveList.forEach(leave -> {
-                leaveDao.delete(leave);
-            });
+            leaveList.forEach(leave -> leaveDao.delete(leave));
         }
     }
 }

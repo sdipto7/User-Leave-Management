@@ -58,6 +58,9 @@ CREATE TABLE user_leave_management.lm_notification (
     user_id INT NOT NULL,
     message varchar (100) NOT NULL,
     seen TINYINT(1) NOT NULL,
+    created DATETIME NOT NULL,
+    updated DATETIME NULL,
+    version INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user_leave_management.lm_user(id)
 );
