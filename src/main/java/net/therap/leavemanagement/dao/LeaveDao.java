@@ -56,6 +56,6 @@ public class LeaveDao {
 
     @Transactional
     public void delete(Leave leave) {
-        em.remove(em.find(Leave.class, leave.getId()));
+        em.remove(em.getReference(Leave.class, leave.getId()));
     }
 }

@@ -40,6 +40,6 @@ public class LeaveStatDao {
 
     @Transactional
     public void delete(LeaveStat leaveStat) {
-        em.remove(em.find(LeaveStat.class, leaveStat.getId()));
+        em.remove(em.getReference(LeaveStat.class, leaveStat.getId()));
     }
 }
