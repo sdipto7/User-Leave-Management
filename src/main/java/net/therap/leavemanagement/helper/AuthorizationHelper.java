@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceException;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author rumi.dipto
@@ -29,16 +28,6 @@ public class AuthorizationHelper {
 
         if (!user.equals(sessionUser)) {
             throw new WebServiceException();
-        }
-    }
-
-    public void checkTeamLead(User teamLead, HttpSession session) {
-        User sessionUser = (User) session.getAttribute("SESSION_USER");
-
-        if (Objects.nonNull(teamLead) && sessionUser.getDesignation().equals(Designation.TEAM_LEAD)) {
-            if (!teamLead.equals(sessionUser)) {
-                throw new WebServiceException();
-            }
         }
     }
 }

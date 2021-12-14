@@ -147,13 +147,11 @@ public class UserController {
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
 
-        User teamLead = userManagementService.findTeamLeadByUserId(id);
-        authorizationHelper.checkTeamLead(teamLead, session);
+        userHelper.checkAuthorizedTeamLeadIfExist(user, session, model);
 
-        userHelper.setupUserListDataUnderTeamLead(user, model);
+        userHelper.setupDataIfTeamLead(user, model);
 
         model.addAttribute(USER_COMMAND, user);
-        model.addAttribute("teamLead", teamLead);
         model.addAttribute("leaveStat", leaveStat);
 
         return USER_DETAILS_PAGE;

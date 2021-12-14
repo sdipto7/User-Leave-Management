@@ -27,8 +27,11 @@ public class UserHelper {
     @Autowired
     private UserManagementService userManagementService;
 
-    public void setupUserListDataUnderTeamLead(User user, ModelMap model) {
-        if (Designation.TEAM_LEAD.equals(user.getDesignation())) {
+    @Autowired
+    private AuthorizationHelper authorizationHelper;
+
+    public void setupDataIfTeamLead(User user, ModelMap model) {
+        if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
             model.addAttribute("developerList",
                     userManagementService.findAllDeveloperUnderTeamLead(user.getId()));
             model.addAttribute("testerList",
@@ -67,5 +70,16 @@ public class UserHelper {
                 userSaveCommand.setRoleChanged(true);
             }
         }
+    }
+
+    public void checkAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap model) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+        User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
+
+        if ((user.getDesignation().equals(Designation.DEVELOPER) || user.getDesignation().equals(Designation.TESTER))
+                && (sessionUser.getDesignation().equals(Designation.TEAM_LEAD))) {
+            authorizationHelper.checkAccess(teamLead, session);
+        }
+        model.addAttribute("teamLead", teamLead);
     }
 }

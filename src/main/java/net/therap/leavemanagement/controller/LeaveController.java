@@ -6,8 +6,8 @@ import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
+import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveService;
-import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.LeaveValidator;
@@ -48,10 +48,10 @@ public class LeaveController {
     private UserService userService;
 
     @Autowired
-    private UserManagementService userManagementService;
+    private LeaveHelper leaveHelper;
 
     @Autowired
-    private LeaveHelper leaveHelper;
+    private UserHelper userHelper;
 
     @Autowired
     private LeaveValidator leaveValidator;
@@ -168,7 +168,9 @@ public class LeaveController {
         }
 
         leaveService.saveOrUpdate(leave);
+
         leaveHelper.setNewLeaveNotificationByUserDesignation(leave);
+
         logger.info(user.getFirstName() + user.getLastName() + " added a new leave request");
 
         sessionStatus.setComplete();
@@ -188,6 +190,7 @@ public class LeaveController {
         authorizationHelper.checkAccess(user, session);
 
         leaveService.delete(leave);
+
         logger.info(user.getFirstName() + user.getLastName() + " deleted own leave request");
 
         sessionStatus.setComplete();
@@ -201,19 +204,22 @@ public class LeaveController {
     public String approveRequest(@ModelAttribute(LEAVE_COMMAND) Leave leave,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes,
-                                 SessionStatus sessionStatus) {
+                                 SessionStatus sessionStatus,
+                                 ModelMap model) {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
         User user = leave.getUser();
-        User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
-        authorizationHelper.checkTeamLead(teamLead, session);
+
+        userHelper.checkAuthorizedTeamLeadIfExist(user, session, model);
 
         leaveHelper.updateLeaveStatusToApprove(leave, session);
 
         leaveService.saveOrUpdate(leave);
+
         leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "approved");
-        logger.info(teamLead.getFirstName() + teamLead.getLastName() + " gave approval to the leave request of " +
+
+        logger.info("Team Lead gave approval to the leave request of " +
                 user.getFirstName() + user.getLastName());
 
         sessionStatus.setComplete();
@@ -227,19 +233,22 @@ public class LeaveController {
     public String denyRequest(@ModelAttribute(LEAVE_COMMAND) Leave leave,
                               HttpSession session,
                               RedirectAttributes redirectAttributes,
-                              SessionStatus sessionStatus) {
+                              SessionStatus sessionStatus,
+                              ModelMap model) {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
 
         User user = leave.getUser();
-        User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
-        authorizationHelper.checkTeamLead(teamLead, session);
+
+        userHelper.checkAuthorizedTeamLeadIfExist(user, session, model);
 
         leaveHelper.updateLeaveStatusToDeny(leave, session);
 
         leaveService.saveOrUpdate(leave);
+
         leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "denied");
-        logger.info(teamLead.getFirstName() + teamLead.getLastName() + " denied the leave request of " +
+
+        logger.info("Team Lead denied the leave request of " +
                 user.getFirstName() + user.getLastName());
 
         sessionStatus.setComplete();
