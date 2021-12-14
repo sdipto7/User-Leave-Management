@@ -128,7 +128,7 @@ public class LeaveController {
                               ModelMap model) {
 
         Leave leave = leaveService.find(id);
-        leaveHelper.checkAccessByUserDesignation(leave.getUser().getId(), session);
+        leaveHelper.checkAccessByUserDesignation(leave.getUser(), session, model);
 
         model.addAttribute(LEAVE_COMMAND, leave);
 
@@ -181,13 +181,18 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
-    public String delete(@ModelAttribute(LEAVE_COMMAND) Leave leave,
+    public String delete(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
+                         Errors errors,
                          HttpSession session,
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
         User user = leave.getUser();
         authorizationHelper.checkAccess(user, session);
+
+        if (errors.hasErrors()) {
+            return LEAVE_DETAILS_PAGE;
+        }
 
         leaveService.delete(leave);
 
@@ -201,13 +206,18 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/action", params = "action_approve", method = RequestMethod.POST)
-    public String approveRequest(@ModelAttribute(LEAVE_COMMAND) Leave leave,
+    public String approveRequest(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
+                                 Errors errors,
+                                 SessionStatus sessionStatus,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes,
-                                 SessionStatus sessionStatus,
                                  ModelMap model) {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+
+        if (errors.hasErrors()) {
+            return LEAVE_DETAILS_PAGE;
+        }
 
         User user = leave.getUser();
 
@@ -229,14 +239,19 @@ public class LeaveController {
         return Constant.SUCCESS_URL;
     }
 
-    @RequestMapping(value = "/action", params = "action_deny", method = RequestMethod.POST)
-    public String denyRequest(@ModelAttribute(LEAVE_COMMAND) Leave leave,
-                              HttpSession session,
-                              RedirectAttributes redirectAttributes,
-                              SessionStatus sessionStatus,
-                              ModelMap model) {
+    @RequestMapping(value = "/action", params = "action_reject", method = RequestMethod.POST)
+    public String rejectRequest(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
+                                Errors errors,
+                                SessionStatus sessionStatus,
+                                HttpSession session,
+                                RedirectAttributes redirectAttributes,
+                                ModelMap model) {
 
         authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+
+        if (errors.hasErrors()) {
+            return LEAVE_DETAILS_PAGE;
+        }
 
         User user = leave.getUser();
 

@@ -7,6 +7,7 @@ import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -31,9 +32,11 @@ public class LeaveHelper {
     @Autowired
     private AuthorizationHelper authorizationHelper;
 
-    public void checkAccessByUserDesignation(long userId, HttpSession session) {
+    @Autowired
+    private UserHelper userHelper;
+
+    public void checkAccessByUserDesignation(User user, HttpSession session, ModelMap model) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
-        User user = userService.find(userId);
 
         if (sessionUser.getDesignation().equals(user.getDesignation())) {
             authorizationHelper.checkAccess(user, session);
@@ -41,8 +44,7 @@ public class LeaveHelper {
                 (user.getDesignation().equals(Designation.DEVELOPER) ||
                         user.getDesignation().equals(Designation.TESTER))) {
 
-            User teamLead = userManagementService.findTeamLeadByUserId(userId);
-            authorizationHelper.checkTeamLead(teamLead, session);
+            userHelper.checkAuthorizedTeamLeadIfExist(user, session, model);
         }
     }
 

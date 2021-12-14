@@ -1,15 +1,18 @@
 package net.therap.leavemanagement.validator;
 
-import net.therap.leavemanagement.domain.Leave;
-import net.therap.leavemanagement.domain.LeaveStat;
-import net.therap.leavemanagement.domain.LeaveType;
+import net.therap.leavemanagement.domain.*;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.util.DayCounter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 /**
@@ -29,8 +32,26 @@ public class LeaveValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        HttpServletRequest request = attributes.getRequest();
+        HttpSession session = request.getSession(true);
+
         Leave leave = (Leave) target;
-        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(leave.getUser().getId());
+
+        validateLeaveLimit(leave, errors);
+
+        if (Objects.nonNull(request.getParameter("action_approve")) ||
+                Objects.nonNull(request.getParameter("action_reject"))) {
+            validateLeaveStatus(leave, session, errors);
+        } else if (Objects.nonNull(request.getParameter("action_delete"))) {
+            validateLeaveDelete(leave, session, errors);
+        }
+    }
+
+    public void validateLeaveLimit(Leave leave, Errors errors) {
+        User user = leave.getUser();
+        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(user.getId());
 
         if (Objects.nonNull(leave.getStartDate()) && Objects.nonNull(leave.getEndDate())) {
             int dayCount = DayCounter.getDayCount(leave.getStartDate(), leave.getEndDate());
@@ -50,6 +71,34 @@ public class LeaveValidator implements Validator {
             if ((leaveTakenCount + leaveRequestDayCount) > 15) {
                 errors.rejectValue("endDate", "validation.leave.dayLimitCrossed");
             }
+        }
+    }
+
+    public void validateLeaveStatus(Leave leave, HttpSession session, Errors errors) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        if (leave.getLeaveStatus().equals(LeaveStatus.APPROVED_BY_HR_EXECUTIVE)
+                || leave.getLeaveStatus().equals(LeaveStatus.DENIED_BY_HR_EXECUTIVE)) {
+            errors.reject("validation.leave.leaveStatus.reviewDone");
+        } else if (sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE) &&
+                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE)) {
+            errors.reject("validation.leave.leaveStatus.hrRestriction");
+        } else if (sessionUser.getDesignation().equals(Designation.TEAM_LEAD) &&
+                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD)) {
+            errors.reject("validation.leave.leaveStatus.teamLeadRestriction");
+        }
+    }
+
+    public void validateLeaveDelete(Leave leave, HttpSession session, Errors errors) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        if (sessionUser.getDesignation().equals(Designation.TEAM_LEAD) &&
+                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE)) {
+            errors.reject("validation.leave.leaveStatus.deleteByTeamLead");
+        } else if ((sessionUser.getDesignation().equals(Designation.DEVELOPER) ||
+                sessionUser.getDesignation().equals(Designation.TESTER)) &&
+                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD)) {
+            errors.reject("validation.leave.leaveStatus.deleteByOther");
         }
     }
 }

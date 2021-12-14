@@ -35,33 +35,25 @@
 <br>
 
 
-<c:if test="${((SESSION_USER.designation.naturalName == 'Team Lead') &&
- (leave.leaveStatus.naturalName == 'Pending by Team Lead')) ||
-  ((SESSION_USER.designation.naturalName == 'HR Executive') &&
- (leave.leaveStatus.naturalName == 'Pending by HR Executive'))}">
+<form:form action="/leave/action" method="post" modelAttribute="leave">
+    <form:errors cssClass="errorBlock" element="div"/>
 
-    <form:form action="/leave/action" method="post">
-        <input type="hidden" name="leave" value="${leave}">
+    <c:if test="${((SESSION_USER.designation.naturalName == 'Team Lead') &&
+                (leave.leaveStatus.naturalName == 'Pending by Team Lead')) ||
+                ((SESSION_USER.designation.naturalName == 'HR Executive') &&
+                (leave.leaveStatus.naturalName == 'Pending by HR Executive'))}">
+
         <input type="submit" value="Approve" class="button" name="action_approve">
-    </form:form>
+        <input type="submit" value="Reject" class="button" name="action_reject">
+    </c:if>
 
-    <br>
-
-    <form:form action="/leave/action" method="post">
-        <input type="hidden" name="leave" value="${leave}">
-        <input type="submit" value="Reject" class="button" name="action_deny">
-    </form:form>
-</c:if>
-
-<c:if test="${(((SESSION_USER.designation.naturalName == 'Developer') or (SESSION_USER.designation.naturalName == 'Tester'))
+    <c:if test="${(((SESSION_USER.designation.naturalName == 'Developer') or (SESSION_USER.designation.naturalName == 'Tester'))
                 and (leave.leaveStatus.naturalName == 'Pending by Team Lead')) or
                 ((SESSION_USER.designation.naturalName == 'Team Lead') and (leave.leaveStatus.naturalName == 'Pending by HR Executive')
                 and (leave.user.designation.naturalName == 'Team Lead'))}">
 
-    <form:form action="/leave/submit" method="post">
-        <input type="hidden" name="leave" value="${leave}">
         <input type="submit" value="Delete" class="button" name="action_delete">
-    </form:form>
-</c:if>
+    </c:if>
+</form:form>
 </body>
 </html>
