@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+import static net.therap.leavemanagement.domain.LeaveStatus.*;
+
 /**
  * @author rumi.dipto
  * @since 11/22/21
@@ -108,5 +110,17 @@ public class Leave extends Persistent {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean isPendingByHrExecutive() {
+        return this.leaveStatus.equals(PENDING_BY_HR_EXECUTIVE);
+    }
+
+    public boolean isApprovedByHrExecutive() {
+        return this.leaveStatus.equals(APPROVED_BY_HR_EXECUTIVE);
+    }
+
+    public boolean isPendingByTeamLead() {
+        return this.leaveStatus.equals(PENDING_BY_TEAM_LEAD);
     }
 }

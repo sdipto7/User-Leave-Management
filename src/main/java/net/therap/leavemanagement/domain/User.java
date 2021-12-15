@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
+import static net.therap.leavemanagement.domain.Designation.*;
+
 /**
  * @author rumi.dipto
  * @since 11/22/21
@@ -62,7 +64,7 @@ public class User extends Persistent {
     @Digits(integer = 10, fraction = 2)
     @NotNull
     private BigDecimal salary;
-    
+
     private boolean activated;
 
     public String getFirstName() {
@@ -119,5 +121,21 @@ public class User extends Persistent {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
+    }
+
+    public boolean isHrExecutive() {
+        return this.designation.equals(HR_EXECUTIVE);
+    }
+
+    public boolean isTeamLead() {
+        return this.designation.equals(TEAM_LEAD);
+    }
+
+    public boolean isDeveloper() {
+        return this.designation.equals(DEVELOPER);
+    }
+
+    public boolean isTester() {
+        return this.designation.equals(TESTER);
     }
 }
