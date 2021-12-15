@@ -62,8 +62,7 @@ public class User extends Persistent {
     @Digits(integer = 10, fraction = 2)
     @NotNull
     private BigDecimal salary;
-
-    @NotNull
+    
     private boolean activated;
 
     public String getFirstName() {
