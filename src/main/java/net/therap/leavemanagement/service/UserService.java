@@ -3,7 +3,6 @@ package net.therap.leavemanagement.service;
 import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.dao.UserDao;
-import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.domain.UserManagement;
@@ -14,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+
+import static net.therap.leavemanagement.domain.Designation.DEVELOPER;
+import static net.therap.leavemanagement.domain.Designation.TESTER;
 
 /**
  * @author rumi.dipto
@@ -56,20 +58,26 @@ public class UserService {
     public List<User> findAllDeveloper(HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE)) {
-            return userDao.findAllDeveloper();
-        } else {
-            return userManagementService.findAllDeveloperUnderTeamLead(sessionUser.getId());
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return userDao.findAllDeveloper();
+            case TEAM_LEAD:
+                return userManagementService.findAllDeveloperUnderTeamLead(sessionUser.getId());
+            default:
+                return null;
         }
     }
 
     public List<User> findAllTester(HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE)) {
-            return userDao.findAllTester();
-        } else {
-            return userManagementService.findAllTesterUnderTeamLead(sessionUser.getId());
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return userDao.findAllTester();
+            case TEAM_LEAD:
+                return userManagementService.findAllTesterUnderTeamLead(sessionUser.getId());
+            default:
+                return null;
         }
     }
 
@@ -91,8 +99,8 @@ public class UserService {
             }
             userDao.saveOrUpdate(user);
 
-            if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
-                    (user.getDesignation().equals(Designation.TESTER))) {
+            if ((user.getDesignation().equals(DEVELOPER)) ||
+                    (user.getDesignation().equals(TESTER))) {
                 User teamLead = userSaveCommand.getTeamLead();
                 userManagementService.saveOrUpdate(user, teamLead);
             }
