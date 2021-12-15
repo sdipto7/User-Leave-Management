@@ -45,11 +45,9 @@
 
     <br><br>
 
-    <form:form action="/user/submit" method="post">
-        <input type="hidden" name="user" value="${user}">
+    <form:form action="/user/submit" method="post" modelAttribute="user">
         <input type="submit" value="Delete" class="button" name="action_delete">
     </form:form>
-
 </c:if>
 
 <br><br>
@@ -113,8 +111,6 @@
             </table>
         </c:otherwise>
     </c:choose>
-
 </c:if>
-
 </body>
 </html>

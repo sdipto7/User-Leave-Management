@@ -235,12 +235,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
-    public String delete(@ModelAttribute(USER_COMMAND) User user,
+    public String delete(@Valid @ModelAttribute(USER_COMMAND) User user,
+                         Errors errors,
                          HttpSession session,
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
+
+        if (errors.hasErrors()) {
+            return USER_DETAILS_PAGE;
+        }
 
         userService.delete(user);
         logger.info(user.getFirstName() + user.getLastName() + " is deleted successfully");
