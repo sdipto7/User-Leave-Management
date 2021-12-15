@@ -1,6 +1,8 @@
 package net.therap.leavemanagement.helper;
 
-import net.therap.leavemanagement.domain.*;
+import net.therap.leavemanagement.domain.Leave;
+import net.therap.leavemanagement.domain.Notification;
+import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.NotificationService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
@@ -12,6 +14,9 @@ import org.springframework.ui.ModelMap;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
+
+import static net.therap.leavemanagement.domain.Designation.*;
+import static net.therap.leavemanagement.domain.LeaveStatus.*;
 
 /**
  * @author rumi.dipto
@@ -40,9 +45,9 @@ public class LeaveHelper {
 
         if (sessionUser.getDesignation().equals(user.getDesignation())) {
             authorizationHelper.checkAccess(user, session);
-        } else if (sessionUser.getDesignation().equals(Designation.TEAM_LEAD) &&
-                (user.getDesignation().equals(Designation.DEVELOPER) ||
-                        user.getDesignation().equals(Designation.TESTER))) {
+        } else if (sessionUser.getDesignation().equals(TEAM_LEAD) &&
+                (user.getDesignation().equals(DEVELOPER) ||
+                        user.getDesignation().equals(TESTER))) {
 
             userHelper.checkAuthorizedTeamLeadIfExist(user, session, model);
         }
@@ -52,15 +57,53 @@ public class LeaveHelper {
         Leave leave = new Leave();
         leave.setUser(user);
 
-        if (user.getDesignation().equals(Designation.HR_EXECUTIVE)) {
-            leave.setLeaveStatus(LeaveStatus.APPROVED_BY_HR_EXECUTIVE);
-        } else if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
-            leave.setLeaveStatus(LeaveStatus.PENDING_BY_HR_EXECUTIVE);
+        if (user.getDesignation().equals(HR_EXECUTIVE)) {
+            leave.setLeaveStatus(APPROVED_BY_HR_EXECUTIVE);
+        } else if (user.getDesignation().equals(TEAM_LEAD)) {
+            leave.setLeaveStatus(PENDING_BY_HR_EXECUTIVE);
         } else {
-            leave.setLeaveStatus(LeaveStatus.PENDING_BY_TEAM_LEAD);
+            leave.setLeaveStatus(PENDING_BY_TEAM_LEAD);
         }
 
         return leave;
+    }
+
+    public void setConditionalDataForLeaveDetailsView(Leave leave, HttpSession session, ModelMap model) {
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        if ((isUserTeamLead(sessionUser) && isLeaveStatusPendingByTeamLead(leave))
+                || (isUserHrExecutive(sessionUser) && isLeaveStatusPendingByHrExecutive(leave))) {
+            model.addAttribute("canReview", true);
+        }
+
+        if(((isUserDeveloper(sessionUser) || isUserTester(sessionUser)) && isLeaveStatusPendingByTeamLead(leave))
+        || (isUserTeamLead(sessionUser) && isUserTeamLead(leave.getUser()) && isLeaveStatusPendingByHrExecutive(leave))){
+            model.addAttribute("canDelete", true);
+        }
+    }
+
+    public boolean isUserHrExecutive(User user){
+        return user.getDesignation().equals(HR_EXECUTIVE);
+    }
+
+    public boolean isUserTeamLead(User user){
+        return user.getDesignation().equals(TEAM_LEAD);
+    }
+
+    public boolean isUserDeveloper(User user){
+        return user.getDesignation().equals(DEVELOPER);
+    }
+
+    public boolean isUserTester(User user){
+        return user.getDesignation().equals(TESTER);
+    }
+
+    public boolean isLeaveStatusPendingByHrExecutive(Leave leave){
+        return leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE);
+    }
+
+    public boolean isLeaveStatusPendingByTeamLead(Leave leave){
+        return leave.getLeaveStatus().equals(PENDING_BY_TEAM_LEAD);
     }
 
     public void showListByPage(List<Leave> leaveList, String page, HttpSession session) {
@@ -80,15 +123,15 @@ public class LeaveHelper {
     public void updateLeaveStatusToApprove(Leave leave, HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if ((sessionUser.getDesignation().equals(Designation.TEAM_LEAD)) &&
-                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD))) {
+        if ((sessionUser.getDesignation().equals(TEAM_LEAD)) &&
+                (leave.getLeaveStatus().equals(PENDING_BY_TEAM_LEAD))) {
 
-            leave.setLeaveStatus(LeaveStatus.PENDING_BY_HR_EXECUTIVE);
+            leave.setLeaveStatus(PENDING_BY_HR_EXECUTIVE);
 
-        } else if ((sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE)) &&
-                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE))) {
+        } else if ((sessionUser.getDesignation().equals(HR_EXECUTIVE)) &&
+                (leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE))) {
 
-            leave.setLeaveStatus(LeaveStatus.APPROVED_BY_HR_EXECUTIVE);
+            leave.setLeaveStatus(APPROVED_BY_HR_EXECUTIVE);
 
         }
     }
@@ -96,15 +139,15 @@ public class LeaveHelper {
     public void updateLeaveStatusToDeny(Leave leave, HttpSession session) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if ((sessionUser.getDesignation().equals(Designation.TEAM_LEAD)) &&
-                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD))) {
+        if ((sessionUser.getDesignation().equals(TEAM_LEAD)) &&
+                (leave.getLeaveStatus().equals(PENDING_BY_TEAM_LEAD))) {
 
-            leave.setLeaveStatus(LeaveStatus.DENIED_BY_TEAM_LEAD);
+            leave.setLeaveStatus(DENIED_BY_TEAM_LEAD);
 
-        } else if ((sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE)) &&
-                (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE))) {
+        } else if ((sessionUser.getDesignation().equals(HR_EXECUTIVE)) &&
+                (leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE))) {
 
-            leave.setLeaveStatus(LeaveStatus.DENIED_BY_HR_EXECUTIVE);
+            leave.setLeaveStatus(DENIED_BY_HR_EXECUTIVE);
 
         }
     }
@@ -115,10 +158,10 @@ public class LeaveHelper {
         Notification notification = new Notification();
         notification.setSeen(false);
 
-        if (user.getDesignation().equals(Designation.HR_EXECUTIVE)) {
+        if (user.getDesignation().equals(HR_EXECUTIVE)) {
             notification.setUser(user);
             notification.setMessage("Leave request is added and auto approved");
-        } else if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+        } else if (user.getDesignation().equals(TEAM_LEAD)) {
             User hrExecutive = userService.findHrExecutive();
             notification.setUser(hrExecutive);
             notification.setMessage(user.getFirstName() + " requested for a " +
@@ -140,12 +183,12 @@ public class LeaveHelper {
         notification.setSeen(false);
         notification.setUser(user);
 
-        if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+        if (user.getDesignation().equals(TEAM_LEAD)) {
             notification.setMessage("Your leave request is " + status + " by HR");
-        } else if (user.getDesignation().equals(Designation.DEVELOPER) || user.getDesignation().equals(Designation.TESTER)) {
-            if (leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE)) {
+        } else if (user.getDesignation().equals(DEVELOPER) || user.getDesignation().equals(TESTER)) {
+            if (leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE)) {
                 notification.setMessage("Your leave request is " + status + " by your Team Lead");
-            } else if (leave.getLeaveStatus().equals(LeaveStatus.APPROVED_BY_HR_EXECUTIVE)) {
+            } else if (leave.getLeaveStatus().equals(APPROVED_BY_HR_EXECUTIVE)) {
                 notification.setMessage("Your leave request is " + status + " by HR");
             }
         }

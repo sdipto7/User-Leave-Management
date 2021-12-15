@@ -131,6 +131,8 @@ public class LeaveController {
         Leave leave = leaveService.find(id);
         leaveHelper.checkAccessByUserDesignation(leave.getUser(), session, model);
 
+        leaveHelper.setConditionalDataForLeaveDetailsView(leave, session, model);
+
         model.addAttribute(LEAVE_COMMAND, leave);
 
         return LEAVE_DETAILS_PAGE;

@@ -38,20 +38,12 @@
 <form:form action="/leave/action" method="post" modelAttribute="leave">
     <form:errors cssClass="errorBlock" element="div"/>
 
-    <c:if test="${((SESSION_USER.designation.naturalName == 'Team Lead') &&
-                (leave.leaveStatus.naturalName == 'Pending by Team Lead')) ||
-                ((SESSION_USER.designation.naturalName == 'HR Executive') &&
-                (leave.leaveStatus.naturalName == 'Pending by HR Executive'))}">
-
+    <c:if test="${canReview}">
         <input type="submit" value="Approve" class="button" name="action_approve">
         <input type="submit" value="Reject" class="button" name="action_reject">
     </c:if>
 
-    <c:if test="${(((SESSION_USER.designation.naturalName == 'Developer') or (SESSION_USER.designation.naturalName == 'Tester'))
-                and (leave.leaveStatus.naturalName == 'Pending by Team Lead')) or
-                ((SESSION_USER.designation.naturalName == 'Team Lead') and (leave.leaveStatus.naturalName == 'Pending by HR Executive')
-                and (leave.user.designation.naturalName == 'Team Lead'))}">
-
+    <c:if test="${canDelete}">
         <input type="submit" value="Delete" class="button" name="action_delete">
     </c:if>
 </form:form>
