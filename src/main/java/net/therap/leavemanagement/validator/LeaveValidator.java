@@ -1,6 +1,9 @@
 package net.therap.leavemanagement.validator;
 
-import net.therap.leavemanagement.domain.*;
+import net.therap.leavemanagement.domain.Leave;
+import net.therap.leavemanagement.domain.LeaveStat;
+import net.therap.leavemanagement.domain.LeaveType;
+import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.util.DayCounter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
+
+import static net.therap.leavemanagement.domain.Designation.*;
+import static net.therap.leavemanagement.domain.LeaveStatus.*;
 
 /**
  * @author rumi.dipto
@@ -77,14 +83,14 @@ public class LeaveValidator implements Validator {
     public void validateLeaveStatus(Leave leave, HttpSession session, Errors errors) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (leave.getLeaveStatus().equals(LeaveStatus.APPROVED_BY_HR_EXECUTIVE)
-                || leave.getLeaveStatus().equals(LeaveStatus.DENIED_BY_HR_EXECUTIVE)) {
+        if (leave.getLeaveStatus().equals(APPROVED_BY_HR_EXECUTIVE)
+                || leave.getLeaveStatus().equals(DENIED_BY_HR_EXECUTIVE)) {
             errors.reject("validation.leave.leaveStatus.reviewDone");
-        } else if (sessionUser.getDesignation().equals(Designation.HR_EXECUTIVE) &&
-                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE)) {
+        } else if (sessionUser.getDesignation().equals(HR_EXECUTIVE) &&
+                !leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE)) {
             errors.reject("validation.leave.leaveStatus.hrRestriction");
-        } else if (sessionUser.getDesignation().equals(Designation.TEAM_LEAD) &&
-                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD)) {
+        } else if (sessionUser.getDesignation().equals(TEAM_LEAD) &&
+                !leave.getLeaveStatus().equals(PENDING_BY_TEAM_LEAD)) {
             errors.reject("validation.leave.leaveStatus.teamLeadRestriction");
         }
     }
@@ -92,12 +98,12 @@ public class LeaveValidator implements Validator {
     public void validateLeaveDelete(Leave leave, HttpSession session, Errors errors) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (sessionUser.getDesignation().equals(Designation.TEAM_LEAD) &&
-                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_HR_EXECUTIVE)) {
+        if (sessionUser.getDesignation().equals(TEAM_LEAD) &&
+                !leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE)) {
             errors.reject("validation.leave.leaveStatus.deleteByTeamLead");
-        } else if ((sessionUser.getDesignation().equals(Designation.DEVELOPER) ||
-                sessionUser.getDesignation().equals(Designation.TESTER)) &&
-                !leave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD)) {
+        } else if ((sessionUser.getDesignation().equals(DEVELOPER) ||
+                sessionUser.getDesignation().equals(TESTER)) &&
+                !leave.getLeaveStatus().equals(PENDING_BY_TEAM_LEAD)) {
             errors.reject("validation.leave.leaveStatus.deleteByOther");
         }
     }

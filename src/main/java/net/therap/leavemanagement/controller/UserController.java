@@ -30,6 +30,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.therap.leavemanagement.controller.UserController.*;
+import static net.therap.leavemanagement.domain.Designation.HR_EXECUTIVE;
+import static net.therap.leavemanagement.domain.Designation.TEAM_LEAD;
 
 /**
  * @author rumi.dipto
@@ -107,7 +109,7 @@ public class UserController {
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
     public String showTeamLeadList(@RequestParam(value = "page", required = false) String page,
                                    HttpSession session) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
         List<User> teamLeadList = userService.findAllTeamLead();
         userHelper.showListByPage(teamLeadList, page, session);
@@ -118,7 +120,7 @@ public class UserController {
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
     public String showDeveloperList(@RequestParam(value = "page", required = false) String page,
                                     HttpSession session) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         List<User> developerList = userService.findAllDeveloper(session);
         userHelper.showListByPage(developerList, page, session);
@@ -129,7 +131,7 @@ public class UserController {
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
     public String showTesterList(@RequestParam(value = "page", required = false) String page,
                                  HttpSession session) {
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         List<User> testerList = userService.findAllTester(session);
         userHelper.showListByPage(testerList, page, session);
@@ -142,7 +144,7 @@ public class UserController {
                               HttpSession session,
                               ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
@@ -162,7 +164,7 @@ public class UserController {
                            HttpSession session,
                            ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
         UserSaveCommand userSaveCommand = new UserSaveCommand();
         userSaveCommand.setUser(userHelper.getOrCreateUser(id));
@@ -182,7 +184,7 @@ public class UserController {
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
         if (errors.hasErrors()) {
             model.addAttribute("teamLeadList", userService.findAllTeamLead());
@@ -238,7 +240,7 @@ public class UserController {
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
         userService.delete(user);
         logger.info(user.getFirstName() + user.getLastName() + " is deleted successfully");

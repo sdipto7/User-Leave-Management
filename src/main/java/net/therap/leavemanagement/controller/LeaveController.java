@@ -1,6 +1,5 @@
 package net.therap.leavemanagement.controller;
 
-import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.Leave;
 import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
@@ -28,6 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.therap.leavemanagement.controller.LeaveController.LEAVE_COMMAND;
+import static net.therap.leavemanagement.domain.Designation.HR_EXECUTIVE;
+import static net.therap.leavemanagement.domain.Designation.TEAM_LEAD;
 
 /**
  * @author rumi.dipto
@@ -74,7 +75,7 @@ public class LeaveController {
     public String showAllUserLeaveList(@RequestParam(required = false, value = "page") String page,
                                        HttpSession session) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         List<Leave> allUserLeaveList = leaveService.findAllLeave();
         leaveHelper.showListByPage(allUserLeaveList, page, session);
@@ -86,7 +87,7 @@ public class LeaveController {
     public String showAllUserPendingLeaveList(@RequestParam(required = false, value = "page") String page,
                                               HttpSession session) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         List<Leave> allUserPendingLeaveList = leaveService.findAllPendingLeave();
         leaveHelper.showListByPage(allUserPendingLeaveList, page, session);
@@ -213,7 +214,7 @@ public class LeaveController {
                                  RedirectAttributes redirectAttributes,
                                  ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         if (errors.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
@@ -247,7 +248,7 @@ public class LeaveController {
                                 RedirectAttributes redirectAttributes,
                                 ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(Designation.HR_EXECUTIVE, Designation.TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         if (errors.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
