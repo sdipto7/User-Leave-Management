@@ -71,11 +71,11 @@ public class LoginController {
             session.setAttribute("SESSION_USER", user);
             logger.info(user.getFirstName() + user.getLastName() + " logged in successfully");
 
-            return Constant.DASHBOARD_URL;
+            return "redirect:/" + Constant.DASHBOARD_URL;
         } else {
             redirectAttributes.addFlashAttribute("error", "Enter credential correctly");
 
-            return Constant.LOGIN_URL;
+            return "redirect:/" + Constant.LOGIN_URL;
         }
     }
 }

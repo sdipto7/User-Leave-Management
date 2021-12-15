@@ -178,7 +178,7 @@ public class LeaveController {
         redirectAttributes.addAttribute("doneMessage",
                 "Leave request is submitted successfully");
 
-        return Constant.SUCCESS_URL;
+        return "redirect:/" + Constant.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
@@ -203,7 +203,7 @@ public class LeaveController {
         redirectAttributes.addAttribute("doneMessage",
                 "Leave Request is successfully deleted");
 
-        return Constant.SUCCESS_URL;
+        return "redirect:/" + Constant.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/action", params = "action_approve", method = RequestMethod.POST)
@@ -237,7 +237,7 @@ public class LeaveController {
         redirectAttributes.addFlashAttribute("doneMessage",
                 "Leave request is approved");
 
-        return Constant.SUCCESS_URL;
+        return "redirect:/" + Constant.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/action", params = "action_reject", method = RequestMethod.POST)
@@ -271,6 +271,6 @@ public class LeaveController {
         redirectAttributes.addFlashAttribute("doneMessage",
                 "Leave request is denied");
 
-        return Constant.SUCCESS_URL;
+        return "redirect:/" + Constant.SUCCESS_URL;
     }
 }

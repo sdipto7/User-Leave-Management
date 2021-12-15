@@ -6,8 +6,8 @@ package net.therap.leavemanagement.util;
  */
 public interface Constant {
 
-    String LOGIN_URL = "redirect:/login";
-    String DASHBOARD_URL = "redirect:/dashboard";
-    String SUCCESS_URL = "redirect:/success";
-    String UNIT_NAME = "leave-management-persistence-unit";
+    String LOGIN_URL = "login";
+    String DASHBOARD_URL = "dashboard";
+    String SUCCESS_URL = "success";
+    String PERSISTENCE_UNIT = "leave-management-persistence-unit";
 }

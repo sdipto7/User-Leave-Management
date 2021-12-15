@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public class UserManagementDao {
 
-    @PersistenceContext(unitName = Constant.UNIT_NAME)
+    @PersistenceContext(unitName = Constant.PERSISTENCE_UNIT)
     private EntityManager em;
 
     public List<UserManagement> findAllUserManagementByTeamLeadId(long teamLeadId) {

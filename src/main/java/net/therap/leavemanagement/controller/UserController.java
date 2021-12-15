@@ -201,7 +201,7 @@ public class UserController {
         redirectAttributes.addAttribute("doneMessage",
                 "User " + userSaveCommand.getUser().getFirstName() + " saved successfully");
 
-        return Constant.SUCCESS_URL;
+        return "redirect:/" + Constant.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
@@ -231,7 +231,7 @@ public class UserController {
         redirectAttributes.addFlashAttribute("doneMessage",
                 "Password updated successfully");
 
-        return Constant.SUCCESS_URL;
+        return "redirect:/" + Constant.SUCCESS_URL;
     }
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
@@ -249,6 +249,6 @@ public class UserController {
         redirectAttributes.addAttribute("doneMessage",
                 "User " + user.getFirstName() + " is deleted successfully");
 
-        return Constant.SUCCESS_URL;
+        return "redirect:/" + Constant.SUCCESS_URL;
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class NotificationDao {
 
-    @PersistenceContext(unitName = Constant.UNIT_NAME)
+    @PersistenceContext(unitName = Constant.PERSISTENCE_UNIT)
     private EntityManager em;
 
     public List<Notification> findAllNotification(long userId) {

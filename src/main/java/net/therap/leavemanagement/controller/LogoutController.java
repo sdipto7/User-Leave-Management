@@ -27,6 +27,6 @@ public class LogoutController {
         session.invalidate();
         redirectAttributes.addFlashAttribute("logoutMessage", "Successfully logged out");
 
-        return Constant.LOGIN_URL;
+        return "redirect:/" + Constant.LOGIN_URL;
     }
 }
