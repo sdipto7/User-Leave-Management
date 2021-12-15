@@ -149,7 +149,7 @@ public class UserController {
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
 
-        userHelper.checkAuthorizedTeamLeadIfExist(user, session, model);
+        userHelper.checkAndSetAuthorizedTeamLeadIfExist(user, session, model);
 
         userHelper.setupDataIfTeamLead(user, model);
 
@@ -166,8 +166,11 @@ public class UserController {
 
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
+        User user = userHelper.getOrCreateUser(id);
         UserSaveCommand userSaveCommand = new UserSaveCommand();
-        userSaveCommand.setUser(userHelper.getOrCreateUser(id));
+        userSaveCommand.setUser(user);
+
+        userHelper.setConditionalDataForUserSaveView(user, model);
 
         model.addAttribute(USER_COMMAND_SAVE, userSaveCommand);
         model.addAttribute("teamLeadList", userService.findAllTeamLead());
@@ -187,6 +190,7 @@ public class UserController {
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
         if (errors.hasErrors()) {
+            userHelper.setConditionalDataForUserSaveView(userSaveCommand.getUser(), model);
             model.addAttribute("teamLeadList", userService.findAllTeamLead());
             model.addAttribute("designationList", Arrays.asList(Designation.values()));
 

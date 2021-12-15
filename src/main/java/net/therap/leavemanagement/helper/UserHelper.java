@@ -68,7 +68,7 @@ public class UserHelper {
         }
     }
 
-    public void checkAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap model) {
+    public void checkAndSetAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap model) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
         User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
 
@@ -76,5 +76,15 @@ public class UserHelper {
             authorizationHelper.checkAccess(teamLead, session);
         }
         model.addAttribute("teamLead", teamLead);
+    }
+
+    public void setConditionalDataForUserSaveView(User user, ModelMap model) {
+        if (user.isNew() || (!user.isNew() && (user.isDeveloper() || user.isTester()))) {
+            model.addAttribute("canSelectDesignation", true);
+        }
+
+        if (user.isNew()) {
+            model.addAttribute("canInputPassword", true);
+        }
     }
 }

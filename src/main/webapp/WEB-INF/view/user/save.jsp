@@ -33,24 +33,18 @@
     <label for="user.username"><fmt:message key="label.user.save.body.username"/></label>
     <form:input path="user.username"/>
     <form:errors path="user.username" cssClass="errorBlock" element="div"/>
-
     <br><br>
-
-    <c:if test="${userSaveCommand.user.id == 0}">
+    <c:if test="${canInputPassword}">
         <label for="user.password"><fmt:message key="label.user.save.body.password"/></label>
         <form:password path="user.password"/>
         <form:errors path="user.password" cssClass="errorBlock" element="div"/>
-
         <br><br>
     </c:if>
 
-    <c:if test="${(userSaveCommand.user.id == 0 ||
-     ((userSaveCommand.user.id != 0) && ((userSaveCommand.user.designation.naturalName == 'Developer')
-        || (userSaveCommand.user.designation.naturalName == 'Tester'))))}">
+    <c:if test="${canSelectDesignation}">
         <label for="user.designation"><fmt:message key="label.user.save.body.designation"/></label>
         <form:radiobuttons path="user.designation" items="${designationList}" itemLabel="naturalName"/>
         <form:errors path="user.designation" cssClass="errorBlock" element="div"/>
-
         <br><br>
     </c:if>
 
