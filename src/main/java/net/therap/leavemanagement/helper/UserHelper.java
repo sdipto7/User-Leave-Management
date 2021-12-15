@@ -1,7 +1,6 @@
 package net.therap.leavemanagement.helper;
 
 import net.therap.leavemanagement.command.UserSaveCommand;
-import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
@@ -31,7 +30,7 @@ public class UserHelper {
     private AuthorizationHelper authorizationHelper;
 
     public void setupDataIfTeamLead(User user, ModelMap model) {
-        if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+        if (user.isTeamLead()) {
             model.addAttribute("developerList",
                     userManagementService.findAllDeveloperUnderTeamLead(user.getId()));
             model.addAttribute("testerList",
@@ -63,10 +62,7 @@ public class UserHelper {
 
         if (id != 0) {
             User dbUser = userService.find(id);
-            if (commandUser.getDesignation().equals(Designation.TEAM_LEAD) &&
-                    ((dbUser.getDesignation().equals(Designation.DEVELOPER))
-                            || (dbUser.getDesignation().equals(Designation.TESTER)))) {
-
+            if (commandUser.isTeamLead() && ((dbUser.isDeveloper()) || (dbUser.isTester()))) {
                 userSaveCommand.setRoleChanged(true);
             }
         }
@@ -76,8 +72,7 @@ public class UserHelper {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
         User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
 
-        if ((user.getDesignation().equals(Designation.DEVELOPER) || user.getDesignation().equals(Designation.TESTER))
-                && (sessionUser.getDesignation().equals(Designation.TEAM_LEAD))) {
+        if ((user.isDeveloper() || user.isTester()) && (sessionUser.isTeamLead())) {
             authorizationHelper.checkAccess(teamLead, session);
         }
         model.addAttribute("teamLead", teamLead);
