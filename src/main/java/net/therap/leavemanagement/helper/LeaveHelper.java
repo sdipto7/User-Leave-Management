@@ -150,9 +150,9 @@ public class LeaveHelper {
         if (user.isTeamLead()) {
             notification.setMessage("Your leave request is " + status + " by HR");
         } else if (user.isDeveloper() || user.isTester()) {
-            if (leave.isPendingByHrExecutive()) {
+            if (leave.isPendingByHrExecutive() || leave.isDeniedByTeamLead()) {
                 notification.setMessage("Your leave request is " + status + " by your Team Lead");
-            } else if (leave.isApprovedByHrExecutive()) {
+            } else if (leave.isApprovedByHrExecutive() || leave.isDeniedByHrExecutive()) {
                 notification.setMessage("Your leave request is " + status + " by HR");
             }
         }

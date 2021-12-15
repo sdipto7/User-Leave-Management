@@ -120,7 +120,15 @@ public class Leave extends Persistent {
         return this.leaveStatus.equals(APPROVED_BY_HR_EXECUTIVE);
     }
 
+    public boolean isDeniedByHrExecutive() {
+        return this.leaveStatus.equals(DENIED_BY_HR_EXECUTIVE);
+    }
+
     public boolean isPendingByTeamLead() {
         return this.leaveStatus.equals(PENDING_BY_TEAM_LEAD);
+    }
+
+    public boolean isDeniedByTeamLead() {
+        return this.leaveStatus.equals(DENIED_BY_TEAM_LEAD);
     }
 }
