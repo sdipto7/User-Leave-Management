@@ -8,7 +8,6 @@
 <html>
 <head>
     <link href="<c:url value="/styles/styles-1.0.0.css" />" rel="stylesheet">
-
     <title><fmt:message key="label.index.title"/></title>
 </head>
 <body>
@@ -19,9 +18,6 @@
 <div id="panel">
     <h6><fmt:message key="label.index.body.welcome"/></h6>
     <h2><fmt:message key="label.index.body.leaveManagementSystem"/></h2>
-
-    <br>
-
     <input type="button" value="Login"
            onclick="window.location.href='/login'; return false;"
            class="button">

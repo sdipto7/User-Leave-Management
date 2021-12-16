@@ -14,43 +14,39 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<fmt:message key="label.user.userName"/> <c:out value="${user.username}"/>
-<br>
-<fmt:message key="label.user.firstName"/> <c:out value="${user.firstName}"/>
-<br>
-<fmt:message key="label.user.lastName"/> <c:out value="${user.lastName}"/>
-<br>
-<fmt:message key="label.user.designation"/> <c:out value="${user.designation.naturalName}"/>
-<br>
-<fmt:message key="label.user.salary"/> <c:out value="${user.salary}"/>
-<br>
-<fmt:message key="label.user.sickLeaves"/> <c:out value="${leaveStat.sickLeaveCount}"/>
-<br>
-<fmt:message key="label.user.casualLeaves"/> <c:out value="${leaveStat.casualLeaveCount}"/>
-<br>
-<c:if test="${user.designation.naturalName == 'Developer' || user.designation.naturalName == 'Tester'}">
-    <fmt:message key="label.user.teamLead"/> <c:out value="${teamLead.firstName}"/>
-</c:if>
-<br><br>
+<ul class="list-group">
+    <li class="list-group-item"><fmt:message key="label.user.userName"/>
+        <c:out value="${user.username}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.firstName"/>
+        <c:out value="${user.firstName}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.lastName"/>
+        <c:out value="${user.lastName}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.designation"/>
+        <c:out value="${user.designation.naturalName}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.salary"/>
+        <c:out value="${user.salary}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.sickLeaves"/>
+        <c:out value="${leaveStat.sickLeaveCount}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.casualLeaves"/>
+        <c:out value="${leaveStat.casualLeaveCount}"/></li>
+
+    <c:if test="${user.designation.naturalName == 'Developer' || user.designation.naturalName == 'Tester'}">
+        <li class="list-group-item"><fmt:message key="label.user.teamLead"/>
+            <c:out value="${teamLead.firstName}"/></li>
+    </c:if>
+</ul>
 
 <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
+    <c:url var="updateUserLink" value="/user/form/">
+        <c:param name="id" value="${user.id}"/>
+    </c:url>
 
-        <c:url var="updateUserLink" value="/user/form/">
-            <c:param name="id" value="${user.id}"/>
-        </c:url>
-
-    <input type="button" value="Edit"
-           onclick="window.location.href='${updateUserLink}'; return false;"
-           class="button">
-
-    <br><br>
-
+    <input type="button" value="Edit" onclick="window.location.href='${updateUserLink}'; return false;" class="button">
+    
     <form:form action="/user/submit" method="post" modelAttribute="user">
         <input type="submit" value="Delete" class="button" name="action_delete">
     </form:form>
 </c:if>
-
-<br><br>
 
 <c:if test="${user.designation.naturalName == 'Team Lead'}">
 
@@ -60,29 +56,27 @@
         <c:when test="${empty(developerList)}">
             <h5><fmt:message key="label.user.details.body.noAssignedDeveloper"/></h5>
         </c:when>
-
         <c:otherwise>
-            <table id="table">
+            <table class="table">
+                <thead class="bg-success">
                 <tr>
-                    <th><fmt:message key="label.user.details.userList.table.columnHeader.username"/></th>
-                    <th><fmt:message key="label.user.details.userList.table.columnHeader.firstName"/></th>
-                    <th><fmt:message key="label.user.details.userList.table.columnHeader.lastName"/></th>
+                    <th scope="col"><fmt:message key="label.user.details.userList.table.columnHeader.username"/></th>
+                    <th scope="col"><fmt:message key="label.user.details.userList.table.columnHeader.firstName"/></th>
+                    <th scope="col"><fmt:message key="label.user.details.userList.table.columnHeader.lastName"/></th>
                 </tr>
-
+                </thead>
+                <tbody>
                 <c:forEach var="developer" items="${developerList}">
-
                     <tr>
                         <td><c:out value="${developer.username}"/></td>
                         <td><c:out value="${developer.firstName}"/></td>
                         <td><c:out value="${developer.lastName}"/></td>
                     </tr>
-
                 </c:forEach>
+                </tbody>
             </table>
         </c:otherwise>
     </c:choose>
-
-    <br><br>
 
     <h2><fmt:message key="label.user.details.body.tester"/></h2>
 
@@ -90,24 +84,24 @@
         <c:when test="${empty(testerList)}">
             <h5><fmt:message key="label.user.details.body.noAssignedTester"/></h5>
         </c:when>
-
         <c:otherwise>
-            <table id="table">
+            <table class="table">
+                <thead class="bg-success">
                 <tr>
                     <th><fmt:message key="label.user.details.userList.table.columnHeader.username"/></th>
                     <th><fmt:message key="label.user.details.userList.table.columnHeader.firstName"/></th>
                     <th><fmt:message key="label.user.details.userList.table.columnHeader.lastName"/></th>
                 </tr>
-
+                </thead>
+                <tbody>
                 <c:forEach var="tester" items="${testerList}">
-
                     <tr>
                         <td><c:out value="${tester.username}"/></td>
                         <td><c:out value="${tester.firstName}"/></td>
                         <td><c:out value="${tester.lastName}"/></td>
                     </tr>
-
                 </c:forEach>
+                </tbody>
             </table>
         </c:otherwise>
     </c:choose>

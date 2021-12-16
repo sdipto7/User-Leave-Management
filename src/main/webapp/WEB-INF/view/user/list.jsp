@@ -13,53 +13,49 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<div class="row">
-
-    <table id="table">
-
-        <tr>
-            <th><fmt:message key="label.user.list.body.columnHeader.id"/></th>
-            <th><fmt:message key="label.user.list.body.columnHeader.firstName"/></th>
-            <th><fmt:message key="label.user.list.body.columnHeader.lastName"/></th>
-            <th><fmt:message key="label.user.list.body.columnHeader.designation"/></th>
-            <th><fmt:message key="label.user.list.body.columnHeader.salary"/></th>
-            <th><fmt:message key="label.actions"/></th>
-        </tr>
-
-        <c:forEach var="user" items="${userPagedListHolder.pageList}">
-
-            <c:url var="showDetailsLink" value="/user/details">
-                <c:param name="id" value="${user.id}"/>
-            </c:url>
-
-            <tr>
-                <td><c:out value="${user.id}"/></td>
-                <td><c:out value="${user.firstName}"/></td>
-                <td><c:out value="${user.lastName}"/></td>
-                <td><c:out value="${user.designation.naturalName}"/></td>
-                <td><c:out value="${user.salary}"/></td>
-
-                <td>
-                    <a href="${showDetailsLink}"><fmt:message key="label.link.details"/></a>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
-
-    <c:forEach begin="1" end="${userPagedListHolder.pageCount}" step="1" varStatus="pageIndexStatus">
-
-        <c:if test="${(userPagedListHolder.page + 1) == pageIndexStatus.index}">
-            <a class="page-link" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
-        </c:if>
-
-        <c:url value="${url}" var="pageLink">
-            <c:param name="page" value="${pageIndexStatus.index}"/>
+<table class="table">
+    <thead class="bg-success">
+    <tr>
+        <th scope="col"><fmt:message key="label.user.list.body.columnHeader.id"/></th>
+        <th scope="col"><fmt:message key="label.user.list.body.columnHeader.firstName"/></th>
+        <th scope="col"><fmt:message key="label.user.list.body.columnHeader.lastName"/></th>
+        <th scope="col"><fmt:message key="label.user.list.body.columnHeader.designation"/></th>
+        <th scope="col"><fmt:message key="label.user.list.body.columnHeader.salary"/></th>
+        <th scope="col"><fmt:message key="label.actions"/></th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="user" items="${userPagedListHolder.pageList}">
+        <c:url var="showDetailsLink" value="/user/details">
+            <c:param name="id" value="${user.id}"/>
         </c:url>
-
-        <c:if test="${(userPagedListHolder.page + 1) != pageIndexStatus.index}">
-            <a href="${pageLink}"><c:out value="${pageIndexStatus.index}"/></a>
-        </c:if>
+        <tr>
+            <td><c:out value="${user.id}"/></td>
+            <td><c:out value="${user.firstName}"/></td>
+            <td><c:out value="${user.lastName}"/></td>
+            <td><c:out value="${user.designation.naturalName}"/></td>
+            <td><c:out value="${user.salary}"/></td>
+            <td>
+                <a href="${showDetailsLink}"><fmt:message key="label.link.details"/></a>
+            </td>
+        </tr>
     </c:forEach>
-</div>
+    </tbody>
+</table>
+
+<c:forEach begin="1" end="${userPagedListHolder.pageCount}" step="1" varStatus="pageIndexStatus">
+
+    <c:if test="${(userPagedListHolder.page + 1) == pageIndexStatus.index}">
+        <a class="page-link" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
+    </c:if>
+
+    <c:url value="${url}" var="pageLink">
+        <c:param name="page" value="${pageIndexStatus.index}"/>
+    </c:url>
+
+    <c:if test="${(userPagedListHolder.page + 1) != pageIndexStatus.index}">
+        <a href="${pageLink}"><c:out value="${pageIndexStatus.index}"/></a>
+    </c:if>
+</c:forEach>
 </body>
 </html>

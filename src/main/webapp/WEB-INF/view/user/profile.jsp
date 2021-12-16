@@ -17,51 +17,51 @@
     <c:out value="${doneMessage}"/>
 </div>
 
-<fmt:message key="label.user.profile.body.welcome"/> <c:out value="${userProfileCommand.user.firstName}"/>
-<br>
-<fmt:message key="label.user.userName"/> <c:out value="${userProfileCommand.user.username}"/>
-<br>
-<fmt:message key="label.user.firstName"/> <c:out value="${userProfileCommand.user.firstName}"/>
-<br>
-<fmt:message key="label.user.lastName"/> <c:out value="${userProfileCommand.user.lastName}"/>
-<br>
-<fmt:message key="label.user.designation"/> <c:out value="${userProfileCommand.user.designation.naturalName}"/>
-<br>
-<fmt:message key="label.user.salary"/> <c:out value="${userProfileCommand.user.salary}"/>
-<br>
-<fmt:message key="label.user.sickLeaves"/> <c:out value="${leaveStat.sickLeaveCount}"/>
-<br>
-<fmt:message key="label.user.casualLeaves"/> <c:out value="${leaveStat.casualLeaveCount}"/>
-<br>
-<c:if test="${userProfileCommand.user.designation.naturalName == 'Developer' ||
+<ul class="list-group">
+    <li class="list-group-item"><fmt:message key="label.user.profile.body.welcome"/>
+        <c:out value="${userProfileCommand.user.firstName}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.userName"/>
+        <c:out value="${userProfileCommand.user.username}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.firstName"/>
+        <c:out value="${userProfileCommand.user.firstName}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.lastName"/>
+        <c:out value="${userProfileCommand.user.lastName}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.designation"/>
+        <c:out value="${userProfileCommand.user.designation.naturalName}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.salary"/>
+        <c:out value="${userProfileCommand.user.salary}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.sickLeaves"/>
+        <c:out value="${leaveStat.sickLeaveCount}"/></li>
+    <li class="list-group-item"><fmt:message key="label.user.casualLeaves"/>
+        <c:out value="${leaveStat.casualLeaveCount}"/></li>
+
+    <c:if test="${userProfileCommand.user.designation.naturalName == 'Developer' ||
                 userProfileCommand.user.designation.naturalName == 'Tester'}">
-    <fmt:message key="label.user.teamLead"/> <c:out value="${teamLead.firstName}"/>
-</c:if>
+        <li class="list-group-item"><fmt:message key="label.user.teamLead"/>
+            <c:out value="${teamLead.firstName}"/></li>
+    </c:if>
+</ul>
 
-<br><br>
+<div class="form">
+    <form:form action="/user/updatePassword" method="post" modelAttribute="userProfileCommand">
+        <div class="form-group">
+            <label for="currentPassword"><fmt:message key="label.user.profile.body.currentPassword"/></label>
+            <form:password path="currentPassword" cssClass="form-control" placeholder="Enter current password"/>
+            <form:errors path="currentPassword" cssClass="errorBlock" element="div"/>
+        </div>
+        <div class="form-group">
+            <label for="newPassword"><fmt:message key="label.user.profile.body.newPassword"/></label>
+            <form:password path="newPassword" cssClass="form-control" placeholder="Enter new password"/>
+            <form:errors path="newPassword" cssClass="errorBlock" element="div"/>
+        </div>
+        <div class="form-group">
+            <label for="confirmedNewPassword"><fmt:message key="label.user.profile.body.confirmNewPassword"/></label>
+            <form:password path="confirmedNewPassword" cssClass="form-control" placeholder="Re-enter new password"/>
+            <form:errors path="confirmedNewPassword" cssClass="errorBlock" element="div"/>
+        </div>
 
-<form:form action="/user/updatePassword" method="post" modelAttribute="userProfileCommand">
-
-    <label for="currentPassword"><fmt:message key="label.user.profile.body.currentPassword"/></label>
-    <form:password path="currentPassword"/>
-    <form:errors path="currentPassword" cssClass="errorBlock" element="div"/>
-
-    <br><br>
-
-    <label for="newPassword"><fmt:message key="label.user.profile.body.newPassword"/></label>
-    <form:password path="newPassword"/>
-    <form:errors path="newPassword" cssClass="errorBlock" element="div"/>
-
-    <br><br>
-
-    <label for="confirmedNewPassword"><fmt:message key="label.user.profile.body.confirmNewPassword"/></label>
-    <form:password path="confirmedNewPassword"/>
-    <form:errors path="confirmedNewPassword" cssClass="errorBlock" element="div"/>
-
-    <br><br>
-
-    <input type="submit" value="Change Password" class="button">
-</form:form>
-
+        <input type="submit" value="Change Password" class="button">
+    </form:form>
+</div>
 </body>
 </html>

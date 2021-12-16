@@ -9,30 +9,32 @@
 <html>
 <head>
     <link href="<c:url value="/styles/styles-1.0.0.css" />" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title><fmt:message key="label.login.title"/></title>
 </head>
 <body>
-<form:form action="login" method="post" modelAttribute="loginCommand">
-    <label for="username"><fmt:message key="label.login.body.username"/></label>
-    <form:input path="username"/>
-    <form:errors path="username" cssClass="errorBlock" element="div"/>
-
-    <br><br>
-
-    <label for="password"><fmt:message key="label.login.body.password"/></label>
-    <form:password path="password"/>
-    <form:errors path="password" cssClass="errorBlock" element="div"/>
-
-    <br><br>
-
-    <input type="submit" value="Log in" class="button">
-</form:form>
-
-<br>
-
-<div id="error">
-    <c:out value="${error}"/>
+<div class="form">
+    <form:form action="login" method="post" modelAttribute="loginCommand">
+        <div class="form-group">
+            <label for="username"><fmt:message key="label.login.body.username"/></label>
+            <form:input path="username" cssClass="form-control" placeholder="Enter username"/>
+            <form:errors path="username" cssClass="errorBlock" element="div"/>
+        </div>
+        <div class="form-group">
+            <label for="password"><fmt:message key="label.login.body.password"/></label>
+            <form:password path="password" cssClass="form-control" placeholder="Enter password"/>
+            <form:errors path="password" cssClass="errorBlock" element="div"/>
+        </div>
+        <input type="submit" value="Log in" class="button">
+    </form:form>
 </div>
+
+<c:if test="${!empty error}">
+    <div id="error">
+        <c:out value="${error}"/>
+    </div>
+</c:if>
 
 <c:if test="${!empty logoutMessage}">
     <div id="successBlock">

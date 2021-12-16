@@ -8,6 +8,8 @@
 <html>
 <head>
     <link href="<c:url value="/styles/styles-1.0.0.css" />" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title><fmt:message key="label.navbar.title"/></title>
 </head>
 <body>
@@ -20,15 +22,25 @@
     <c:param name="userId" value="${SESSION_USER.id}"/>
 </c:url>
 
-<ul>
-    <li><a href="${showProfileLink}"><fmt:message key="label.navbar.body.profile"/></a></li>
-
-    <li><a href="/dashboard"><fmt:message key="label.navbar.body.dashboard"/></a></li>
-
-    <li><a href="${showNotificationLink}"><fmt:message key="label.navbar.body.notification"/></a></li>
-
-    <li style="float:right"><a href="/logout"><fmt:message key="label.navbar.body.logoutButton"/></a></li>
-</ul>
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="${showProfileLink}"><fmt:message key="label.navbar.body.profile"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard" aria-current="page"><fmt:message key="label.navbar.body.dashboard"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${showNotificationLink}"><fmt:message key="label.navbar.body.notification"/></a>
+                </li>
+                <li class="nav-item" style="float: right">
+                    <a class="nav-link" href="/logout"><fmt:message key="label.navbar.body.logoutButton"/></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 </body>
 </html>
