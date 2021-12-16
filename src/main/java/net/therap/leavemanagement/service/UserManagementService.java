@@ -1,7 +1,6 @@
 package net.therap.leavemanagement.service;
 
 import net.therap.leavemanagement.dao.UserManagementDao;
-import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.domain.UserManagement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +58,12 @@ public class UserManagementService {
     public void deleteByUser(User user) {
         long userId = user.getId();
 
-        if (user.getDesignation().equals(Designation.TEAM_LEAD)) {
+        if (user.isTeamLead()) {
             List<UserManagement> userManagementList = userManagementDao.findAllUserManagementByTeamLeadId(userId);
             if (userManagementList.size() > 0) {
                 userManagementList.forEach(userManagement -> userManagementDao.delete(userManagement));
             }
-        } else if ((user.getDesignation().equals(Designation.DEVELOPER)) ||
-                (user.getDesignation().equals(Designation.TESTER))) {
+        } else if (user.isDeveloper() || user.isTester()) {
 
             UserManagement userManagement = userManagementDao.findUserManagementByUserId(userId);
             if (Objects.nonNull(userManagement)) {

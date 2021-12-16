@@ -99,8 +99,7 @@ public class UserService {
             }
             userDao.saveOrUpdate(user);
 
-            if ((user.getDesignation().equals(DEVELOPER)) ||
-                    (user.getDesignation().equals(TESTER))) {
+            if (user.isDeveloper() || user.isTester()) {
                 User teamLead = userSaveCommand.getTeamLead();
                 userManagementService.saveOrUpdate(user, teamLead);
             }

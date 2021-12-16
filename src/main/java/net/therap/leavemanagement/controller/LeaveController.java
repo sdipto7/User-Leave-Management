@@ -264,7 +264,7 @@ public class LeaveController {
 
         leaveService.saveOrUpdate(leave);
 
-        leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "denied");
+        leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "rejected");
 
         logger.info("Team Lead denied the leave request of " +
                 user.getFirstName() + user.getLastName());

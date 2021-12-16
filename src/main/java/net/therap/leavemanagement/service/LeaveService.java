@@ -2,13 +2,14 @@ package net.therap.leavemanagement.service;
 
 import net.therap.leavemanagement.dao.LeaveDao;
 import net.therap.leavemanagement.domain.Leave;
-import net.therap.leavemanagement.domain.LeaveStatus;
 import net.therap.leavemanagement.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static net.therap.leavemanagement.domain.LeaveStatus.PENDING_BY_HR_EXECUTIVE;
 
 /**
  * @author rumi.dipto
@@ -45,7 +46,7 @@ public class LeaveService {
 
     @Transactional
     public void saveOrUpdate(Leave leave) {
-        if (leave.getLeaveStatus().equals(LeaveStatus.APPROVED_BY_HR_EXECUTIVE)) {
+        if (leave.isApprovedByHrExecutive()) {
             leaveStatService.update(leave);
         }
 
@@ -56,8 +57,8 @@ public class LeaveService {
     public void updateLeaveStatusWithUserRoleChange(long userId) {
         List<Leave> pendingLeaveList = leaveDao.findUserPendingLeaveList(userId);
         for (Leave pendingLeave : pendingLeaveList) {
-            if (pendingLeave.getLeaveStatus().equals(LeaveStatus.PENDING_BY_TEAM_LEAD)) {
-                pendingLeave.setLeaveStatus(LeaveStatus.PENDING_BY_HR_EXECUTIVE);
+            if (pendingLeave.isPendingByTeamLead()) {
+                pendingLeave.setLeaveStatus(PENDING_BY_HR_EXECUTIVE);
                 leaveDao.saveOrUpdate(pendingLeave);
             }
         }

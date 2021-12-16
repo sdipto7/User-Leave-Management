@@ -18,9 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
-import static net.therap.leavemanagement.domain.Designation.*;
-import static net.therap.leavemanagement.domain.LeaveStatus.*;
-
 /**
  * @author rumi.dipto
  * @since 12/6/21
@@ -83,14 +80,11 @@ public class LeaveValidator implements Validator {
     public void validateLeaveStatus(Leave leave, HttpSession session, Errors errors) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (leave.getLeaveStatus().equals(APPROVED_BY_HR_EXECUTIVE)
-                || leave.getLeaveStatus().equals(DENIED_BY_HR_EXECUTIVE)) {
+        if (leave.isApprovedByHrExecutive() || leave.isDeniedByHrExecutive()) {
             errors.reject("validation.leave.leaveStatus.reviewDone");
-        } else if (sessionUser.getDesignation().equals(HR_EXECUTIVE) &&
-                !leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE)) {
+        } else if (sessionUser.isHrExecutive() && !(leave.isPendingByHrExecutive())) {
             errors.reject("validation.leave.leaveStatus.hrRestriction");
-        } else if (sessionUser.getDesignation().equals(TEAM_LEAD) &&
-                !leave.getLeaveStatus().equals(PENDING_BY_TEAM_LEAD)) {
+        } else if (sessionUser.isTeamLead() && !(leave.isPendingByTeamLead())) {
             errors.reject("validation.leave.leaveStatus.teamLeadRestriction");
         }
     }
@@ -98,12 +92,10 @@ public class LeaveValidator implements Validator {
     public void validateLeaveDelete(Leave leave, HttpSession session, Errors errors) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (sessionUser.getDesignation().equals(TEAM_LEAD) &&
-                !leave.getLeaveStatus().equals(PENDING_BY_HR_EXECUTIVE)) {
+        if (sessionUser.isTeamLead() && !(leave.isPendingByHrExecutive())) {
             errors.reject("validation.leave.leaveStatus.deleteByTeamLead");
-        } else if ((sessionUser.getDesignation().equals(DEVELOPER) ||
-                sessionUser.getDesignation().equals(TESTER)) &&
-                !leave.getLeaveStatus().equals(PENDING_BY_TEAM_LEAD)) {
+        } else if ((sessionUser.isDeveloper() || sessionUser.isTester())
+                && !(leave.isPendingByTeamLead())) {
             errors.reject("validation.leave.leaveStatus.deleteByOther");
         }
     }
