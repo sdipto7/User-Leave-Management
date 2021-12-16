@@ -46,20 +46,27 @@
     </tbody>
 </table>
 
-<c:forEach begin="1" end="${leavePagedListHolder.pageCount}" step="1" varStatus="pageIndexStatus">
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <c:forEach begin="1" end="${leavePagedListHolder.pageCount}" step="1" varStatus="pageIndexStatus">
 
-    <c:if test="${(leavePagedListHolder.page + 1) == pageIndexStatus.index}">
-        <a class="page-link" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
-    </c:if>
+            <c:if test="${(leavePagedListHolder.page + 1) == pageIndexStatus.index}">
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
+                </li>
+            </c:if>
 
-    <c:url value="${url}" var="pageLink">
-        <c:param name="page" value="${pageIndexStatus.index}"/>
-    </c:url>
+            <c:url value="${url}" var="pageLink">
+                <c:param name="page" value="${pageIndexStatus.index}"/>
+            </c:url>
 
-    <c:if test="${(leavePagedListHolder.page + 1) != pageIndexStatus.index}">
-        <a href="${pageLink}"><c:out value="${pageIndexStatus.index}"/></a>
-    </c:if>
-</c:forEach>
-
+            <c:if test="${(leavePagedListHolder.page + 1) != pageIndexStatus.index}">
+                <li class="page-item">
+                    <a href="${pageLink}"><c:out value="${pageIndexStatus.index}"/></a>
+                </li>
+            </c:if>
+        </c:forEach>
+    </ul>
+</nav>
 </body>
 </html>
