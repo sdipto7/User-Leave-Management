@@ -55,9 +55,7 @@ public class UserService {
         return userDao.findAllTeamLead();
     }
 
-    public List<User> findAllDeveloper(HttpSession session) {
-        User sessionUser = (User) session.getAttribute("SESSION_USER");
-
+    public List<User> findAllDeveloper(User sessionUser) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
                 return userDao.findAllDeveloper();
@@ -68,9 +66,7 @@ public class UserService {
         }
     }
 
-    public List<User> findAllTester(HttpSession session) {
-        User sessionUser = (User) session.getAttribute("SESSION_USER");
-
+    public List<User> findAllTester(User sessionUser) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
                 return userDao.findAllTester();

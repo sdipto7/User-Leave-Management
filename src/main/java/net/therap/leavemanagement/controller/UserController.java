@@ -122,7 +122,9 @@ public class UserController {
                                     HttpSession session) {
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
-        List<User> developerList = userService.findAllDeveloper(session);
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        List<User> developerList = userService.findAllDeveloper(sessionUser);
         userHelper.showListByPage(developerList, page, session);
 
         return USER_LIST_PAGE;
@@ -133,7 +135,9 @@ public class UserController {
                                  HttpSession session) {
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
-        List<User> testerList = userService.findAllTester(session);
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
+        List<User> testerList = userService.findAllTester(sessionUser);
         userHelper.showListByPage(testerList, page, session);
 
         return USER_LIST_PAGE;
