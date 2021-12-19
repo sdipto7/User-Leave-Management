@@ -47,7 +47,7 @@ public class LeaveHelper {
                 (user.getDesignation().equals(DEVELOPER) ||
                         user.getDesignation().equals(TESTER))) {
 
-            userHelper.checkAndSetAuthorizedTeamLeadIfExist(user, session, model);
+            userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, model);
         }
     }
 

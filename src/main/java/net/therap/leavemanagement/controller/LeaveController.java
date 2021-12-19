@@ -235,7 +235,7 @@ public class LeaveController {
 
         User user = leave.getUser();
 
-        userHelper.checkAndSetAuthorizedTeamLeadIfExist(user, session, model);
+        userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, model);
 
         leaveHelper.updateLeaveStatusToApprove(leave, session);
 
@@ -267,7 +267,7 @@ public class LeaveController {
 
         User user = leave.getUser();
 
-        userHelper.checkAndSetAuthorizedTeamLeadIfExist(user, session, model);
+        userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, model);
 
         leaveHelper.updateLeaveStatusToDeny(leave, session);
 

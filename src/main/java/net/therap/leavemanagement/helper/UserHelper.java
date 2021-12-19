@@ -45,7 +45,7 @@ public class UserHelper {
         return id == 0 ? new User() : userService.find(id);
     }
 
-    public void checkRoleChange(UserSaveCommand userSaveCommand) {
+    public void checkAndSetRoleChange(UserSaveCommand userSaveCommand) {
         User commandUser = userSaveCommand.getUser();
         long id = commandUser.getId();
 
@@ -57,7 +57,7 @@ public class UserHelper {
         }
     }
 
-    public void checkAndSetAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap model) {
+    public void checkAndAddAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap model) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
         User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
 

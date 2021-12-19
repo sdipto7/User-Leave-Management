@@ -166,7 +166,7 @@ public class UserController {
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
 
-        userHelper.checkAndSetAuthorizedTeamLeadIfExist(user, session, model);
+        userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, model);
 
         userHelper.setupDataIfTeamLead(user, model);
 
@@ -214,7 +214,7 @@ public class UserController {
             return USER_SAVE_PAGE;
         }
 
-        userHelper.checkRoleChange(userSaveCommand);
+        userHelper.checkAndSetRoleChange(userSaveCommand);
         userService.saveOrUpdate(userSaveCommand);
         logger.info("[user_save] {} saved successfully", userSaveCommand.getUser().getFirstName());
 
