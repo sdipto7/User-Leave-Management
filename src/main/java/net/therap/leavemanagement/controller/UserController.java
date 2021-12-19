@@ -95,7 +95,7 @@ public class UserController {
                                ModelMap model) {
 
         User user = userService.find(id);
-        authorizationHelper.checkAccess(user, session);
+        authorizationHelper.checkAccess(user);
 
         UserProfileCommand userProfileCommand = new UserProfileCommand();
         userProfileCommand.setUser(user);
@@ -112,7 +112,7 @@ public class UserController {
                                    HttpSession session,
                                    ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
 
         List<User> teamLeadList = userService.findAllTeamLead(Integer.parseInt(page));
 
@@ -127,7 +127,7 @@ public class UserController {
                                     HttpSession session,
                                     ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
@@ -144,7 +144,7 @@ public class UserController {
                                  HttpSession session,
                                  ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
@@ -161,7 +161,7 @@ public class UserController {
                               HttpSession session,
                               ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
 
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
@@ -181,7 +181,7 @@ public class UserController {
                            HttpSession session,
                            ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
 
         User user = userHelper.getOrCreateUser(id);
         UserSaveCommand userSaveCommand = new UserSaveCommand();
@@ -204,7 +204,7 @@ public class UserController {
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
 
         if (errors.hasErrors()) {
             userHelper.setConditionalDataForUserSaveView(userSaveCommand.getUser(), model);
@@ -234,7 +234,7 @@ public class UserController {
                                  ModelMap model) {
 
         User user = userProfileCommand.getUser();
-        authorizationHelper.checkAccess(user, session);
+        authorizationHelper.checkAccess(user);
 
         if (errors.hasErrors()) {
             model.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(user.getId()));
@@ -262,7 +262,7 @@ public class UserController {
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
+        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
 
         if (errors.hasErrors()) {
             return USER_DETAILS_PAGE;

@@ -42,7 +42,7 @@ public class LeaveHelper {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
         if (sessionUser.getDesignation().equals(user.getDesignation())) {
-            authorizationHelper.checkAccess(user, session);
+            authorizationHelper.checkAccess(user);
         } else if (sessionUser.getDesignation().equals(TEAM_LEAD) &&
                 (user.getDesignation().equals(DEVELOPER) ||
                         user.getDesignation().equals(TESTER))) {

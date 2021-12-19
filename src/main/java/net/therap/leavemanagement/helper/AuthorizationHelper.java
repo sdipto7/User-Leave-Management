@@ -2,6 +2,7 @@ package net.therap.leavemanagement.helper;
 
 import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.util.SessionUtil;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -15,7 +16,8 @@ import java.util.List;
 @Component
 public class AuthorizationHelper {
 
-    public void checkAccess(List<Designation> designationList, HttpSession session) {
+    public void checkAccess(List<Designation> designationList) {
+        HttpSession session = SessionUtil.getHttpSession();
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
         if (!designationList.contains(sessionUser.getDesignation())) {
@@ -23,7 +25,8 @@ public class AuthorizationHelper {
         }
     }
 
-    public void checkAccess(User user, HttpSession session) {
+    public void checkAccess(User user) {
+        HttpSession session = SessionUtil.getHttpSession();
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
         if (!user.equals(sessionUser)) {

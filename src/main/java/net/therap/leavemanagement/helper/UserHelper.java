@@ -62,7 +62,7 @@ public class UserHelper {
         User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
 
         if ((user.isDeveloper() || user.isTester()) && (sessionUser.isTeamLead())) {
-            authorizationHelper.checkAccess(teamLead, session);
+            authorizationHelper.checkAccess(teamLead);
         }
         model.addAttribute("teamLead", teamLead);
     }

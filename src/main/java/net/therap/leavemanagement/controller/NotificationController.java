@@ -38,7 +38,7 @@ public class NotificationController {
                                    ModelMap model) {
 
         User user = userService.find(userId);
-        authorizationHelper.checkAccess(user, session);
+        authorizationHelper.checkAccess(user);
 
         notificationHelper.setupNotificationData(user, model);
 
