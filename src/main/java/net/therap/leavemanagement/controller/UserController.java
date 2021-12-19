@@ -13,7 +13,8 @@ import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.UserProfileCommandValidator;
 import net.therap.leavemanagement.validator.UserSaveCommandValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -63,7 +64,7 @@ public class UserController {
     @Autowired
     private UserProfileCommandValidator userProfileCommandValidator;
 
-    private static final Logger logger = Logger.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public static final String USER_COMMAND = "user";
     public static final String USER_COMMAND_SAVE = "userSaveCommand";
@@ -215,7 +216,7 @@ public class UserController {
 
         userHelper.checkRoleChange(userSaveCommand);
         userService.saveOrUpdate(userSaveCommand);
-        logger.info(userSaveCommand.getUser().getFirstName() + " saved successfully");
+        logger.info("[user_save] {} saved successfully", userSaveCommand.getUser().getFirstName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -244,7 +245,7 @@ public class UserController {
 
         userService.updatePassword(userProfileCommand);
         session.setAttribute("SESSION_USER", userProfileCommand.getUser());
-        logger.info(user.getFirstName() + user.getLastName() + " updated own password successfully");
+        logger.info("[user_updatePass] {} {} updated own password successfully", user.getFirstName(), user.getLastName());
 
         sessionStatus.setComplete();
 
@@ -268,7 +269,7 @@ public class UserController {
         }
 
         userService.delete(user);
-        logger.info(user.getFirstName() + user.getLastName() + " is deleted successfully");
+        logger.info("[user_delete] {} {} is deleted successfully", user.getFirstName(), user.getLastName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",

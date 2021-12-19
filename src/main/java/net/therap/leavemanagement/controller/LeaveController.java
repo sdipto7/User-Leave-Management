@@ -10,7 +10,8 @@ import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.LeaveValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -57,7 +58,7 @@ public class LeaveController {
     @Autowired
     private LeaveValidator leaveValidator;
 
-    private static final Logger logger = Logger.getLogger(LeaveController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LeaveController.class);
 
     public static final String LEAVE_COMMAND = "leave";
     public static final String LEAVE_LIST_PAGE = "/leave/list";
@@ -185,8 +186,7 @@ public class LeaveController {
         leaveService.saveOrUpdate(leave);
 
         leaveHelper.setNewLeaveNotificationByUserDesignation(leave);
-
-        logger.info(user.getFirstName() + user.getLastName() + " added a new leave request");
+        logger.info("[leave_save] {} {}  added a new leave request", user.getFirstName(), user.getLastName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -210,8 +210,7 @@ public class LeaveController {
         }
 
         leaveService.delete(leave);
-
-        logger.info(user.getFirstName() + user.getLastName() + " deleted own leave request");
+        logger.info("[leave_save] {} {}  deleted own leave request", user.getFirstName(), user.getLastName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -243,9 +242,7 @@ public class LeaveController {
         leaveService.saveOrUpdate(leave);
 
         leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "approved");
-
-        logger.info("Team Lead gave approval to the leave request of " +
-                user.getFirstName() + user.getLastName());
+        logger.info("Team Lead gave approval to the leave request of {} {}", user.getFirstName(), user.getLastName());
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",
@@ -278,8 +275,7 @@ public class LeaveController {
 
         leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "rejected");
 
-        logger.info("Team Lead denied the leave request of " +
-                user.getFirstName() + user.getLastName());
+        logger.info("Team Lead denied the leave request of {} {}", user.getFirstName(), user.getLastName());
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",

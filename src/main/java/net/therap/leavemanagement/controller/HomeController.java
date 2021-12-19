@@ -1,6 +1,7 @@
 package net.therap.leavemanagement.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class HomeController {
 
-    private static final Logger logger = Logger.getLogger(HomeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     public static final String INDEX_PAGE = "/index";
     public static final String SUCCESS_PAGE = "/success";
@@ -23,7 +24,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String showStartPage() {
-        logger.info("Application started successfully");
+        logger.info("[home_controller] Application started successfully! ");
 
         return INDEX_PAGE;
     }

@@ -5,7 +5,8 @@ import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthenticationHelper;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ import static net.therap.leavemanagement.controller.LoginController.LOGIN_COMMAN
 @SessionAttributes(LOGIN_COMMAND)
 public class LoginController {
 
-    private static final Logger logger = Logger.getLogger(LoginController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     public static final String LOGIN_COMMAND = "loginCommand";
     public static final String LOGIN_PAGE = "/login";
@@ -69,7 +70,7 @@ public class LoginController {
         User user = userService.findByUsername(username);
         if (user != null && authenticationHelper.authCheck(user, password)) {
             session.setAttribute("SESSION_USER", user);
-            logger.info(user.getFirstName() + user.getLastName() + " logged in successfully");
+            logger.info("[login] {} {} logged in successfully", user.getFirstName(), user.getLastName());
 
             return "redirect:/" + Constant.DASHBOARD_URL;
         } else {
