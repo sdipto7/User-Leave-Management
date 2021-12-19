@@ -28,20 +28,36 @@ public class LeaveService {
         return leaveDao.find(id);
     }
 
-    public List<Leave> findUserLeaveList(long id) {
-        return leaveDao.findUserLeaveList(id);
+    public List<Leave> findUserLeaveList(long id, int page) {
+        return leaveDao.findUserLeaveList(id, page);
     }
 
-    public List<Leave> findUserPendingLeaveList(long id) {
-        return leaveDao.findUserPendingLeaveList(id);
+    public Long countUserLeave(long id) {
+        return leaveDao.countUserLeave(id);
     }
 
-    public List<Leave> findAllLeave() {
-        return leaveDao.findAllLeave();
+    public List<Leave> findUserPendingLeaveList(long id, int page) {
+        return leaveDao.findUserPendingLeaveList(id, page);
     }
 
-    public List<Leave> findAllPendingLeave() {
-        return leaveDao.findAllPendingLeave();
+    public Long countUserPendingLeave(long id) {
+        return leaveDao.countUserPendingLeave(id);
+    }
+
+    public List<Leave> findAllLeave(int page) {
+        return leaveDao.findAllLeave(page);
+    }
+
+    public Long countAllLeave() {
+        return leaveDao.countAllLeave();
+    }
+
+    public List<Leave> findAllPendingLeave(int page) {
+        return leaveDao.findAllPendingLeave(page);
+    }
+
+    public Long countAllPendingLeave() {
+        return leaveDao.countAllPendingLeave();
     }
 
     @Transactional

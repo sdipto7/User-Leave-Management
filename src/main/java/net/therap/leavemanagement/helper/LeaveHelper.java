@@ -7,16 +7,14 @@ import net.therap.leavemanagement.service.NotificationService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Objects;
 
 import static net.therap.leavemanagement.domain.Designation.*;
 import static net.therap.leavemanagement.domain.LeaveStatus.*;
+import static net.therap.leavemanagement.util.Constant.pageSize;
 
 /**
  * @author rumi.dipto
@@ -53,6 +51,10 @@ public class LeaveHelper {
         }
     }
 
+    public int getTotalPageNumber(int listSize) {
+        return ((listSize % pageSize == 0) ? (listSize / pageSize) : (listSize / pageSize) + 1);
+    }
+
     public Leave getLeaveByUserDesignation(User user) {
         Leave leave = new Leave();
         leave.setUser(user);
@@ -79,20 +81,6 @@ public class LeaveHelper {
         if (((sessionUser.isDeveloper() || sessionUser.isTester()) && leave.isPendingByTeamLead())
                 || (sessionUser.isTeamLead() && leave.getUser().isTeamLead() && leave.isPendingByHrExecutive())) {
             model.addAttribute("canDelete", true);
-        }
-    }
-
-    public void showListByPage(List<Leave> leaveList, String page, HttpSession session) {
-        PagedListHolder<Leave> leavePagedListHolder = new PagedListHolder<>();
-
-        if (Objects.isNull(page)) {
-            leavePagedListHolder.setSource(leaveList);
-            leavePagedListHolder.setPageSize(5);
-            session.setAttribute("leavePagedListHolder", leavePagedListHolder);
-        } else {
-            leavePagedListHolder = (PagedListHolder<Leave>) session.getAttribute("leavePagedListHolder");
-            int pageNumber = Integer.parseInt(page);
-            leavePagedListHolder.setPage(pageNumber - 1);
         }
     }
 

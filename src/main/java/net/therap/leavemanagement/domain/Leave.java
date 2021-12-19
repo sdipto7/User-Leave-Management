@@ -18,19 +18,33 @@ import static net.therap.leavemanagement.domain.LeaveStatus.*;
 @Table(name = "lm_leave_request")
 @NamedQueries({
         @NamedQuery(name = "Leave.findAllLeave",
-                query = "SELECT l FROM Leave l WHERE l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE'"),
+                query = "SELECT l FROM Leave l WHERE l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' ORDER BY l.id"),
 
         @NamedQuery(name = "Leave.findAllPendingLeave",
                 query = "SELECT l FROM Leave l " +
-                        "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE'"),
+                        "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE' ORDER BY l.id"),
 
         @NamedQuery(name = "Leave.findUserLeaveList",
-                query = "SELECT l FROM Leave l WHERE l.user.id = :id AND l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE'"),
+                query = "SELECT l FROM Leave l WHERE l.user.id = :id AND l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' ORDER BY l.id"),
 
         @NamedQuery(name = "Leave.findUserPendingLeaveList",
                 query = "SELECT l FROM Leave l " +
                         "WHERE l.user.id = :id " +
-                        "AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE')"),
+                        "AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE') ORDER BY l.id"),
+
+        @NamedQuery(name = "Leave.countAllLeave",
+                query = "SELECT COUNT(l) FROM Leave l WHERE l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE'"),
+
+        @NamedQuery(name = "Leave.countAllPendingLeave",
+                query = "SELECT COUNT(l) FROM Leave l " +
+                        "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE'"),
+
+        @NamedQuery(name = "Leave.countUserLeave",
+                query = "SELECT COUNT(l) FROM Leave l WHERE l.user.id = :id AND l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE'"),
+
+        @NamedQuery(name = "Leave.countUserPendingLeave",
+                query = "SELECT COUNT(l) FROM Leave l " +
+                        "WHERE l.user.id = :id AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE')")
 })
 public class Leave extends Persistent {
 

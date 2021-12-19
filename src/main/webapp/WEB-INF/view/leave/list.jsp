@@ -26,7 +26,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="leave" items="${leavePagedListHolder.pageList}">
+    <c:forEach var="leave" items="${leaveList}">
 
         <c:url var="showDetailsLink" value="/leave/details">
             <c:param name="id" value="${leave.id}"/>
@@ -48,23 +48,11 @@
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
-        <c:forEach begin="1" end="${leavePagedListHolder.pageCount}" step="1" varStatus="pageIndexStatus">
-
-            <c:if test="${(leavePagedListHolder.page + 1) == pageIndexStatus.index}">
-                <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1"><c:out value="${pageIndexStatus.index}"/></a>
-                </li>
-            </c:if>
-
-            <c:url value="${url}" var="pageLink">
-                <c:param name="page" value="${pageIndexStatus.index}"/>
+        <c:forEach begin="1" end="${pageNumber}" varStatus="page">
+            <c:url var="pageLink" value="${requestScope['javax.servlet.forward.request_uri']}">
+                <c:param name="page" value="${page.index}"/>
             </c:url>
-
-            <c:if test="${(leavePagedListHolder.page + 1) != pageIndexStatus.index}">
-                <li class="page-item">
-                    <a href="${pageLink}"><c:out value="${pageIndexStatus.index}"/></a>
-                </li>
-            </c:if>
+            <li class="page-item"><a class="page-link" href="${pageLink}">${page.index}</a></li>
         </c:forEach>
     </ul>
 </nav>

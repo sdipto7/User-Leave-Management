@@ -28,9 +28,9 @@
     <c:param name="userId" value="${SESSION_USER.id}"/>
 </c:url>
 
-<c:url var="showAllLeaveListLink" value="/leave/allUserLeaveList"/>
+<c:url var="showLeaveListLink" value="/leave/LeaveList"/>
 
-<c:url var="showAllPendingLeaveListLink" value="leave/allUserPendingLeaveList"/>
+<c:url var="showPendingLeaveListLink" value="leave/pendingLeaveList"/>
 
 <c:url var="addLeaveLink" value="/leave/form">
     <c:param name="userId" value="${SESSION_USER.id}"/>
@@ -69,13 +69,13 @@
         <tr>
             <td><fmt:message key="label.dashboard.body.leaves"/></td>
             <td>
-                <a href="${showAllLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                <a href="${showLeaveListLink}"><fmt:message key="label.link.showList"/></a>
             </td>
         </tr>
         <tr>
             <td><fmt:message key="label.dashboard.body.pendingLeaves"/></td>
             <td>
-                <a href="${showAllPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                <a href="${showPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
             </td>
         </tr>
     </c:if>
