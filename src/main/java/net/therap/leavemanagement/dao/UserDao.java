@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -44,12 +45,24 @@ public class UserDao {
         return em.createNamedQuery("User.findAllTeamLead", User.class).getResultList();
     }
 
+    public TypedQuery<Long> countTeamLead() {
+        return em.createQuery("SELECT COUNT(*) FROM User u WHERE u.designation = 'TEAM_LEAD'", Long.class);
+    }
+
     public List<User> findAllDeveloper() {
         return em.createNamedQuery("User.findAllDeveloper", User.class).getResultList();
     }
 
+    public TypedQuery<Long> countDeveloper() {
+        return em.createQuery("SELECT COUNT(*) FROM User u WHERE u.designation = 'DEVELOPER'", Long.class);
+    }
+
     public List<User> findAllTester() {
         return em.createNamedQuery("User.findAllTester", User.class).getResultList();
+    }
+
+    public TypedQuery<Long> countTester() {
+        return em.createQuery("SELECT COUNT(*) FROM User u WHERE u.designation = 'TESTER'", Long.class);
     }
 
     public List<User> findAll() {
