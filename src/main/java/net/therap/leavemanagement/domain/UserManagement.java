@@ -28,7 +28,13 @@ import javax.validation.constraints.NotNull;
 
         @NamedQuery(name = "UserManagement.findAllTesterUnderTeamLead",
                 query = "SELECT um.user FROM UserManagement um " +
-                        "WHERE um.teamLead.id = :id AND um.user.designation = 'TESTER' ORDER BY um.id")
+                        "WHERE um.teamLead.id = :id AND um.user.designation = 'TESTER' ORDER BY um.id"),
+
+        @NamedQuery(name = "UserManagement.countDeveloperUnderTeamLead",
+                query = "SELECT COUNT(um) FROM UserManagement um WHERE um.teamLead.id = :id AND um.user.designation = 'DEVELOPER'"),
+
+        @NamedQuery(name = "UserManagement.countTesterUnderTeamLead",
+                query = "SELECT COUNT(um) FROM UserManagement um WHERE um.teamLead.id = :id AND um.user.designation = 'TESTER'")
 })
 public class UserManagement extends Persistent {
 

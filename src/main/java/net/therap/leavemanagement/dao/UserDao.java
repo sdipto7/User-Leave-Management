@@ -55,7 +55,7 @@ public class UserDao {
     }
 
     public Long countTeamLead() {
-        return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.designation = 'TEAM_LEAD'", Long.class)
+        return em.createNamedQuery("User.countTeamLead", Long.class)
                 .getSingleResult();
     }
 
@@ -67,7 +67,7 @@ public class UserDao {
     }
 
     public Long countDeveloper() {
-        return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.designation = 'DEVELOPER'", Long.class)
+        return em.createNamedQuery("User.countDeveloper", Long.class)
                 .getSingleResult();
     }
 
@@ -79,7 +79,7 @@ public class UserDao {
     }
 
     public Long countTester() {
-        return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.designation = 'TESTER'", Long.class)
+        return em.createNamedQuery("User.countTester", Long.class)
                 .getSingleResult();
     }
 
@@ -91,7 +91,7 @@ public class UserDao {
     }
 
     public Long countAll() {
-        return em.createQuery("SELECT COUNT(u) FROM User u", Long.class)
+        return em.createNamedQuery("User.countAll", Long.class)
                 .getSingleResult();
     }
 

@@ -32,7 +32,19 @@ import static net.therap.leavemanagement.domain.Designation.*;
                 query = "SELECT u FROM User u WHERE u.designation = 'TESTER' ORDER BY u.id ASC"),
 
         @NamedQuery(name = "User.findAll",
-                query = "SELECT u FROM User u ORDER BY u.id ASC")
+                query = "SELECT u FROM User u ORDER BY u.id ASC"),
+
+        @NamedQuery(name = "User.countTeamLead",
+                query = "SELECT COUNT(u) FROM User u WHERE u.designation = 'TEAM_LEAD'"),
+
+        @NamedQuery(name = "User.countDeveloper",
+                query = "SELECT COUNT(u) FROM User u WHERE u.designation = 'DEVELOPER'"),
+
+        @NamedQuery(name = "User.countTester",
+                query = "SELECT COUNT(u) FROM User u WHERE u.designation = 'TESTER'"),
+
+        @NamedQuery(name = "User.countAll",
+                query = "SELECT COUNT(u) FROM User u")
 })
 public class User extends Persistent {
 

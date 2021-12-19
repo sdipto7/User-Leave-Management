@@ -61,7 +61,7 @@ public class UserManagementDao {
     }
 
     public Long countDeveloperUnderTeamLead(long id) {
-        return em.createQuery("SELECT COUNT(um) FROM UserManagement um WHERE um.teamLead.id = :id AND um.user.designation = 'DEVELOPER'", Long.class)
+        return em.createNamedQuery("UserManagement.countDeveloperUnderTeamLead", Long.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
@@ -81,7 +81,7 @@ public class UserManagementDao {
     }
 
     public Long countTesterUnderTeamLead(long id) {
-        return em.createQuery("SELECT COUNT(um) FROM UserManagement um WHERE um.teamLead.id = :id AND um.user.designation = 'TESTER'", Long.class)
+        return em.createNamedQuery("UserManagement.countTesterUnderTeamLead", Long.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }

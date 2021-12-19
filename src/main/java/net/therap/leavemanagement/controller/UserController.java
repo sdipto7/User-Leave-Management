@@ -110,6 +110,7 @@ public class UserController {
     public String showTeamLeadList(@RequestParam(defaultValue = "1") String page,
                                    HttpSession session,
                                    ModelMap model) {
+
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
         List<User> teamLeadList = userService.findAllTeamLead(Integer.parseInt(page));
@@ -124,6 +125,7 @@ public class UserController {
     public String showDeveloperList(@RequestParam(defaultValue = "1") String page,
                                     HttpSession session,
                                     ModelMap model) {
+
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
@@ -131,7 +133,6 @@ public class UserController {
         List<User> developerList = userService.findAllDeveloper(sessionUser, Integer.parseInt(page));
 
         model.addAttribute("userList", developerList);
-        model.addAttribute("currentPage", Integer.parseInt(page));
         model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countDeveloper(sessionUser))));
 
         return USER_LIST_PAGE;
@@ -141,6 +142,7 @@ public class UserController {
     public String showTesterList(@RequestParam(defaultValue = "1") String page,
                                  HttpSession session,
                                  ModelMap model) {
+
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
