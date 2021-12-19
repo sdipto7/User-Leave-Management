@@ -36,8 +36,24 @@ public class UserManagementService {
         return userManagementDao.findAllDeveloperUnderTeamLead(id);
     }
 
+    public List<User> findAllDeveloperUnderTeamLead(long id, int page) {
+        return userManagementDao.findAllDeveloperUnderTeamLead(id, page);
+    }
+
+    public Long countDeveloperUnderTeamLead(long id) {
+        return userManagementDao.countDeveloperUnderTeamLead(id);
+    }
+
     public List<User> findAllTesterUnderTeamLead(long id) {
         return userManagementDao.findAllTesterUnderTeamLead(id);
+    }
+
+    public List<User> findAllTesterUnderTeamLead(long id, int page) {
+        return userManagementDao.findAllTesterUnderTeamLead(id, page);
+    }
+
+    public Long countTesterUnderTeamLead(long id) {
+        return userManagementDao.countTesterUnderTeamLead(id);
     }
 
     @Transactional

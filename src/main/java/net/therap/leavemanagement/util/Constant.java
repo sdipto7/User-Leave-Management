@@ -10,4 +10,5 @@ public interface Constant {
     String DASHBOARD_URL = "dashboard";
     String SUCCESS_URL = "success";
     String PERSISTENCE_UNIT = "leave-management-persistence-unit";
+    int pageSize = 3;
 }

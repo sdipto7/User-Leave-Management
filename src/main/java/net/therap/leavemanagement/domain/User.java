@@ -23,16 +23,16 @@ import static net.therap.leavemanagement.domain.Designation.*;
                 query = "SELECT u FROM User u WHERE u.username = :username"),
 
         @NamedQuery(name = "User.findAllTeamLead",
-                query = "SELECT u FROM User u WHERE u.designation = 'TEAM_LEAD'"),
+                query = "SELECT u FROM User u WHERE u.designation = 'TEAM_LEAD' ORDER BY u.id ASC"),
 
         @NamedQuery(name = "User.findAllDeveloper",
-                query = "SELECT u FROM User u WHERE u.designation = 'DEVELOPER'"),
+                query = "SELECT u FROM User u WHERE u.designation = 'DEVELOPER' ORDER BY u.id ASC"),
 
         @NamedQuery(name = "User.findAllTester",
-                query = "SELECT u FROM User u WHERE u.designation = 'TESTER'"),
+                query = "SELECT u FROM User u WHERE u.designation = 'TESTER' ORDER BY u.id ASC"),
 
         @NamedQuery(name = "User.findAll",
-                query = "SELECT u FROM User u")
+                query = "SELECT u FROM User u ORDER BY u.id ASC")
 })
 public class User extends Persistent {
 

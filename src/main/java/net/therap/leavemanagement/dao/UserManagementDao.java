@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static net.therap.leavemanagement.util.Constant.pageSize;
+
 /**
  * @author rumi.dipto
  * @since 11/27/21
@@ -50,10 +52,38 @@ public class UserManagementDao {
                 .getResultList();
     }
 
+    public List<User> findAllDeveloperUnderTeamLead(long id, int page) {
+        return em.createNamedQuery("UserManagement.findAllDeveloperUnderTeamLead", User.class)
+                .setParameter("id", id)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    public Long countDeveloperUnderTeamLead(long id) {
+        return em.createQuery("SELECT COUNT(um) FROM UserManagement um WHERE um.teamLead.id = :id AND um.user.designation = 'DEVELOPER'", Long.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
     public List<User> findAllTesterUnderTeamLead(long id) {
         return em.createNamedQuery("UserManagement.findAllTesterUnderTeamLead", User.class)
                 .setParameter("id", id)
                 .getResultList();
+    }
+
+    public List<User> findAllTesterUnderTeamLead(long id, int page) {
+        return em.createNamedQuery("UserManagement.findAllTesterUnderTeamLead", User.class)
+                .setParameter("id", id)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    public Long countTesterUnderTeamLead(long id) {
+        return em.createQuery("SELECT COUNT(um) FROM UserManagement um WHERE um.teamLead.id = :id AND um.user.designation = 'TESTER'", Long.class)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     @Transactional

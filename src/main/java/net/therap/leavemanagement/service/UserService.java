@@ -11,11 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
-
-import static net.therap.leavemanagement.domain.Designation.DEVELOPER;
-import static net.therap.leavemanagement.domain.Designation.TESTER;
 
 /**
  * @author rumi.dipto
@@ -55,30 +51,64 @@ public class UserService {
         return userDao.findAllTeamLead();
     }
 
-    public List<User> findAllDeveloper(User sessionUser) {
+    public List<User> findAllTeamLead(int page) {
+        return userDao.findAllTeamLead(page);
+    }
+
+    public Long countTeamLead() {
+        return userDao.countTeamLead();
+    }
+
+    public List<User> findAllDeveloper(User sessionUser, int page) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
-                return userDao.findAllDeveloper();
+                return userDao.findAllDeveloper(page);
             case TEAM_LEAD:
-                return userManagementService.findAllDeveloperUnderTeamLead(sessionUser.getId());
+                return userManagementService.findAllDeveloperUnderTeamLead(sessionUser.getId(), page);
             default:
                 return null;
         }
     }
 
-    public List<User> findAllTester(User sessionUser) {
+    public Long countDeveloper(User sessionUser) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
-                return userDao.findAllTester();
+                return userDao.countDeveloper();
             case TEAM_LEAD:
-                return userManagementService.findAllTesterUnderTeamLead(sessionUser.getId());
+                return userManagementService.countDeveloperUnderTeamLead(sessionUser.getId());
             default:
                 return null;
         }
     }
 
-    public List<User> findAll() {
-        return userDao.findAll();
+    public List<User> findAllTester(User sessionUser, int page) {
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return userDao.findAllTester(page);
+            case TEAM_LEAD:
+                return userManagementService.findAllTesterUnderTeamLead(sessionUser.getId(), page);
+            default:
+                return null;
+        }
+    }
+
+    public Long countTester(User sessionUser) {
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return userDao.countTester();
+            case TEAM_LEAD:
+                return userManagementService.countTesterUnderTeamLead(sessionUser.getId());
+            default:
+                return null;
+        }
+    }
+
+    public List<User> findAll(int page) {
+        return userDao.findAll(page);
+    }
+
+    public Long countAll() {
+        return userDao.countAll();
     }
 
     @Transactional

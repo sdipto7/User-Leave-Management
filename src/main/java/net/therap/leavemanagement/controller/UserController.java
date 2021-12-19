@@ -107,38 +107,48 @@ public class UserController {
     }
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
-    public String showTeamLeadList(@RequestParam(value = "page", required = false) String page,
-                                   HttpSession session) {
+    public String showTeamLeadList(@RequestParam(defaultValue = "1") String page,
+                                   HttpSession session,
+                                   ModelMap model) {
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE), session);
 
-        List<User> teamLeadList = userService.findAllTeamLead();
-        userHelper.showListByPage(teamLeadList, page, session);
+        List<User> teamLeadList = userService.findAllTeamLead(Integer.parseInt(page));
+
+        model.addAttribute("userList", teamLeadList);
+        model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countTeamLead())));
 
         return USER_LIST_PAGE;
     }
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
-    public String showDeveloperList(@RequestParam(value = "page", required = false) String page,
-                                    HttpSession session) {
+    public String showDeveloperList(@RequestParam(defaultValue = "1") String page,
+                                    HttpSession session,
+                                    ModelMap model) {
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        List<User> developerList = userService.findAllDeveloper(sessionUser);
-        userHelper.showListByPage(developerList, page, session);
+        List<User> developerList = userService.findAllDeveloper(sessionUser, Integer.parseInt(page));
+
+        model.addAttribute("userList", developerList);
+        model.addAttribute("currentPage", Integer.parseInt(page));
+        model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countDeveloper(sessionUser))));
 
         return USER_LIST_PAGE;
     }
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
-    public String showTesterList(@RequestParam(value = "page", required = false) String page,
-                                 HttpSession session) {
+    public String showTesterList(@RequestParam(defaultValue = "1") String page,
+                                 HttpSession session,
+                                 ModelMap model) {
         authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD), session);
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        List<User> testerList = userService.findAllTester(sessionUser);
-        userHelper.showListByPage(testerList, page, session);
+        List<User> testerList = userService.findAllTester(sessionUser, Integer.parseInt(page));
+
+        model.addAttribute("userList", testerList);
+        model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countTester(sessionUser))));
 
         return USER_LIST_PAGE;
     }

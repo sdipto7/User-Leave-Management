@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
+
+import static net.therap.leavemanagement.util.Constant.pageSize;
 
 /**
  * @author rumi.dipto
@@ -42,31 +43,56 @@ public class UserDao {
     }
 
     public List<User> findAllTeamLead() {
-        return em.createNamedQuery("User.findAllTeamLead", User.class).getResultList();
+        return em.createNamedQuery("User.findAllTeamLead", User.class)
+                .getResultList();
     }
 
-    public TypedQuery<Long> countTeamLead() {
-        return em.createQuery("SELECT COUNT(*) FROM User u WHERE u.designation = 'TEAM_LEAD'", Long.class);
+    public List<User> findAllTeamLead(int page) {
+        return em.createNamedQuery("User.findAllTeamLead", User.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
-    public List<User> findAllDeveloper() {
-        return em.createNamedQuery("User.findAllDeveloper", User.class).getResultList();
+    public Long countTeamLead() {
+        return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.designation = 'TEAM_LEAD'", Long.class)
+                .getSingleResult();
     }
 
-    public TypedQuery<Long> countDeveloper() {
-        return em.createQuery("SELECT COUNT(*) FROM User u WHERE u.designation = 'DEVELOPER'", Long.class);
+    public List<User> findAllDeveloper(int page) {
+        return em.createNamedQuery("User.findAllDeveloper", User.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
-    public List<User> findAllTester() {
-        return em.createNamedQuery("User.findAllTester", User.class).getResultList();
+    public Long countDeveloper() {
+        return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.designation = 'DEVELOPER'", Long.class)
+                .getSingleResult();
     }
 
-    public TypedQuery<Long> countTester() {
-        return em.createQuery("SELECT COUNT(*) FROM User u WHERE u.designation = 'TESTER'", Long.class);
+    public List<User> findAllTester(int page) {
+        return em.createNamedQuery("User.findAllTester", User.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
     }
 
-    public List<User> findAll() {
-        return em.createNamedQuery("User.findAll", User.class).getResultList();
+    public Long countTester() {
+        return em.createQuery("SELECT COUNT(u) FROM User u WHERE u.designation = 'TESTER'", Long.class)
+                .getSingleResult();
+    }
+
+    public List<User> findAll(int page) {
+        return em.createNamedQuery("User.findAll", User.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    public Long countAll() {
+        return em.createQuery("SELECT COUNT(u) FROM User u", Long.class)
+                .getSingleResult();
     }
 
     @Transactional
