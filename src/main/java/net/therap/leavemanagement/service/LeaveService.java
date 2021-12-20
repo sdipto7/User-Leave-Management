@@ -32,7 +32,7 @@ public class LeaveService {
         return leaveDao.findUserLeaveList(id, page);
     }
 
-    public Long countUserLeave(long id) {
+    public long countUserLeave(long id) {
         return leaveDao.countUserLeave(id);
     }
 
@@ -40,7 +40,7 @@ public class LeaveService {
         return leaveDao.findUserPendingLeaveList(id, page);
     }
 
-    public Long countUserPendingLeave(long id) {
+    public long countUserPendingLeave(long id) {
         return leaveDao.countUserPendingLeave(id);
     }
 
@@ -48,7 +48,7 @@ public class LeaveService {
         return leaveDao.findAllLeave(page);
     }
 
-    public Long countAllLeave() {
+    public long countAllLeave() {
         return leaveDao.countAllLeave();
     }
 
@@ -56,7 +56,7 @@ public class LeaveService {
         return leaveDao.findAllPendingLeave(page);
     }
 
-    public Long countAllPendingLeave() {
+    public long countAllPendingLeave() {
         return leaveDao.countAllPendingLeave();
     }
 

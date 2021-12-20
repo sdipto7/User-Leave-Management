@@ -55,7 +55,7 @@ public class UserService {
         return userDao.findAllTeamLead(page);
     }
 
-    public Long countTeamLead() {
+    public long countTeamLead() {
         return userDao.countTeamLead();
     }
 
@@ -70,14 +70,14 @@ public class UserService {
         }
     }
 
-    public Long countDeveloper(User sessionUser) {
+    public long countDeveloper(User sessionUser) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
                 return userDao.countDeveloper();
             case TEAM_LEAD:
                 return userManagementService.countDeveloperUnderTeamLead(sessionUser.getId());
             default:
-                return null;
+                return 0;
         }
     }
 
@@ -92,14 +92,14 @@ public class UserService {
         }
     }
 
-    public Long countTester(User sessionUser) {
+    public long countTester(User sessionUser) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
                 return userDao.countTester();
             case TEAM_LEAD:
                 return userManagementService.countTesterUnderTeamLead(sessionUser.getId());
             default:
-                return null;
+                return 0;
         }
     }
 

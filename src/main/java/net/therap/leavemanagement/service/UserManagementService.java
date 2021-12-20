@@ -40,7 +40,7 @@ public class UserManagementService {
         return userManagementDao.findAllDeveloperUnderTeamLead(id, page);
     }
 
-    public Long countDeveloperUnderTeamLead(long id) {
+    public long countDeveloperUnderTeamLead(long id) {
         return userManagementDao.countDeveloperUnderTeamLead(id);
     }
 
@@ -52,7 +52,7 @@ public class UserManagementService {
         return userManagementDao.findAllTesterUnderTeamLead(id, page);
     }
 
-    public Long countTesterUnderTeamLead(long id) {
+    public long countTesterUnderTeamLead(long id) {
         return userManagementDao.countTesterUnderTeamLead(id);
     }
 

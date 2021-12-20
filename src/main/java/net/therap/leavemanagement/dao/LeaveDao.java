@@ -39,7 +39,7 @@ public class LeaveDao {
                 .getResultList();
     }
 
-    public Long countUserLeave(long id) {
+    public long countUserLeave(long id) {
         return em.createNamedQuery("Leave.countUserLeave", Long.class)
                 .setParameter("id", id)
                 .getSingleResult();
@@ -59,7 +59,7 @@ public class LeaveDao {
                 .getResultList();
     }
 
-    public Long countUserPendingLeave(long id) {
+    public long countUserPendingLeave(long id) {
         return em.createNamedQuery("Leave.countUserPendingLeave", Long.class)
                 .setParameter("id", id)
                 .getSingleResult();
@@ -72,7 +72,7 @@ public class LeaveDao {
                 .getResultList();
     }
 
-    public Long countAllLeave() {
+    public long countAllLeave() {
         return em.createNamedQuery("Leave.countAllLeave", Long.class)
                 .getSingleResult();
     }
@@ -84,7 +84,7 @@ public class LeaveDao {
                 .getResultList();
     }
 
-    public Long countAllPendingLeave() {
+    public long countAllPendingLeave() {
         return em.createNamedQuery("Leave.countAllPendingLeave", Long.class)
                 .getSingleResult();
     }

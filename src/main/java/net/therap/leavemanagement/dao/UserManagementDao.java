@@ -60,7 +60,7 @@ public class UserManagementDao {
                 .getResultList();
     }
 
-    public Long countDeveloperUnderTeamLead(long id) {
+    public long countDeveloperUnderTeamLead(long id) {
         return em.createNamedQuery("UserManagement.countDeveloperUnderTeamLead", Long.class)
                 .setParameter("id", id)
                 .getSingleResult();
@@ -80,7 +80,7 @@ public class UserManagementDao {
                 .getResultList();
     }
 
-    public Long countTesterUnderTeamLead(long id) {
+    public long countTesterUnderTeamLead(long id) {
         return em.createNamedQuery("UserManagement.countTesterUnderTeamLead", Long.class)
                 .setParameter("id", id)
                 .getSingleResult();

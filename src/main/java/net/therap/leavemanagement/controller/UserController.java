@@ -114,7 +114,7 @@ public class UserController {
         List<User> teamLeadList = userService.findAllTeamLead(page);
 
         model.addAttribute("userList", teamLeadList);
-        model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countTeamLead())));
+        model.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countTeamLead()));
 
         return USER_LIST_PAGE;
     }
@@ -131,7 +131,7 @@ public class UserController {
         List<User> developerList = userService.findAllDeveloper(sessionUser, page);
 
         model.addAttribute("userList", developerList);
-        model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countDeveloper(sessionUser))));
+        model.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countDeveloper(sessionUser)));
 
         return USER_LIST_PAGE;
     }
@@ -148,7 +148,7 @@ public class UserController {
         List<User> testerList = userService.findAllTester(sessionUser, page);
 
         model.addAttribute("userList", testerList);
-        model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countTester(sessionUser))));
+        model.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countTester(sessionUser)));
 
         return USER_LIST_PAGE;
     }

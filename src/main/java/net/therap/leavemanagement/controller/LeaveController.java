@@ -80,7 +80,7 @@ public class LeaveController {
         List<Leave> allUserLeaveList = leaveService.findAllLeave(page);
 
         model.addAttribute("leaveList", allUserLeaveList);
-        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber(Math.toIntExact(leaveService.countAllLeave())));
+        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countAllLeave()));
 
         return LEAVE_LIST_PAGE;
     }
@@ -94,7 +94,7 @@ public class LeaveController {
         List<Leave> allUserPendingLeaveList = leaveService.findAllPendingLeave(page);
 
         model.addAttribute("leaveList", allUserPendingLeaveList);
-        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber(Math.toIntExact(leaveService.countAllPendingLeave())));
+        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countAllPendingLeave()));
 
         return LEAVE_LIST_PAGE;
     }
@@ -110,7 +110,7 @@ public class LeaveController {
         List<Leave> userLeaveList = leaveService.findUserLeaveList(userId, page);
 
         model.addAttribute("leaveList", userLeaveList);
-        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber(Math.toIntExact(leaveService.countUserLeave(user.getId()))));
+        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countUserLeave(user.getId())));
 
         return LEAVE_LIST_PAGE;
     }
@@ -126,7 +126,7 @@ public class LeaveController {
         List<Leave> userPendingLeaveList = leaveService.findUserPendingLeaveList(userId, page);
 
         model.addAttribute("leaveList", userPendingLeaveList);
-        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber(Math.toIntExact(leaveService.countUserPendingLeave(user.getId()))));
+        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countUserPendingLeave(user.getId())));
 
         return LEAVE_LIST_PAGE;
     }

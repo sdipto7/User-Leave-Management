@@ -54,7 +54,7 @@ public class UserDao {
                 .getResultList();
     }
 
-    public Long countTeamLead() {
+    public long countTeamLead() {
         return em.createNamedQuery("User.countTeamLead", Long.class)
                 .getSingleResult();
     }
@@ -66,7 +66,7 @@ public class UserDao {
                 .getResultList();
     }
 
-    public Long countDeveloper() {
+    public long countDeveloper() {
         return em.createNamedQuery("User.countDeveloper", Long.class)
                 .getSingleResult();
     }
@@ -78,7 +78,7 @@ public class UserDao {
                 .getResultList();
     }
 
-    public Long countTester() {
+    public long countTester() {
         return em.createNamedQuery("User.countTester", Long.class)
                 .getSingleResult();
     }
@@ -90,7 +90,7 @@ public class UserDao {
                 .getResultList();
     }
 
-    public Long countAll() {
+    public long countAll() {
         return em.createNamedQuery("User.countAll", Long.class)
                 .getSingleResult();
     }
