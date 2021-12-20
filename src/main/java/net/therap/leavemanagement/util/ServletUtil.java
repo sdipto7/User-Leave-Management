@@ -5,21 +5,17 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author rumi.dipto
  * @since 12/19/21
  */
-public class SessionUtil {
+public class ServletUtil {
 
-    public static HttpSession getHttpSession() {
+    public static HttpServletRequest getHttpServletRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
 
-        HttpServletRequest request = attributes.getRequest();
-        HttpSession session = request.getSession(true);
-
-        return session;
+        return attributes.getRequest();
     }
 }

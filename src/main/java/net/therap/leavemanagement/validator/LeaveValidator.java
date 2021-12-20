@@ -6,16 +6,14 @@ import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.util.DayCounter;
+import net.therap.leavemanagement.util.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 /**
@@ -35,10 +33,8 @@ public class LeaveValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
-        HttpServletRequest request = attributes.getRequest();
-        HttpSession session = request.getSession(true);
+        HttpServletRequest request = ServletUtil.getHttpServletRequest();
+        User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
 
         Leave leave = (Leave) target;
 
@@ -46,9 +42,9 @@ public class LeaveValidator implements Validator {
 
         if (Objects.nonNull(request.getParameter("action_approve")) ||
                 Objects.nonNull(request.getParameter("action_reject"))) {
-            validateLeaveStatus(leave, session, errors);
+            validateLeaveStatus(leave, sessionUser, errors);
         } else if (Objects.nonNull(request.getParameter("action_delete"))) {
-            validateLeaveDelete(leave, session, errors);
+            validateLeaveDelete(leave, sessionUser, errors);
         }
     }
 
@@ -77,9 +73,7 @@ public class LeaveValidator implements Validator {
         }
     }
 
-    public void validateLeaveStatus(Leave leave, HttpSession session, Errors errors) {
-        User sessionUser = (User) session.getAttribute("SESSION_USER");
-
+    public void validateLeaveStatus(Leave leave, User sessionUser, Errors errors) {
         if (leave.isApprovedByHrExecutive() || leave.isDeniedByHrExecutive()) {
             errors.reject("validation.leave.leaveStatus.reviewDone");
         } else if (sessionUser.isHrExecutive() && !(leave.isPendingByHrExecutive())) {
@@ -89,9 +83,7 @@ public class LeaveValidator implements Validator {
         }
     }
 
-    public void validateLeaveDelete(Leave leave, HttpSession session, Errors errors) {
-        User sessionUser = (User) session.getAttribute("SESSION_USER");
-
+    public void validateLeaveDelete(Leave leave, User sessionUser, Errors errors) {
         if (sessionUser.isTeamLead() && !(leave.isPendingByHrExecutive())) {
             errors.reject("validation.leave.leaveStatus.deleteByTeamLead");
         } else if ((sessionUser.isDeveloper() || sessionUser.isTester())
