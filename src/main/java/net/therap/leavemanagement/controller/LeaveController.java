@@ -13,6 +13,7 @@ import net.therap.leavemanagement.validator.LeaveValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,7 +25,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static net.therap.leavemanagement.controller.LeaveController.LEAVE_COMMAND;
@@ -69,6 +72,7 @@ public class LeaveController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.setAllowedFields("user", "leaveType", "leaveStatus", "note", "startDate", "endDate");
         binder.addValidators(leaveValidator);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
     }
 
     @RequestMapping(value = "/LeaveList", method = RequestMethod.GET)
