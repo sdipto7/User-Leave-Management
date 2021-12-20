@@ -39,24 +39,25 @@ public class LeaveValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        HttpServletRequest request = ServletUtil.getHttpServletRequest();
-        User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
-
         Leave leave = (Leave) target;
-
-        validateStartAndEndDate(leave, sessionUser, errors);
 
         validateLeaveLimit(leave, errors);
 
+        validateStartAndEndDate(leave, errors);
+
+        validateOverlappingOfLeaveDuration(leave, errors);
+
+        HttpServletRequest request = ServletUtil.getHttpServletRequest();
         if (Objects.nonNull(request.getParameter("action_approve")) ||
                 Objects.nonNull(request.getParameter("action_reject"))) {
-            validateLeaveStatus(leave, sessionUser, errors);
+            validateLeaveStatus(leave, errors);
         } else if (Objects.nonNull(request.getParameter("action_delete"))) {
-            validateLeaveDelete(leave, sessionUser, errors);
+            validateLeaveDelete(leave, errors);
         }
     }
 
-    public void validateStartAndEndDate(Leave leave, User sessionUser, Errors errors) {
+    public void validateStartAndEndDate(Leave leave, Errors errors) {
+        User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
         List<Leave> pendingLeaveList = leaveService.findUserPendingLeaveList(sessionUser.getId());
 
         Date startDate = leave.getStartDate();
@@ -66,6 +67,21 @@ public class LeaveValidator implements Validator {
                 errors.rejectValue("startDate", "validation.leave.duplicate.startDate");
             } else if (endDate.equals(pendingLeave.getEndDate())) {
                 errors.rejectValue("endDate", "validation.leave.duplicate.endDate");
+            }
+        }
+    }
+
+    public void validateOverlappingOfLeaveDuration(Leave leave, Errors errors) {
+        User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
+        List<Leave> pendingLeaveList = leaveService.findUserPendingLeaveList(sessionUser.getId());
+
+        Date startDate = leave.getStartDate();
+        Date endDate = leave.getEndDate();
+        for (Leave pendingLeave : pendingLeaveList) {
+            if (startDate.after(pendingLeave.getStartDate()) && startDate.before(pendingLeave.getEndDate())) {
+                errors.rejectValue("startDate", "validation.leave.overlapping.startDate");
+            } else if (endDate.after(pendingLeave.getStartDate()) && endDate.before(pendingLeave.getEndDate())) {
+                errors.rejectValue("endDate", "validation.leave.overlapping.endDate");
             }
         }
     }
@@ -95,7 +111,9 @@ public class LeaveValidator implements Validator {
         }
     }
 
-    public void validateLeaveStatus(Leave leave, User sessionUser, Errors errors) {
+    public void validateLeaveStatus(Leave leave, Errors errors) {
+        User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
+
         if (leave.isApprovedByHrExecutive() || leave.isDeniedByHrExecutive()) {
             errors.reject("validation.leave.leaveStatus.reviewDone");
         } else if (sessionUser.isHrExecutive() && !(leave.isPendingByHrExecutive())) {
@@ -105,7 +123,9 @@ public class LeaveValidator implements Validator {
         }
     }
 
-    public void validateLeaveDelete(Leave leave, User sessionUser, Errors errors) {
+    public void validateLeaveDelete(Leave leave, Errors errors) {
+        User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
+
         if (sessionUser.isTeamLead() && !(leave.isPendingByHrExecutive())) {
             errors.reject("validation.leave.leaveStatus.deleteByTeamLead");
         } else if ((sessionUser.isDeveloper() || sessionUser.isTester())
