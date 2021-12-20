@@ -4,6 +4,7 @@ import net.therap.leavemanagement.domain.Leave;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.util.DayCounter;
 import net.therap.leavemanagement.util.ServletUtil;
@@ -14,6 +15,8 @@ import org.springframework.validation.Validator;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +25,9 @@ import java.util.Objects;
  */
 @Component
 public class LeaveValidator implements Validator {
+
+    @Autowired
+    private LeaveService leaveService;
 
     @Autowired
     private LeaveStatService leaveStatService;
@@ -38,6 +44,8 @@ public class LeaveValidator implements Validator {
 
         Leave leave = (Leave) target;
 
+        validateStartAndEndDate(leave, sessionUser, errors);
+
         validateLeaveLimit(leave, errors);
 
         if (Objects.nonNull(request.getParameter("action_approve")) ||
@@ -45,6 +53,20 @@ public class LeaveValidator implements Validator {
             validateLeaveStatus(leave, sessionUser, errors);
         } else if (Objects.nonNull(request.getParameter("action_delete"))) {
             validateLeaveDelete(leave, sessionUser, errors);
+        }
+    }
+
+    public void validateStartAndEndDate(Leave leave, User sessionUser, Errors errors) {
+        List<Leave> pendingLeaveList = leaveService.findUserPendingLeaveList(sessionUser.getId());
+
+        Date startDate = leave.getStartDate();
+        Date endDate = leave.getEndDate();
+        for (Leave pendingLeave : pendingLeaveList) {
+            if (startDate.equals(pendingLeave.getStartDate())) {
+                errors.rejectValue("startDate", "validation.leave.duplicate.startDate");
+            } else if (endDate.equals(pendingLeave.getEndDate())) {
+                errors.rejectValue("endDate", "validation.leave.duplicate.endDate");
+            }
         }
     }
 

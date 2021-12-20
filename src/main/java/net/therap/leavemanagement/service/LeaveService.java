@@ -36,6 +36,10 @@ public class LeaveService {
         return leaveDao.countUserLeave(id);
     }
 
+    public List<Leave> findUserPendingLeaveList(long id) {
+        return leaveDao.findUserPendingLeaveList(id);
+    }
+
     public List<Leave> findUserPendingLeaveList(long id, int page) {
         return leaveDao.findUserPendingLeaveList(id, page);
     }

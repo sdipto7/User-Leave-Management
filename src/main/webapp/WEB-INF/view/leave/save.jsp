@@ -31,7 +31,7 @@
         </div>
         <div class="radio-input">
             <label for="leaveType"><fmt:message key="label.leave.save.body.leaveType"/></label>
-            <form:radiobuttons path="leaveType" items="${leaveTypeList}"/>
+            <form:radiobuttons path="leaveType" items="${leaveTypeList}" itemLabel="naturalName"/>
             <form:errors path="leaveType" cssClass="errorBlock" element="div"/>
         </div>
         <div class="form-group">
