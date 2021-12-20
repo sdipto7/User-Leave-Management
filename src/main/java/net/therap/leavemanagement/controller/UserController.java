@@ -106,12 +106,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
-    public String showTeamLeadList(@RequestParam(defaultValue = "1") String page,
+    public String showTeamLeadList(@RequestParam(defaultValue = "1") Integer page,
                                    ModelMap model) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
 
-        List<User> teamLeadList = userService.findAllTeamLead(Integer.parseInt(page));
+        List<User> teamLeadList = userService.findAllTeamLead(page);
 
         model.addAttribute("userList", teamLeadList);
         model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countTeamLead())));
@@ -120,7 +120,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
-    public String showDeveloperList(@RequestParam(defaultValue = "1") String page,
+    public String showDeveloperList(@RequestParam(defaultValue = "1") Integer page,
                                     HttpSession session,
                                     ModelMap model) {
 
@@ -128,7 +128,7 @@ public class UserController {
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        List<User> developerList = userService.findAllDeveloper(sessionUser, Integer.parseInt(page));
+        List<User> developerList = userService.findAllDeveloper(sessionUser, page);
 
         model.addAttribute("userList", developerList);
         model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countDeveloper(sessionUser))));
@@ -137,7 +137,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
-    public String showTesterList(@RequestParam(defaultValue = "1") String page,
+    public String showTesterList(@RequestParam(defaultValue = "1") Integer page,
                                  HttpSession session,
                                  ModelMap model) {
 
@@ -145,7 +145,7 @@ public class UserController {
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        List<User> testerList = userService.findAllTester(sessionUser, Integer.parseInt(page));
+        List<User> testerList = userService.findAllTester(sessionUser, page);
 
         model.addAttribute("userList", testerList);
         model.addAttribute("pageNumber", userHelper.getTotalPageNumber(Math.toIntExact(userService.countTester(sessionUser))));
