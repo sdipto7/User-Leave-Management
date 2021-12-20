@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,10 +17,11 @@ import java.util.List;
 @Component
 public class AuthorizationHelper {
 
-    public void checkAccess(List<Designation> designationList) {
+    public void checkAccess(Designation... designations) {
         HttpSession session = SessionUtil.getHttpSession();
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
+        List<Designation> designationList = Arrays.asList(designations);
         if (!designationList.contains(sessionUser.getDesignation())) {
             throw new WebServiceException();
         }

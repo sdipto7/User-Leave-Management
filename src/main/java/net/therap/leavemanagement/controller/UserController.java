@@ -91,7 +91,6 @@ public class UserController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     private String showProfile(@RequestParam long id,
-                               HttpSession session,
                                ModelMap model) {
 
         User user = userService.find(id);
@@ -109,10 +108,9 @@ public class UserController {
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
     public String showTeamLeadList(@RequestParam(defaultValue = "1") String page,
-                                   HttpSession session,
                                    ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
+        authorizationHelper.checkAccess(HR_EXECUTIVE);
 
         List<User> teamLeadList = userService.findAllTeamLead(Integer.parseInt(page));
 
@@ -127,7 +125,7 @@ public class UserController {
                                     HttpSession session,
                                     ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
+        authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
@@ -144,7 +142,7 @@ public class UserController {
                                  HttpSession session,
                                  ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
+        authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
@@ -161,7 +159,7 @@ public class UserController {
                               HttpSession session,
                               ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
+        authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
@@ -178,10 +176,9 @@ public class UserController {
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
     public String showForm(@RequestParam(defaultValue = "0") long id,
-                           HttpSession session,
                            ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
+        authorizationHelper.checkAccess(HR_EXECUTIVE);
 
         User user = userHelper.getOrCreateUser(id);
         UserSaveCommand userSaveCommand = new UserSaveCommand();
@@ -200,11 +197,10 @@ public class UserController {
     public String saveOrUpdate(@Valid @ModelAttribute(USER_COMMAND_SAVE) UserSaveCommand userSaveCommand,
                                Errors errors,
                                SessionStatus sessionStatus,
-                               HttpSession session,
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
+        authorizationHelper.checkAccess(HR_EXECUTIVE);
 
         if (errors.hasErrors()) {
             userHelper.setConditionalDataForUserSaveView(userSaveCommand.getUser(), model);
@@ -258,11 +254,10 @@ public class UserController {
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
     public String delete(@Valid @ModelAttribute(USER_COMMAND) User user,
                          Errors errors,
-                         HttpSession session,
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE));
+        authorizationHelper.checkAccess(HR_EXECUTIVE);
 
         if (errors.hasErrors()) {
             return USER_DETAILS_PAGE;

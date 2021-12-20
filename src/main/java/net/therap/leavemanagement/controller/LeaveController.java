@@ -74,10 +74,9 @@ public class LeaveController {
 
     @RequestMapping(value = "/LeaveList", method = RequestMethod.GET)
     public String showLeaveList(@RequestParam(defaultValue = "1") String page,
-                                HttpSession session,
                                 ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
+        authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         List<Leave> allUserLeaveList = leaveService.findAllLeave(Integer.parseInt(page));
 
@@ -89,10 +88,9 @@ public class LeaveController {
 
     @RequestMapping(value = "/pendingLeaveList", method = RequestMethod.GET)
     public String showPendingLeaveList(@RequestParam(defaultValue = "1") String page,
-                                       HttpSession session,
                                        ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
+        authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         List<Leave> allUserPendingLeaveList = leaveService.findAllPendingLeave(Integer.parseInt(page));
 
@@ -105,7 +103,6 @@ public class LeaveController {
     @RequestMapping(value = "/userLeaveList", method = RequestMethod.GET)
     public String showUserLeaveList(@RequestParam long userId,
                                     @RequestParam(defaultValue = "1") String page,
-                                    HttpSession session,
                                     ModelMap model) {
 
         User user = userService.find(userId);
@@ -122,7 +119,6 @@ public class LeaveController {
     @RequestMapping(value = "/userPendingLeaveList", method = RequestMethod.GET)
     public String showUserPendingLeaveList(@RequestParam long userId,
                                            @RequestParam(defaultValue = "1") String page,
-                                           HttpSession session,
                                            ModelMap model) {
 
         User user = userService.find(userId);
@@ -153,7 +149,6 @@ public class LeaveController {
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
     public String showForm(@RequestParam long userId,
-                           HttpSession session,
                            ModelMap model) {
 
         User user = userService.find(userId);
@@ -170,7 +165,6 @@ public class LeaveController {
     public String saveOrUpdate(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
                                Errors errors,
                                SessionStatus sessionStatus,
-                               HttpSession session,
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
 
@@ -198,7 +192,6 @@ public class LeaveController {
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
     public String delete(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
                          Errors errors,
-                         HttpSession session,
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
@@ -227,7 +220,7 @@ public class LeaveController {
                                  RedirectAttributes redirectAttributes,
                                  ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
+        authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         if (errors.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
@@ -259,7 +252,7 @@ public class LeaveController {
                                 RedirectAttributes redirectAttributes,
                                 ModelMap model) {
 
-        authorizationHelper.checkAccess(Arrays.asList(HR_EXECUTIVE, TEAM_LEAD));
+        authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         if (errors.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
