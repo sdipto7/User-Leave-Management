@@ -40,6 +40,12 @@ import static net.therap.leavemanagement.domain.Designation.TEAM_LEAD;
 @SessionAttributes(LEAVE_COMMAND)
 public class LeaveController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LeaveController.class);
+    public static final String LEAVE_COMMAND = "leave";
+    public static final String LEAVE_LIST_PAGE = "/leave/list";
+    public static final String LEAVE_DETAILS_PAGE = "/leave/details";
+    public static final String LEAVE_SAVE_PAGE = "/leave/save";
+
     @Autowired
     private AuthorizationHelper authorizationHelper;
 
@@ -57,13 +63,6 @@ public class LeaveController {
 
     @Autowired
     private LeaveValidator leaveValidator;
-
-    private static final Logger logger = LoggerFactory.getLogger(LeaveController.class);
-
-    public static final String LEAVE_COMMAND = "leave";
-    public static final String LEAVE_LIST_PAGE = "/leave/list";
-    public static final String LEAVE_DETAILS_PAGE = "/leave/details";
-    public static final String LEAVE_SAVE_PAGE = "/leave/save";
 
     @InitBinder(LEAVE_COMMAND)
     public void initBinder(WebDataBinder binder) {

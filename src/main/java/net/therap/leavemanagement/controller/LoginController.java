@@ -31,7 +31,6 @@ import static net.therap.leavemanagement.controller.LoginController.LOGIN_COMMAN
 public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
     public static final String LOGIN_COMMAND = "loginCommand";
     public static final String LOGIN_PAGE = "/login";
 

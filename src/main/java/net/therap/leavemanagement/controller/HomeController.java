@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeController {
 
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
     public static final String INDEX_PAGE = "/index";
     public static final String SUCCESS_PAGE = "/success";
     public static final String ERROR_PAGE = "/error";

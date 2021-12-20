@@ -43,6 +43,15 @@ import static net.therap.leavemanagement.domain.Designation.TEAM_LEAD;
 @SessionAttributes({USER_COMMAND, USER_COMMAND_SAVE, USER_COMMAND_PROFILE})
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    public static final String USER_COMMAND = "user";
+    public static final String USER_COMMAND_SAVE = "userSaveCommand";
+    public static final String USER_COMMAND_PROFILE = "userProfileCommand";
+    public static final String USER_PROFILE_PAGE = "/user/profile";
+    public static final String USER_LIST_PAGE = "/user/list";
+    public static final String USER_DETAILS_PAGE = "/user/details";
+    public static final String USER_SAVE_PAGE = "/user/save";
+
     @Autowired
     private UserService userService;
 
@@ -63,16 +72,6 @@ public class UserController {
 
     @Autowired
     private UserProfileCommandValidator userProfileCommandValidator;
-
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-    public static final String USER_COMMAND = "user";
-    public static final String USER_COMMAND_SAVE = "userSaveCommand";
-    public static final String USER_COMMAND_PROFILE = "userProfileCommand";
-    public static final String USER_PROFILE_PAGE = "/user/profile";
-    public static final String USER_LIST_PAGE = "/user/list";
-    public static final String USER_DETAILS_PAGE = "/user/details";
-    public static final String USER_SAVE_PAGE = "/user/save";
 
     @InitBinder(USER_COMMAND_SAVE)
     public void initBinderToSaveUser(WebDataBinder binder) {

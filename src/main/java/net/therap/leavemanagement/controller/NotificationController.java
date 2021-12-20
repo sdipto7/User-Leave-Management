@@ -21,6 +21,8 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/notification")
 public class NotificationController {
 
+    public static final String NOTIFICATION_PAGE = "/notification";
+
     @Autowired
     private AuthorizationHelper authorizationHelper;
 
@@ -29,8 +31,6 @@ public class NotificationController {
 
     @Autowired
     private UserService userService;
-
-    public static final String NOTIFICATION_PAGE = "/notification";
 
     @RequestMapping(method = RequestMethod.GET)
     public String showNotification(@RequestParam long userId,
