@@ -14,33 +14,50 @@
     <title><fmt:message key="label.login.title"/></title>
 </head>
 <body>
-<div class="form">
-    <form:form action="login" method="post" modelAttribute="loginCommand">
-        <div class="form-group">
-            <label for="username"><fmt:message key="label.login.body.username"/></label>
-            <form:input path="username" cssClass="form-control" placeholder="Enter username"/>
-            <form:errors path="username" cssClass="errorBlock" element="div"/>
-        </div>
-        <div class="form-group">
-            <label for="password"><fmt:message key="label.login.body.password"/></label>
-            <form:password path="password" cssClass="form-control" placeholder="Enter password"/>
-            <form:errors path="password" cssClass="errorBlock" element="div"/>
-        </div>
-        <input type="submit" value="Log in" class="button">
-    </form:form>
-</div>
+<section class="container-fluid">
+    <section class="row justify-content-center">
+        <section class="col-12 col-sm-6 col-md-3">
+            <form:form action="login" method="post" modelAttribute="loginCommand" cssClass="form-container">
+                <div class="form-group row">
+                    <label for="username" class="col-form-label col-3"><fmt:message
+                            key="label.login.body.username"/></label>
+                    <div class="col-9">
+                        <form:input path="username" cssClass="form-control" placeholder="Enter username"/>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <form:errors path="username" cssClass="errorBlock" element="div"/>
+                </div>
 
-<c:if test="${!empty error}">
-    <div id="error">
-        <c:out value="${error}"/>
-    </div>
-</c:if>
+                <div class="form-group row">
+                    <label for="password" class="col-form-label col-3"><fmt:message
+                            key="label.login.body.password"/></label>
+                    <div class="col-9">
+                        <form:password path="password" cssClass="form-control" placeholder="Enter password"/>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <form:errors path="password" cssClass="errorBlock" element="div"/>
+                </div>
 
-<c:if test="${!empty logoutMessage}">
-    <div id="successBlock">
-        <c:out value="${logoutMessage}"/>
-    </div>
-</c:if>
+                <div class="form-group row justify-content-center">
+                    <input type="submit" value="Log in" class="button col-3">
+                </div>
+            </form:form>
 
+            <c:if test="${!empty error}">
+                <div id="error">
+                    <c:out value="${error}"/>
+                </div>
+            </c:if>
+
+            <c:if test="${!empty logoutMessage}">
+                <div id="successBlock">
+                    <c:out value="${logoutMessage}"/>
+                </div>
+            </c:if>
+        </section>
+    </section>
+</section>
 </body>
 </html>

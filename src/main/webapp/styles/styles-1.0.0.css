@@ -41,6 +41,15 @@ th {
     background-color: #04AA6D;
 }
 
+.form-container{
+    position: absolute;
+    top: 20vh;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
 .button {
     border: None;
     background-color: seagreen;
@@ -50,7 +59,7 @@ th {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-top: 15px;
+    margin-top: 20px;
     margin-left: 10px;
     cursor: pointer;
 }
@@ -88,25 +97,17 @@ th {
     margin: 16px;
 }
 
-.form {
-    margin: 10px;
-}
-
 .form-group {
     margin-top: 20px;
     margin-left: 10px;
     margin-bottom: 20px;
-    width: 20%;
+    width: 100%;
 }
 
 .radio-input {
     margin-left: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-}
-
-#teamLeadSection {
-    margin-left: 10px;
 }
 
 #successBlock {

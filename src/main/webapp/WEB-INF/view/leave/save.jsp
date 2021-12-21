@@ -17,37 +17,73 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<div class="form">
-    <form:form action="/leave/submit" method="post" modelAttribute="leave">
-        <div class="form-group">
-            <label for="startDate"><fmt:message key="label.leave.save.body.startDate"/></label>
-            <form:input path="startDate" cssClass="form-control date-picker" placeholder="MM/DD/YYYY"/>
-            <form:errors path="startDate" cssClass="errorBlock" element="div"/>
-        </div>
-        <div class="form-group">
-            <label for="endDate"><fmt:message key="label.leave.save.body.endDate"/></label>
-            <form:input path="endDate" cssClass="form-control date-picker" placeholder="MM/DD/YYYY"/>
-            <form:errors path="endDate" cssClass="errorBlock" element="div"/>
-        </div>
-        <div class="radio-input">
-            <label for="leaveType"><fmt:message key="label.leave.save.body.leaveType"/></label>
-            <form:radiobuttons path="leaveType" items="${leaveTypeList}" itemLabel="naturalName"/>
-            <form:errors path="leaveType" cssClass="errorBlock" element="div"/>
-        </div>
-        <div id="sick-leave-count-section" style="display: none">
-            <label><fmt:message key="label.leave.save.body.sickLeaveCount"/><c:out value="${sickLeaveCount}"/></label>
-        </div>
-        <div id="casual-leave-count-section" style="display: none">
-            <label><fmt:message key="label.leave.save.body.casualLeaveCount"/><c:out value="${casualLeaveCount}"/></label>
-        </div>
-        <div class="form-group">
-            <label for="note"><fmt:message key="label.leave.save.body.note"/></label>
-            <form:input path="note" cssClass="form-control"/>
-            <form:errors path="note" cssClass="errorBlock" element="div"/>
-        </div>
+<section class="container-fluid">
+    <section class="row justify-content-center">
+        <section class="col-12 col-sm-6 col-md-3">
+            <form:form action="/leave/submit" method="post" modelAttribute="leave" cssClass="form-container">
+                <div class="form-group row justify-content-center">
+                    <label class="col-form-label-lg col-7"><fmt:message key="label.leave.save.body.form.header"/></label>
+                </div>
 
-        <input type="submit" value="Save" class="button" name="action_save_or_update">
-    </form:form>
-</div>
+                <div class="form-group row">
+                    <label for="startDate" class="col-form-label col-3"><fmt:message key="label.leave.save.body.startDate"/></label>
+                    <div class="col-9">
+                        <form:input path="startDate" cssClass="form-control date-picker" placeholder="MM/DD/YYYY"/>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <form:errors path="startDate" cssClass="errorBlock" element="div"/>
+                </div>
+
+                <div class="form-group row">
+                    <label for="endDate" class="col-form-label col-3"><fmt:message key="label.leave.save.body.endDate"/></label>
+                    <div class="col-9">
+                        <form:input path="endDate" cssClass="form-control date-picker" placeholder="MM/DD/YYYY"/>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <form:errors path="endDate" cssClass="errorBlock" element="div"/>
+                </div>
+
+                <div class="radio-input row">
+                    <label for="leaveType" class="col-form-label col-4"><fmt:message key="label.leave.save.body.leaveType"/></label>
+                    <div class="col-8">
+                        <form:radiobuttons path="leaveType" items="${leaveTypeList}" itemLabel="naturalName"
+                                           cssStyle="margin: 8px;"/>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <form:errors path="leaveType" cssClass="errorBlock" element="div"/>
+                </div>
+
+                <div id="sick-leave-count-section" class="form-group row" style="display: none">
+                    <div class="col-9">
+                        <label><fmt:message key="label.leave.save.body.sickLeaveCount"/><c:out value="${sickLeaveCount}"/></label>
+                    </div>
+                </div>
+                <div id="casual-leave-count-section" class="form-group row" style="display: none">
+                    <div class="col-9">
+                        <label><fmt:message key="label.leave.save.body.casualLeaveCount"/><c:out value="${casualLeaveCount}"/></label>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="note" class="col-form-label col-3"><fmt:message
+                            key="label.leave.save.body.note"/></label>
+                    <div class="col-9">
+                        <form:textarea path="note" cssClass="form-control"/>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <form:errors path="note" cssClass="errorBlock" element="div"/>
+                </div>
+
+                <div class="form-group row justify-content-center">
+                    <input type="submit" value="Save" class="button col-3" name="action_save_or_update">
+                </div>
+            </form:form>
+        </section>
+    </section>
+</section>
 </body>
 </html>

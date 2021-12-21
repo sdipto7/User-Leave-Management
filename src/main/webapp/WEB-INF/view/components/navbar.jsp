@@ -35,7 +35,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="${showNotificationLink}"><fmt:message key="label.navbar.body.notification"/></a>
                 </li>
-                <li class="nav-item" style="float: right">
+                <li class="nav-item">
                     <a class="nav-link" href="/logout"><fmt:message key="label.navbar.body.logoutButton"/></a>
                 </li>
             </ul>
