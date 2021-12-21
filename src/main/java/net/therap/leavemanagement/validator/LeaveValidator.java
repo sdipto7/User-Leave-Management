@@ -6,7 +6,7 @@ import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.LeaveService;
 import net.therap.leavemanagement.service.LeaveStatService;
-import net.therap.leavemanagement.util.DayCounter;
+import net.therap.leavemanagement.util.DateTimeUtil;
 import net.therap.leavemanagement.util.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -91,8 +91,8 @@ public class LeaveValidator implements Validator {
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(user.getId());
 
         if (Objects.nonNull(leave.getStartDate()) && Objects.nonNull(leave.getEndDate())) {
-            int dayCount = DayCounter.getDayCount(leave.getStartDate(), leave.getEndDate());
-            int leaveRequestDayCount = DayCounter.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
+            int dayCount = DateTimeUtil.getDayCount(leave.getStartDate(), leave.getEndDate());
+            int leaveRequestDayCount = DateTimeUtil.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
             int leaveTakenCount = 0;
 
             if (dayCount < 0) {

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * @author rumi.dipto
  * @since 12/6/21
  */
-public class DayCounter {
+public class DateTimeUtil {
 
     public static int getLeaveDayCount(Date startDate, Date endDate) {
         int dayCount = getDayCount(startDate, endDate) + 1;

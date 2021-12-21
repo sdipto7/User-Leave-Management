@@ -5,7 +5,7 @@ import net.therap.leavemanagement.domain.Leave;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
-import net.therap.leavemanagement.util.DayCounter;
+import net.therap.leavemanagement.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ public class LeaveStatService {
     @Transactional
     public void update(Leave leave) {
         LeaveStat leaveStat = findLeaveStatByUserId(leave.getUser().getId());
-        int dayCount = DayCounter.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
+        int dayCount = DateTimeUtil.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
 
         if (leave.getLeaveType().equals(LeaveType.CASUAL)) {
             leaveStat.setCasualLeaveCount(leaveStat.getCasualLeaveCount() + dayCount);
