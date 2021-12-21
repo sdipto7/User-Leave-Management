@@ -1,8 +1,6 @@
 package net.therap.leavemanagement.controller;
 
 import net.therap.leavemanagement.domain.Leave;
-import net.therap.leavemanagement.domain.LeaveStat;
-import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
@@ -28,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -163,12 +160,9 @@ public class LeaveController {
         authorizationHelper.checkAccess(user);
 
         Leave leave = leaveHelper.getLeaveByUserDesignation(user);
-        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(userId);
 
         model.addAttribute(LEAVE_COMMAND, leave);
-        model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
-        model.addAttribute("casualLeaveCount", 15 - leaveStat.getCasualLeaveCount());
-        model.addAttribute("sickLeaveCount", 15 - leaveStat.getSickLeaveCount());
+        leaveHelper.setDataForLeaveSaveForm(user, model);
 
         return LEAVE_SAVE_PAGE;
     }
@@ -184,7 +178,7 @@ public class LeaveController {
         authorizationHelper.checkAccess(user);
 
         if (errors.hasErrors()) {
-            model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
+            leaveHelper.setDataForLeaveSaveForm(user, model);
 
             return LEAVE_SAVE_PAGE;
         }

@@ -1,8 +1,7 @@
 package net.therap.leavemanagement.helper;
 
-import net.therap.leavemanagement.domain.Leave;
-import net.therap.leavemanagement.domain.Notification;
-import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.domain.*;
+import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.NotificationService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 import static net.therap.leavemanagement.domain.Designation.*;
 import static net.therap.leavemanagement.domain.LeaveStatus.*;
@@ -28,6 +28,9 @@ public class LeaveHelper {
 
     @Autowired
     private UserManagementService userManagementService;
+
+    @Autowired
+    private LeaveStatService leaveStatService;
 
     @Autowired
     private NotificationService notificationService;
@@ -68,6 +71,14 @@ public class LeaveHelper {
         }
 
         return leave;
+    }
+
+    public void setDataForLeaveSaveForm(User user, ModelMap model){
+        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(user.getId());
+
+        model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
+        model.addAttribute("casualLeaveCount", 15 - leaveStat.getCasualLeaveCount());
+        model.addAttribute("sickLeaveCount", 15 - leaveStat.getSickLeaveCount());
     }
 
     public void setConditionalDataForLeaveDetailsView(Leave leave, HttpSession session, ModelMap model) {
