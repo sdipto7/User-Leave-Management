@@ -34,6 +34,12 @@
             <form:radiobuttons path="leaveType" items="${leaveTypeList}" itemLabel="naturalName"/>
             <form:errors path="leaveType" cssClass="errorBlock" element="div"/>
         </div>
+        <div id="sick-leave-count-section" style="display: none">
+            <label><fmt:message key="label.leave.save.body.sickLeaveCount"/><c:out value="${sickLeaveCount}"/></label>
+        </div>
+        <div id="casual-leave-count-section" style="display: none">
+            <label><fmt:message key="label.leave.save.body.casualLeaveCount"/><c:out value="${casualLeaveCount}"/></label>
+        </div>
         <div class="form-group">
             <label for="note"><fmt:message key="label.leave.save.body.note"/></label>
             <form:input path="note" cssClass="form-control"/>

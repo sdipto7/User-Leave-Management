@@ -1,12 +1,14 @@
 package net.therap.leavemanagement.controller;
 
 import net.therap.leavemanagement.domain.Leave;
+import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.LeaveType;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
 import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveService;
+import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.LeaveValidator;
@@ -60,6 +62,9 @@ public class LeaveController {
 
     @Autowired
     private LeaveHelper leaveHelper;
+
+    @Autowired
+    private LeaveStatService leaveStatService;
 
     @Autowired
     private UserHelper userHelper;
@@ -158,8 +163,12 @@ public class LeaveController {
         authorizationHelper.checkAccess(user);
 
         Leave leave = leaveHelper.getLeaveByUserDesignation(user);
+        LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(userId);
+
         model.addAttribute(LEAVE_COMMAND, leave);
         model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
+        model.addAttribute("casualLeaveCount", 15 - leaveStat.getCasualLeaveCount());
+        model.addAttribute("sickLeaveCount", 15 - leaveStat.getSickLeaveCount());
 
         return LEAVE_SAVE_PAGE;
     }

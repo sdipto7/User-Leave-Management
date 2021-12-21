@@ -13,3 +13,15 @@ $(document).ready(function () {
         dateFormat: 'mm/dd/yy'
     });
 });
+
+$(document).ready(function () {
+    $('input:radio[name="leaveType"]').change(function () {
+        if (($(this).val() === 'SICK')) {
+            $('#sick-leave-count-section').show();
+            $('#casual-leave-count-section').hide();
+        } else if (($(this).val() === 'CASUAL')) {
+            $('#casual-leave-count-section').show();
+            $('#sick-leave-count-section').hide();
+        }
+    })
+});
