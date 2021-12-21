@@ -1,7 +1,9 @@
 package net.therap.leavemanagement.helper;
 
 import net.therap.leavemanagement.command.UserSaveCommand;
+import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 import static net.therap.leavemanagement.util.Constant.pageSize;
 
@@ -24,6 +27,9 @@ public class UserHelper {
 
     @Autowired
     private UserManagementService userManagementService;
+
+    @Autowired
+    private LeaveStatService leaveStatService;
 
     @Autowired
     private AuthorizationHelper authorizationHelper;
@@ -65,6 +71,16 @@ public class UserHelper {
             authorizationHelper.checkAccess(teamLead);
         }
         model.addAttribute("teamLead", teamLead);
+    }
+
+    public void setDataForUserSaveForm(ModelMap model) {
+        model.addAttribute("teamLeadList", userService.findAllTeamLead());
+        model.addAttribute("designationList", Arrays.asList(Designation.values()));
+    }
+
+    public void setDataForUpdatePasswordForm(User user, ModelMap model) {
+        model.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(user.getId()));
+        model.addAttribute("leaveStat", leaveStatService.findLeaveStatByUserId(user.getId()));
     }
 
     public void setConditionalDataForUserSaveView(User user, ModelMap model) {

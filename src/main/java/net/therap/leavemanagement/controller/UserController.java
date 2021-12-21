@@ -2,7 +2,6 @@ package net.therap.leavemanagement.controller;
 
 import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.command.UserSaveCommand;
-import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
@@ -27,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 import static net.therap.leavemanagement.controller.UserController.*;
@@ -99,8 +97,7 @@ public class UserController {
         userProfileCommand.setUser(user);
 
         model.addAttribute(USER_COMMAND_PROFILE, userProfileCommand);
-        model.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(id));
-        model.addAttribute("leaveStat", leaveStatService.findLeaveStatByUserId(id));
+        userHelper.setDataForUpdatePasswordForm(user, model);
 
         return USER_PROFILE_PAGE;
     }
@@ -183,11 +180,9 @@ public class UserController {
         UserSaveCommand userSaveCommand = new UserSaveCommand();
         userSaveCommand.setUser(user);
 
-        userHelper.setConditionalDataForUserSaveView(user, model);
-
         model.addAttribute(USER_COMMAND_SAVE, userSaveCommand);
-        model.addAttribute("teamLeadList", userService.findAllTeamLead());
-        model.addAttribute("designationList", Arrays.asList(Designation.values()));
+        userHelper.setConditionalDataForUserSaveView(user, model);
+        userHelper.setDataForUserSaveForm(model);
 
         return USER_SAVE_PAGE;
     }
@@ -203,8 +198,7 @@ public class UserController {
 
         if (errors.hasErrors()) {
             userHelper.setConditionalDataForUserSaveView(userSaveCommand.getUser(), model);
-            model.addAttribute("teamLeadList", userService.findAllTeamLead());
-            model.addAttribute("designationList", Arrays.asList(Designation.values()));
+            userHelper.setDataForUserSaveForm(model);
 
             return USER_SAVE_PAGE;
         }
@@ -232,8 +226,7 @@ public class UserController {
         authorizationHelper.checkAccess(user);
 
         if (errors.hasErrors()) {
-            model.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(user.getId()));
-            model.addAttribute("leaveStat", leaveStatService.findLeaveStatByUserId(user.getId()));
+            userHelper.setDataForUpdatePasswordForm(user, model);
 
             return USER_PROFILE_PAGE;
         }
