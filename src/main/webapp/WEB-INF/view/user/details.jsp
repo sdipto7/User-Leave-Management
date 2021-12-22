@@ -14,7 +14,7 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<ul class="list-group">
+<ul class="list-group w-25">
     <li class="list-group-item"><fmt:message key="label.user.userName"/>
         <c:out value="${user.username}"/></li>
     <li class="list-group-item"><fmt:message key="label.user.firstName"/>
@@ -57,7 +57,7 @@
             <h5><fmt:message key="label.user.details.body.noAssignedDeveloper"/></h5>
         </c:when>
         <c:otherwise>
-            <table class="table">
+            <table class="table table-bordered table-hover">
                 <thead class="bg-success">
                 <tr>
                     <th scope="col"><fmt:message key="label.user.details.userList.table.columnHeader.username"/></th>
@@ -85,7 +85,7 @@
             <h5><fmt:message key="label.user.details.body.noAssignedTester"/></h5>
         </c:when>
         <c:otherwise>
-            <table class="table">
+            <table class="table table-bordered table-hover">
                 <thead class="bg-success">
                 <tr>
                     <th><fmt:message key="label.user.details.userList.table.columnHeader.username"/></th>

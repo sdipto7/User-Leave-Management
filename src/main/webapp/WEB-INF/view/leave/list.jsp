@@ -14,7 +14,7 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<table class="table">
+<table class="table table-bordered table-hover">
     <thead class="bg-success">
     <tr>
         <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.user.firstName"/></th>

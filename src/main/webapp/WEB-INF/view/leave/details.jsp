@@ -14,7 +14,7 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<ul class="list-group">
+<ul class="list-group w-25">
     <li class="list-group-item"><fmt:message key="label.leave.details.body.startDate"/>
         <fmt:formatDate value="${leave.startDate}"/></li>
     <li class="list-group-item"><fmt:message key="label.leave.details.body.endDate"/>

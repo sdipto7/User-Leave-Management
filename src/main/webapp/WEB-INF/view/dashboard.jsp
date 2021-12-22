@@ -36,7 +36,7 @@
     <c:param name="userId" value="${SESSION_USER.id}"/>
 </c:url>
 
-<table class="table">
+<table class="table table-bordered table-hover">
     <thead class="bg-success">
     <tr>
         <th scope="col"><fmt:message key="label.domain"/></th>
@@ -101,7 +101,6 @@
 </c:if>
 
 <input type="button" value="Add Leave Request"
-       onclick="window.location.href='${addLeaveLink}'; return false;"
-       class="button">
+       onclick="window.location.href='${addLeaveLink}'; return false;" class="button">
 </body>
 </html>
