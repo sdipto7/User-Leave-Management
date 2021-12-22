@@ -62,12 +62,16 @@ public class LeaveValidator implements Validator {
 
         Date startDate = leave.getStartDate();
         Date endDate = leave.getEndDate();
-        for (Leave pendingLeave : pendingLeaveList) {
-            if (startDate.equals(pendingLeave.getStartDate())) {
-                errors.rejectValue("startDate", "validation.leave.duplicate.startDate");
-            } else if (endDate.equals(pendingLeave.getEndDate())) {
-                errors.rejectValue("endDate", "validation.leave.duplicate.endDate");
-            }
+
+        boolean isStartDateSame = pendingLeaveList.stream()
+                .anyMatch(pendingLeave -> pendingLeave.getStartDate().compareTo(startDate) == 0);
+        boolean isEndDateSame = pendingLeaveList.stream()
+                .anyMatch(pendingLeave -> pendingLeave.getEndDate().compareTo(endDate) == 0);
+
+        if (isStartDateSame) {
+            errors.rejectValue("startDate", "validation.leave.duplicate.startDate");
+        } else if (isEndDateSame) {
+            errors.rejectValue("endDate", "validation.leave.duplicate.endDate");
         }
     }
 
@@ -77,12 +81,18 @@ public class LeaveValidator implements Validator {
 
         Date startDate = leave.getStartDate();
         Date endDate = leave.getEndDate();
-        for (Leave pendingLeave : pendingLeaveList) {
-            if (startDate.after(pendingLeave.getStartDate()) && startDate.before(pendingLeave.getEndDate())) {
-                errors.rejectValue("startDate", "validation.leave.overlapping.startDate");
-            } else if (endDate.after(pendingLeave.getStartDate()) && endDate.before(pendingLeave.getEndDate())) {
-                errors.rejectValue("endDate", "validation.leave.overlapping.endDate");
-            }
+
+        boolean isStartDateOverlapping = pendingLeaveList.stream()
+                .anyMatch(pendingLeave ->
+                        (startDate.after(pendingLeave.getStartDate()) && startDate.before(pendingLeave.getEndDate())));
+        boolean isEndDateOverlapping = pendingLeaveList.stream()
+                .anyMatch(pendingLeave ->
+                        (endDate.after(pendingLeave.getStartDate()) && endDate.before(pendingLeave.getEndDate())));
+
+        if (isStartDateOverlapping) {
+            errors.rejectValue("startDate", "validation.leave.overlapping.startDate");
+        } else if (isEndDateOverlapping) {
+            errors.rejectValue("endDate", "validation.leave.overlapping.endDate");
         }
     }
 
