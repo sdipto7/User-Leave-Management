@@ -46,7 +46,7 @@
             </form:form>
 
             <c:if test="${!empty error}">
-                <div id="error">
+                <div class="errorBlock">
                     <c:out value="${error}"/>
                 </div>
             </c:if>
