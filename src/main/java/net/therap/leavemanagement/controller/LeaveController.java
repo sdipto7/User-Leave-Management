@@ -6,7 +6,6 @@ import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.LeaveHelper;
 import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveService;
-import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.LeaveValidator;
@@ -59,9 +58,6 @@ public class LeaveController {
 
     @Autowired
     private LeaveHelper leaveHelper;
-
-    @Autowired
-    private LeaveStatService leaveStatService;
 
     @Autowired
     private UserHelper userHelper;
