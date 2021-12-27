@@ -48,20 +48,48 @@ public class LeaveService {
         return leaveDao.countUserPendingLeave(id);
     }
 
-    public List<Leave> findAllLeave(int page) {
-        return leaveDao.findAllLeave(page);
+    public List<Leave> findAllLeave(User sessionUser, int page) {
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return leaveDao.findAllLeave(page);
+            case TEAM_LEAD:
+                return leaveDao.findAllLeaveUnderTeamLead(sessionUser.getId(), page);
+            default:
+                return null;
+        }
     }
 
-    public long countAllLeave() {
-        return leaveDao.countAllLeave();
+    public long countAllLeave(User sessionUser) {
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return leaveDao.countAllLeave();
+            case TEAM_LEAD:
+                return leaveDao.countAllLeaveUnderTeamLead(sessionUser.getId());
+            default:
+                return 0;
+        }
     }
 
-    public List<Leave> findAllPendingLeave(int page) {
-        return leaveDao.findAllPendingLeave(page);
+    public List<Leave> findAllPendingLeave(User sessionUser, int page) {
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return leaveDao.findAllPendingLeave(page);
+            case TEAM_LEAD:
+                return leaveDao.findAllPendingLeaveUnderTeamLead(sessionUser.getId(), page);
+            default:
+                return null;
+        }
     }
 
-    public long countAllPendingLeave() {
-        return leaveDao.countAllPendingLeave();
+    public long countAllPendingLeave(User sessionUser) {
+        switch (sessionUser.getDesignation()) {
+            case HR_EXECUTIVE:
+                return leaveDao.countAllPendingLeave();
+            case TEAM_LEAD:
+                return leaveDao.countAllPendingLeaveUnderTeamLead(sessionUser.getId());
+            default:
+                return 0;
+        }
     }
 
     @Transactional

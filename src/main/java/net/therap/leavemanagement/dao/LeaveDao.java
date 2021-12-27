@@ -89,6 +89,34 @@ public class LeaveDao {
                 .getSingleResult();
     }
 
+    public List<Leave> findAllLeaveUnderTeamLead(long teamLeadId, int page) {
+        return em.createNamedQuery("Leave.findAllLeaveUnderTeamLead", Leave.class)
+                .setParameter("teamLeadId", teamLeadId)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    public long countAllLeaveUnderTeamLead(long teamLeadId) {
+        return em.createNamedQuery("Leave.countAllLeaveUnderTeamLead", Long.class)
+                .setParameter("teamLeadId", teamLeadId)
+                .getSingleResult();
+    }
+
+    public List<Leave> findAllPendingLeaveUnderTeamLead(long teamLeadId, int page) {
+        return em.createNamedQuery("Leave.findAllPendingLeaveUnderTeamLead", Leave.class)
+                .setParameter("teamLeadId", teamLeadId)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    public long countAllPendingLeaveUnderTeamLead(long teamLeadId) {
+        return em.createNamedQuery("Leave.countAllPendingLeaveUnderTeamLead", Long.class)
+                .setParameter("teamLeadId", teamLeadId)
+                .getSingleResult();
+    }
+
     @Transactional
     public Leave saveOrUpdate(Leave leave) {
         if (leave.isNew()) {
