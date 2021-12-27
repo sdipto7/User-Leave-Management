@@ -36,71 +36,76 @@
     <c:param name="userId" value="${SESSION_USER.id}"/>
 </c:url>
 
-<table class="table table-bordered table-hover">
-    <thead class="bg-success">
-    <tr>
-        <th scope="col"><fmt:message key="label.domain"/></th>
-        <th scope="col"><fmt:message key="label.actions"/></th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
+<div class="container">
+    <table class="table table-bordered table-hover">
+        <thead class="bg-success">
         <tr>
-            <td><fmt:message key="label.dashboard.body.teamLead"/></td>
-            <td>
-                <a href="${showTeamLeadListLink}"><fmt:message key="label.link.showList"/></a>
-            </td>
+            <th scope="col"><fmt:message key="label.domain"/></th>
+            <th scope="col"><fmt:message key="label.actions"/></th>
         </tr>
-    </c:if>
-    <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive' ||
+        </thead>
+        <tbody>
+        <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
+            <tr>
+                <td><fmt:message key="label.dashboard.body.teamLead"/></td>
+                <td>
+                    <a href="${showTeamLeadListLink}"><fmt:message key="label.link.showList"/></a>
+                </td>
+            </tr>
+        </c:if>
+        <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive' ||
                             SESSION_USER.designation.naturalName == 'Team Lead'}">
+            <tr>
+                <td><fmt:message key="label.dashboard.body.developer"/></td>
+                <td>
+                    <a href="${showDeveloperListLink}"><fmt:message key="label.link.showList"/></a>
+                </td>
+            </tr>
+            <tr>
+                <td><fmt:message key="label.dashboard.body.tester"/></td>
+                <td>
+                    <a href="${showTesterListLink}"><fmt:message key="label.link.showList"/></a>
+                </td>
+            </tr>
+            <tr>
+                <td><fmt:message key="label.dashboard.body.leaves"/></td>
+                <td>
+                    <a href="${showLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                </td>
+            </tr>
+            <tr>
+                <td><fmt:message key="label.dashboard.body.pendingLeaves"/></td>
+                <td>
+                    <a href="${showPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
+                </td>
+            </tr>
+        </c:if>
         <tr>
-            <td><fmt:message key="label.dashboard.body.developer"/></td>
+            <td><fmt:message key="label.dashboard.body.myleaves"/></td>
             <td>
-                <a href="${showDeveloperListLink}"><fmt:message key="label.link.showList"/></a>
+                <a href="${showUserLeaveListLink}"><fmt:message key="label.link.showList"/></a>
             </td>
         </tr>
         <tr>
-            <td><fmt:message key="label.dashboard.body.tester"/></td>
+            <td><fmt:message key="label.dashboard.body.myPendingLeaves"/></td>
             <td>
-                <a href="${showTesterListLink}"><fmt:message key="label.link.showList"/></a>
+                <a href="${showUserPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
             </td>
         </tr>
-        <tr>
-            <td><fmt:message key="label.dashboard.body.leaves"/></td>
-            <td>
-                <a href="${showLeaveListLink}"><fmt:message key="label.link.showList"/></a>
-            </td>
-        </tr>
-        <tr>
-            <td><fmt:message key="label.dashboard.body.pendingLeaves"/></td>
-            <td>
-                <a href="${showPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
-            </td>
-        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row justify-content-center" style="margin-top: 40px">
+    <c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
+        <input type="button" value="<fmt:message key="label.dashboard.button.newUser"/>"
+               onclick="window.location.href='${addUserLink}'; return false;"
+               class="button col-1">
     </c:if>
-    <tr>
-        <td><fmt:message key="label.dashboard.body.myleaves"/></td>
-        <td>
-            <a href="${showUserLeaveListLink}"><fmt:message key="label.link.showList"/></a>
-        </td>
-    </tr>
-    <tr>
-        <td><fmt:message key="label.dashboard.body.myPendingLeaves"/></td>
-        <td>
-            <a href="${showUserPendingLeaveListLink}"><fmt:message key="label.link.showList"/></a>
-        </td>
-    </tr>
-    </tbody>
-</table>
 
-<c:if test="${SESSION_USER.designation.naturalName == 'HR Executive'}">
-    <input type="button" value="Add New User"
-           onclick="window.location.href='${addUserLink}'; return false;"
-           class="button">
-</c:if>
-
-<input type="button" value="Add Leave Request"
-       onclick="window.location.href='${addLeaveLink}'; return false;" class="button">
+    <input type="button" value="<fmt:message key="label.dashboard.button.newLeave"/>"
+           onclick="window.location.href='${addLeaveLink}'; return false;"
+           class="button col-1">
+</div>
 </body>
 </html>

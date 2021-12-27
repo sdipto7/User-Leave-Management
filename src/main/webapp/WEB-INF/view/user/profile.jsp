@@ -17,7 +17,7 @@
     <c:out value="${doneMessage}"/>
 </div>
 
-<section class="container-fluid">
+<section class="container-fluid" style="margin-top: 25px">
     <section class="row justify-content-center">
         <section class="col-12 col-sm-6 col-md-3">
             <ul class="list-group">
@@ -45,11 +45,14 @@
                 </c:if>
             </ul>
 
-            <form:form action="/user/updatePassword" method="post" modelAttribute="userProfileCommand" cssStyle="margin-top: 25px;">
+            <form:form action="/user/updatePassword" method="post" modelAttribute="userProfileCommand"
+                       cssStyle="margin-top: 25px;">
                 <div class="form-group row">
-                    <label for="currentPassword" class="col-form-label col-5"><fmt:message key="label.user.profile.body.currentPassword"/></label>
+                    <label for="currentPassword" class="col-form-label col-5"><fmt:message
+                            key="label.user.profile.body.currentPassword"/></label>
                     <div class="col-7">
-                        <form:password path="currentPassword" cssClass="form-control" placeholder="Enter current password"/>
+                        <form:password path="currentPassword" cssClass="form-control"
+                                       placeholder="Enter current password"/>
                     </div>
                 </div>
                 <div class="col-10">
@@ -57,7 +60,8 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="newPassword" class="col-form-label col-5"><fmt:message key="label.user.profile.body.newPassword"/></label>
+                    <label for="newPassword" class="col-form-label col-5"><fmt:message
+                            key="label.user.profile.body.newPassword"/></label>
                     <div class="col-7">
                         <form:password path="newPassword" cssClass="form-control" placeholder="Enter new password"/>
                     </div>
@@ -67,9 +71,11 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="confirmedNewPassword" class="col-form-label col-5"><fmt:message key="label.user.profile.body.confirmNewPassword"/></label>
+                    <label for="confirmedNewPassword" class="col-form-label col-5"><fmt:message
+                            key="label.user.profile.body.confirmNewPassword"/></label>
                     <div class="col-7">
-                        <form:password path="confirmedNewPassword" cssClass="form-control" placeholder="Re-enter new password"/>
+                        <form:password path="confirmedNewPassword" cssClass="form-control"
+                                       placeholder="Re-enter new password"/>
                     </div>
                 </div>
                 <div class="col-10">
@@ -77,7 +83,7 @@
                 </div>
 
                 <div class="form-group row justify-content-center">
-                    <input type="submit" value="Change Password" class="button col-5">
+                    <input type="submit" value="Change Password" class="button col-5" style="margin-top: 20px">
                 </div>
             </form:form>
         </section>

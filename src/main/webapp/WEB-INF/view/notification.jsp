@@ -13,19 +13,21 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<table class="table">
-    <thead class="bg-success">
-    <tr>
-        <th><fmt:message key="label.notification.columnHeader"/></th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="notification" items="${notificationList}">
+<div class="container">
+    <table class="table">
+        <thead class="bg-success">
         <tr>
-            <td><c:out value="${notification.message}"/></td>
+            <th><fmt:message key="label.notification.columnHeader"/></th>
         </tr>
-    </c:forEach>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <c:forEach var="notification" items="${notificationList}">
+            <tr>
+                <td><c:out value="${notification.message}"/></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

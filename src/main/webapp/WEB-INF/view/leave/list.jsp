@@ -14,37 +14,39 @@
 <body>
 <jsp:include page="/WEB-INF/view/components/navbar.jsp"/>
 
-<table class="table table-bordered table-hover">
-    <thead class="bg-success">
-    <tr>
-        <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.user.firstName"/></th>
-        <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.user.lastName"/></th>
-        <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.user.designation"/></th>
-        <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.leave.type"/></th>
-        <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.leave.status"/></th>
-        <th scope="col"><fmt:message key="label.actions"/></th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="leave" items="${leaveList}">
-
-        <c:url var="showDetailsLink" value="/leave/details">
-            <c:param name="id" value="${leave.id}"/>
-        </c:url>
-
+<div class="container">
+    <table class="table table-bordered table-hover">
+        <thead class="bg-success">
         <tr>
-            <td><c:out value="${leave.user.firstName}"/></td>
-            <td><c:out value="${leave.user.lastName}"/></td>
-            <td><c:out value="${leave.user.designation.naturalName}"/></td>
-            <td><c:out value="${leave.leaveType.naturalName}"/></td>
-            <td><c:out value="${leave.leaveStatus.naturalName}"/></td>
-            <td>
-                <a href="${showDetailsLink}"><fmt:message key="label.link.details"/></a>
-            </td>
+            <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.user.firstName"/></th>
+            <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.user.lastName"/></th>
+            <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.user.designation"/></th>
+            <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.leave.type"/></th>
+            <th scope="col"><fmt:message key="label.leaveList.body.columnHeader.leave.status"/></th>
+            <th scope="col"><fmt:message key="label.actions"/></th>
         </tr>
-    </c:forEach>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <c:forEach var="leave" items="${leaveList}">
+
+            <c:url var="showDetailsLink" value="/leave/details">
+                <c:param name="id" value="${leave.id}"/>
+            </c:url>
+
+            <tr>
+                <td><c:out value="${leave.user.firstName}"/></td>
+                <td><c:out value="${leave.user.lastName}"/></td>
+                <td><c:out value="${leave.user.designation.naturalName}"/></td>
+                <td><c:out value="${leave.leaveType.naturalName}"/></td>
+                <td><c:out value="${leave.leaveStatus.naturalName}"/></td>
+                <td>
+                    <a href="${showDetailsLink}"><fmt:message key="label.link.details"/></a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
