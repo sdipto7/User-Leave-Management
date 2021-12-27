@@ -18,7 +18,7 @@
 <div id="panel">
     <h6><fmt:message key="label.index.body.welcome"/></h6>
     <h2><fmt:message key="label.index.body.leaveManagementSystem"/></h2>
-    <input type="button" value="Login"
+    <input type="button" value="<fmt:message key="label.button.login"/>"
            onclick="window.location.href='/login'; return false;"
            class="button">
 </div>

@@ -67,10 +67,14 @@ th {
     color: white;
 }
 
+.nav-item{
+    margin-left: 25px;
+}
+
 #panel {
     text-align: center;
     padding: 3px;
-    background-color: #568e9f;
+    background-color: #42ba96;
     color: white;
     align-items: center;
 }

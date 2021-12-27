@@ -34,12 +34,15 @@
                 <form:errors cssClass="errorBlock" element="div"/>
                 <div class="form-group row justify-content-center" style="margin-top: 40px">
                     <c:if test="${canReview}">
-                        <input type="submit" value="Approve" class="button col-4" name="action_approve">
-                        <input type="submit" value="Reject" class="button col-4" name="action_reject">
+                        <input type="submit" value="<fmt:message key="label.leave.details.button.approve"/>"
+                               class="button col-4" name="action_approve">
+                        <input type="submit" value="<fmt:message key="label.leave.details.button.reject"/>"
+                               class="button col-4" name="action_reject">
                     </c:if>
 
                     <c:if test="${canDelete}">
-                        <input type="submit" value="Delete" class="button col-4" name="action_delete">
+                        <input type="submit" value="<fmt:message key="label.button.delete"/>" class="button col-4"
+                               name="action_delete">
                     </c:if>
                 </div>
             </form:form>

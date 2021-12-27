@@ -21,12 +21,13 @@
     <section class="row justify-content-center">
         <section class="col-12 col-sm-6 col-md-3">
             <form:form action="/leave/submit" method="post" modelAttribute="leave" cssClass="form-container">
-                <div class="form-group row justify-content-center">
-                    <label class="col-form-label-lg col-7"><fmt:message key="label.leave.save.body.form.header"/></label>
+                <div style="margin: 30px">
+                    <h3 style="text-align: center"><fmt:message key="label.leave.save.body.form.header"/></h3>
                 </div>
 
                 <div class="form-group row">
-                    <label for="startDate" class="col-form-label col-3"><fmt:message key="label.leave.save.body.startDate"/></label>
+                    <label for="startDate" class="col-form-label col-3"><fmt:message
+                            key="label.leave.save.body.startDate"/></label>
                     <div class="col-9">
                         <form:input path="startDate" cssClass="form-control date-picker" placeholder="MM/DD/YYYY"/>
                     </div>
@@ -36,7 +37,8 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="endDate" class="col-form-label col-3"><fmt:message key="label.leave.save.body.endDate"/></label>
+                    <label for="endDate" class="col-form-label col-3"><fmt:message
+                            key="label.leave.save.body.endDate"/></label>
                     <div class="col-9">
                         <form:input path="endDate" cssClass="form-control date-picker" placeholder="MM/DD/YYYY"/>
                     </div>
@@ -46,7 +48,8 @@
                 </div>
 
                 <div class="radio-input row">
-                    <label for="leaveType" class="col-form-label col-4"><fmt:message key="label.leave.save.body.leaveType"/></label>
+                    <label for="leaveType" class="col-form-label col-4"><fmt:message
+                            key="label.leave.save.body.leaveType"/></label>
                     <div class="col-8">
                         <form:radiobuttons path="leaveType" items="${leaveTypeList}" itemLabel="naturalName"
                                            cssStyle="margin: 8px;"/>
@@ -58,12 +61,14 @@
 
                 <div id="sick-leave-count-section" class="form-group row" style="display: none">
                     <div class="col-9">
-                        <label><fmt:message key="label.leave.save.body.sickLeaveCount"/><c:out value="${sickLeaveCount}"/></label>
+                        <label><fmt:message key="label.leave.save.body.sickLeaveCount"/><c:out
+                                value="${sickLeaveCount}"/></label>
                     </div>
                 </div>
                 <div id="casual-leave-count-section" class="form-group row" style="display: none">
                     <div class="col-9">
-                        <label><fmt:message key="label.leave.save.body.casualLeaveCount"/><c:out value="${casualLeaveCount}"/></label>
+                        <label><fmt:message key="label.leave.save.body.casualLeaveCount"/><c:out
+                                value="${casualLeaveCount}"/></label>
                     </div>
                 </div>
 
@@ -79,7 +84,8 @@
                 </div>
 
                 <div class="form-group row justify-content-center">
-                    <input type="submit" value="Save" class="button col-3" name="action_save_or_update">
+                    <input type="submit" value="<fmt:message key="label.button.save"/>" class="button col-3"
+                           name="action_save_or_update">
                 </div>
             </form:form>
         </section>

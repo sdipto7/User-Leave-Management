@@ -43,13 +43,14 @@
                     </c:url>
 
                     <div class="col-3">
-                        <input type="submit" value="Edit"
+                        <input type="submit" value="<fmt:message key="label.user.details.button.edit"/>"
                                onclick="window.location.href='${updateUserLink}'; return false;"
                                class="button">
                     </div>
                     <div class="col-4">
                         <form:form action="/user/submit" method="post" modelAttribute="user">
-                            <input type="submit" value="Delete" class="button" name="action_delete">
+                            <input type="submit" value="<fmt:message key="label.button.delete"/>" class="button"
+                                   name="action_delete">
                         </form:form>
                     </div>
                 </c:if>
@@ -61,11 +62,11 @@
 <c:if test="${user.designation.naturalName == 'Team Lead'}">
 
     <div style="margin-top: 40px">
-        <h2 style="text-align: center"><fmt:message key="label.user.details.body.developer"/></h2>
+        <h3 style="text-align: center"><fmt:message key="label.user.details.body.developer"/></h3>
     </div>
     <c:choose>
         <c:when test="${empty(developerList)}">
-            <h5 style="text-align: center"><fmt:message key="label.user.details.body.noAssignedDeveloper"/></h5>
+            <h6 style="text-align: center"><fmt:message key="label.user.details.body.noAssignedDeveloper"/></h6>
         </c:when>
         <c:otherwise>
             <div class="container">
@@ -95,11 +96,11 @@
     </c:choose>
 
     <div style="margin-top: 40px">
-        <h2 style="text-align: center"><fmt:message key="label.user.details.body.tester"/></h2>
+        <h3 style="text-align: center"><fmt:message key="label.user.details.body.tester"/></h3>
     </div>
     <c:choose>
         <c:when test="${empty(testerList)}">
-            <h5 style="text-align: center"><fmt:message key="label.user.details.body.noAssignedTester"/></h5>
+            <h6 style="text-align: center"><fmt:message key="label.user.details.body.noAssignedTester"/></h6>
         </c:when>
         <c:otherwise>
             <div class="container">

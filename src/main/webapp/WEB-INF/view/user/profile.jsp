@@ -83,7 +83,8 @@
                 </div>
 
                 <div class="form-group row justify-content-center">
-                    <input type="submit" value="Change Password" class="button col-5" style="margin-top: 20px">
+                    <input type="submit" value="<fmt:message key="label.user.profile.button.newPassword"/>"
+                           class="button col-5" style="margin-top: 20px">
                 </div>
             </form:form>
         </section>

@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="form-group row justify-content-center">
-                    <input type="submit" value="Log in" class="button col-3">
+                    <input type="submit" value="<fmt:message key="label.button.login"/>" class="button col-3">
                 </div>
             </form:form>
 

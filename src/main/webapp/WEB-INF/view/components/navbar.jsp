@@ -22,21 +22,21 @@
     <c:param name="userId" value="${SESSION_USER.id}"/>
 </c:url>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="${showProfileLink}"><fmt:message key="label.navbar.body.profile"/></a>
+                    <a class="nav-link" style="color: white" href="${showProfileLink}"><fmt:message key="label.navbar.body.profile"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard" aria-current="page"><fmt:message key="label.navbar.body.dashboard"/></a>
+                    <a class="nav-link" style="color: white" href="/dashboard" aria-current="page"><fmt:message key="label.navbar.body.dashboard"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${showNotificationLink}"><fmt:message key="label.navbar.body.notification"/></a>
+                    <a class="nav-link" style="color: white" href="${showNotificationLink}"><fmt:message key="label.navbar.body.notification"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout"><fmt:message key="label.navbar.body.logoutButton"/></a>
+                    <a class="nav-link" style="color: white" href="/logout"><fmt:message key="label.navbar.body.logoutButton"/></a>
                 </li>
             </ul>
         </div>

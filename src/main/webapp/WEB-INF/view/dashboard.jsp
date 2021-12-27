@@ -81,7 +81,7 @@
             </tr>
         </c:if>
         <tr>
-            <td><fmt:message key="label.dashboard.body.myleaves"/></td>
+            <td><fmt:message key="label.dashboard.body.myLeaves"/></td>
             <td>
                 <a href="${showUserLeaveListLink}"><fmt:message key="label.link.showList"/></a>
             </td>
