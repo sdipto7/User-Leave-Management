@@ -48,12 +48,8 @@ public class ExceptionFilter implements Filter {
                 logger.error("[Exception] {}", exception.fillInStackTrace());
             }
             httpServletRequest.setAttribute("errorMessage", cause);
-            forward(httpServletRequest, httpServletResponse);
+            RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/error");
+            dispatcher.forward(httpServletRequest, httpServletResponse);
         }
-    }
-
-    public void forward(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/error");
-        dispatcher.forward(httpServletRequest, httpServletResponse);
     }
 }
