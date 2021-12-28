@@ -2,7 +2,6 @@ package net.therap.leavemanagement.filter;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.HttpSessionRequiredException;
-import org.springframework.web.util.NestedServletException;
 
 import javax.persistence.OptimisticLockException;
 import javax.servlet.*;
@@ -28,30 +27,28 @@ public class ExceptionFilter implements Filter {
 
         try {
             chain.doFilter(request, response);
-        } catch (NestedServletException nestedServletException) {
+        } catch (Exception exception) {
+            String cause;
             try {
-                throw nestedServletException.getRootCause();
+                throw exception.getCause();
             } catch (NullPointerException nullPointerException) {
-                logger.error("[NullPointerException] The Requested data is not available");
-                httpServletRequest.setAttribute("errorMessage", "The Requested data is not available");
-                forward(httpServletRequest, httpServletResponse);
+                cause = "The Requested data is not available";
+                logger.error("[NullPointerException] {}", nullPointerException.fillInStackTrace());
             } catch (WebServiceException webServiceException) {
-                logger.error("[WebServiceException] You are not authorized to look into this page");
-                httpServletRequest.setAttribute("errorMessage", "You are not authorized to look into this page");
-                forward(httpServletRequest, httpServletResponse);
+                cause = "You are not authorized to look into this page";
+                logger.error("[WebServiceException] {}", webServiceException.fillInStackTrace());
             } catch (HttpSessionRequiredException httpSessionRequiredException) {
-                logger.error("[HttpSessionRequiredException] Invalid session! Please Reload the page");
-                httpServletRequest.setAttribute("errorMessage", "Invalid session! Please Reload the page");
-                forward(httpServletRequest, httpServletResponse);
+                cause = "Invalid session! Please Reload the page";
+                logger.error("[HttpSessionRequiredException] {}", httpSessionRequiredException.fillInStackTrace());
             } catch (OptimisticLockException optimisticLockException) {
-                logger.error("[OptimisticLockException] The current state of data you are trying to modify is already modified! Please reload the page");
-                httpServletRequest.setAttribute("errorMessage", "The current state of data you are trying to modify is already modified! Please reload the page");
-                forward(httpServletRequest, httpServletResponse);
-            } catch (Throwable exception) {
-                logger.error("[Exception] Unexpected error occured! Contact us for more detailed information");
-                httpServletRequest.setAttribute("errorMessage", exception.getMessage());
-                forward(httpServletRequest, httpServletResponse);
+                cause = "The current state of data you are trying to modify is already modified! Please reload the page";
+                logger.error("[OptimisticLockException] {}", optimisticLockException.fillInStackTrace());
+            } catch (Throwable throwable) {
+                cause = "Unexpected error occured! Contact us for more detailed information";
+                logger.error("[Exception] {}", exception.fillInStackTrace());
             }
+            httpServletRequest.setAttribute("errorMessage", cause);
+            forward(httpServletRequest, httpServletResponse);
         }
     }
 
