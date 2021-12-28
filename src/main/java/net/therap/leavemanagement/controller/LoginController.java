@@ -69,7 +69,7 @@ public class LoginController {
         User user = userService.findByUsername(username);
         if (user != null && authenticationHelper.authCheck(user, password)) {
             session.setAttribute("SESSION_USER", user);
-            logger.info("[login] {} {} logged in successfully", user.getFirstName(), user.getLastName());
+            logger.info("[login] {} logged in successfully", user.getFullName());
 
             return "redirect:/" + Constant.DASHBOARD_URL;
         } else {

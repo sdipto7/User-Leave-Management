@@ -188,7 +188,7 @@ public class LeaveController {
         leaveService.saveOrUpdate(leave);
 
         leaveHelper.setNewLeaveNotificationByUserDesignation(leave);
-        logger.info("[leave_save] {} {}  added a new leave request", user.getFirstName(), user.getLastName());
+        logger.info("[leave_save] {} added a new leave request", user.getFullName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -211,7 +211,7 @@ public class LeaveController {
         }
 
         leaveService.delete(leave);
-        logger.info("[leave_save] {} {}  deleted own leave request", user.getFirstName(), user.getLastName());
+        logger.info("[leave_save] {} deleted own leave request", user.getFullName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
@@ -230,6 +230,8 @@ public class LeaveController {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
         if (errors.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
         }
@@ -243,7 +245,8 @@ public class LeaveController {
         leaveService.saveOrUpdate(leave);
 
         leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "approved");
-        logger.info("Team Lead gave approval to the leave request of {} {}", user.getFirstName(), user.getLastName());
+        logger.info("[leave_approve] " + sessionUser.getDesignation().getNaturalName()
+                + " gave approval to the leave request of {}", user.getFullName());
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",
@@ -262,6 +265,8 @@ public class LeaveController {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
+        User sessionUser = (User) session.getAttribute("SESSION_USER");
+
         if (errors.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
         }
@@ -276,7 +281,8 @@ public class LeaveController {
 
         leaveHelper.setLeaveStatusNotificationByUserDesignation(leave, "rejected");
 
-        logger.info("Team Lead denied the leave request of {} {}", user.getFirstName(), user.getLastName());
+        logger.info("[leave_reject] " + sessionUser.getDesignation().getNaturalName()
+                + " denied the leave request of {}", user.getFullName());
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",

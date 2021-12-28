@@ -7,7 +7,6 @@ import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.helper.AuthorizationHelper;
 import net.therap.leavemanagement.helper.UserHelper;
 import net.therap.leavemanagement.service.LeaveStatService;
-import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
 import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.validator.UserProfileCommandValidator;
@@ -52,9 +51,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private UserManagementService userManagementService;
 
     @Autowired
     private LeaveStatService leaveStatService;
@@ -205,11 +201,11 @@ public class UserController {
 
         userHelper.checkAndSetRoleChange(userSaveCommand);
         userService.saveOrUpdate(userSaveCommand);
-        logger.info("[user_save] {} saved successfully", userSaveCommand.getUser().getFirstName());
+        logger.info("[user_save] {} saved successfully", userSaveCommand.getUser().getFullName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "User " + userSaveCommand.getUser().getFirstName() + " saved successfully");
+                "User " + userSaveCommand.getUser().getFullName() + " saved successfully");
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }
@@ -233,7 +229,7 @@ public class UserController {
 
         userService.updatePassword(userProfileCommand);
         session.setAttribute("SESSION_USER", userProfileCommand.getUser());
-        logger.info("[user_updatePass] {} {} updated own password successfully", user.getFirstName(), user.getLastName());
+        logger.info("[user_updatePass] {} updated own password successfully", user.getFullName());
 
         sessionStatus.setComplete();
 
@@ -256,11 +252,11 @@ public class UserController {
         }
 
         userService.delete(user);
-        logger.info("[user_delete] {} {} is deleted successfully", user.getFirstName(), user.getLastName());
+        logger.info("[user_delete] {} is deleted successfully", user.getFullName());
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "User " + user.getFirstName() + " is deleted successfully");
+                "User " + user.getFullName() + " is deleted successfully");
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }

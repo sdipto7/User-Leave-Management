@@ -23,7 +23,7 @@ public class LogoutController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
-        logger.info("[logout] {} {} logged out successfully", sessionUser.getFirstName(), sessionUser.getLastName());
+        logger.info("[logout] {} logged out successfully", sessionUser.getFullName());
 
         session.invalidate();
         redirectAttributes.addFlashAttribute("logoutMessage", "Successfully logged out");
