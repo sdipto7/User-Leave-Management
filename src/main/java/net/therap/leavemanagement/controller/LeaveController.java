@@ -73,7 +73,7 @@ public class LeaveController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
     }
 
-    @RequestMapping(value = "/LeaveList", method = RequestMethod.GET)
+    @RequestMapping(value = "/leaveList", method = RequestMethod.GET)
     public String showLeaveList(@RequestParam(defaultValue = "1") Integer page,
                                 HttpSession session,
                                 ModelMap model) {
