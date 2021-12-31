@@ -16,7 +16,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
@@ -171,7 +171,7 @@ public class LeaveController {
 
     @RequestMapping(value = "/submit", params = "action_save_or_update", method = RequestMethod.POST)
     public String saveOrUpdate(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
-                               Errors errors,
+                               BindingResult bindingResult,
                                SessionStatus sessionStatus,
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
@@ -179,7 +179,7 @@ public class LeaveController {
         User user = leave.getUser();
         authorizationHelper.checkAccess(user);
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             leaveHelper.setDataForLeaveSaveForm(user, model);
 
             return LEAVE_SAVE_PAGE;
@@ -199,14 +199,14 @@ public class LeaveController {
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
     public String delete(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
-                         Errors errors,
+                         BindingResult bindingResult,
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
         User user = leave.getUser();
         authorizationHelper.checkAccess(user);
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
         }
 
@@ -222,7 +222,7 @@ public class LeaveController {
 
     @RequestMapping(value = "/action", params = "action_approve", method = RequestMethod.POST)
     public String approveRequest(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
-                                 Errors errors,
+                                 BindingResult bindingResult,
                                  SessionStatus sessionStatus,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes,
@@ -232,7 +232,7 @@ public class LeaveController {
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
         }
 
@@ -257,7 +257,7 @@ public class LeaveController {
 
     @RequestMapping(value = "/action", params = "action_reject", method = RequestMethod.POST)
     public String rejectRequest(@Valid @ModelAttribute(LEAVE_COMMAND) Leave leave,
-                                Errors errors,
+                                BindingResult bindingResult,
                                 SessionStatus sessionStatus,
                                 HttpSession session,
                                 RedirectAttributes redirectAttributes,
@@ -267,7 +267,7 @@ public class LeaveController {
 
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return LEAVE_DETAILS_PAGE;
         }
 
