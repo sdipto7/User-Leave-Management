@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -55,11 +55,11 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.POST)
     private String processLoginForm(@Valid @ModelAttribute(LOGIN_COMMAND) LoginCommand loginCommand,
-                                    Errors errors,
+                                    BindingResult bindingResult,
                                     HttpSession session,
                                     RedirectAttributes redirectAttributes) {
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return LOGIN_PAGE;
         }
 
