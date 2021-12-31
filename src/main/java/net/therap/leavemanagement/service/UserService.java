@@ -1,6 +1,5 @@
 package net.therap.leavemanagement.service;
 
-import net.therap.leavemanagement.command.UserProfileCommand;
 import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.dao.UserDao;
 import net.therap.leavemanagement.domain.LeaveStat;
@@ -151,10 +150,10 @@ public class UserService {
     }
 
     @Transactional
-    public void updatePassword(UserProfileCommand userProfileCommand) {
-        User user = userProfileCommand.getUser();
-        user.setPassword(HashGenerator.getMd5(userProfileCommand.getNewPassword()));
-        user.setActivated(true);
+    public void updatePassword(User user) {
+        if (!user.isActivated()) {
+            user.setActivated(true);
+        }
         userDao.saveOrUpdate(user);
     }
 

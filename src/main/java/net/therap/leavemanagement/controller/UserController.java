@@ -227,7 +227,8 @@ public class UserController {
             return USER_PROFILE_PAGE;
         }
 
-        userService.updatePassword(userProfileCommand);
+        userHelper.setupNewPasswordForUser(user, userProfileCommand.getNewPassword());
+        userService.updatePassword(user);
         session.setAttribute("SESSION_USER", userProfileCommand.getUser());
         logger.info("[user_updatePass] {} updated own password successfully", user.getFullName());
 

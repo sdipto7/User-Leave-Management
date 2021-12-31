@@ -6,6 +6,7 @@ import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.LeaveStatService;
 import net.therap.leavemanagement.service.UserManagementService;
 import net.therap.leavemanagement.service.UserService;
+import net.therap.leavemanagement.util.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
@@ -71,6 +72,10 @@ public class UserHelper {
             authorizationHelper.checkAccess(teamLead);
         }
         model.addAttribute("teamLead", teamLead);
+    }
+
+    public void setupNewPasswordForUser(User user, String newPassword) {
+        user.setPassword(HashGenerator.getMd5(newPassword));
     }
 
     public void setDataForUserSaveForm(ModelMap model) {
