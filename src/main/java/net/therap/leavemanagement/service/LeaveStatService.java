@@ -25,7 +25,7 @@ public class LeaveStatService {
     }
 
     @Transactional
-    public void save(LeaveStat leaveStat) {
+    public void saveOrUpdate(LeaveStat leaveStat) {
         leaveStat.setSickLeaveCount(0);
         leaveStat.setCasualLeaveCount(0);
 

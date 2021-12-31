@@ -132,7 +132,7 @@ public class UserService {
             if (id == 0) {
                 LeaveStat leaveStat = new LeaveStat();
                 leaveStat.setUser(user);
-                leaveStatService.save(leaveStat);
+                leaveStatService.saveOrUpdate(leaveStat);
             }
         }
     }
