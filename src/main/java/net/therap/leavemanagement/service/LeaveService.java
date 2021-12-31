@@ -102,7 +102,7 @@ public class LeaveService {
     }
 
     @Transactional
-    public void updateLeaveStatusWithUserRoleChange(long userId) {
+    public void updateLeaveStatusWithUserDesignationUpdate(long userId) {
         List<Leave> pendingLeaveList = leaveDao.findUserPendingLeaveList(userId);
         for (Leave pendingLeave : pendingLeaveList) {
             if (pendingLeave.isPendingByTeamLead()) {

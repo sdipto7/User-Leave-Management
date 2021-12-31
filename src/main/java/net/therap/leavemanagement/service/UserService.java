@@ -145,7 +145,7 @@ public class UserService {
         UserManagement userManagement = userManagementService.findUserManagementByUserId(userId);
         userManagementService.delete(userManagement);
 
-        leaveService.updateLeaveStatusWithUserRoleChange(userId);
+        leaveService.updateLeaveStatusWithUserDesignationUpdate(userId);
 
         userDao.saveOrUpdate(user);
     }
