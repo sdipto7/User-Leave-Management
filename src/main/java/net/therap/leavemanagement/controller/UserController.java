@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
@@ -185,14 +185,14 @@ public class UserController {
 
     @RequestMapping(value = "/submit", params = "action_save_or_update", method = RequestMethod.POST)
     public String saveOrUpdate(@Valid @ModelAttribute(USER_COMMAND_SAVE) UserSaveCommand userSaveCommand,
-                               Errors errors,
+                               BindingResult bindingResult,
                                SessionStatus sessionStatus,
                                ModelMap model,
                                RedirectAttributes redirectAttributes) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             userHelper.setConditionalDataForUserSaveView(userSaveCommand.getUser(), model);
             userHelper.setDataForUserSaveForm(model);
 
@@ -212,7 +212,7 @@ public class UserController {
 
     @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
     public String updatePassword(@Valid @ModelAttribute(USER_COMMAND_PROFILE) UserProfileCommand userProfileCommand,
-                                 Errors errors,
+                                 BindingResult bindingResult,
                                  HttpSession session,
                                  SessionStatus sessionStatus,
                                  RedirectAttributes redirectAttributes,
@@ -221,7 +221,7 @@ public class UserController {
         User user = userProfileCommand.getUser();
         authorizationHelper.checkAccess(user);
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             userHelper.setDataForUpdatePasswordForm(user, model);
 
             return USER_PROFILE_PAGE;
@@ -241,13 +241,13 @@ public class UserController {
 
     @RequestMapping(value = "/submit", params = "action_delete", method = RequestMethod.POST)
     public String delete(@Valid @ModelAttribute(USER_COMMAND) User user,
-                         Errors errors,
+                         BindingResult bindingResult,
                          RedirectAttributes redirectAttributes,
                          SessionStatus sessionStatus) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
 
-        if (errors.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return USER_DETAILS_PAGE;
         }
 
