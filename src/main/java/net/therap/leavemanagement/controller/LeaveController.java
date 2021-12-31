@@ -107,7 +107,7 @@ public class LeaveController {
         return LEAVE_LIST_PAGE;
     }
 
-    @RequestMapping(value = "/userLeaveList", method = RequestMethod.GET)
+    @RequestMapping(value = "/myLeaveList", method = RequestMethod.GET)
     public String showUserLeaveList(@RequestParam long userId,
                                     @RequestParam(defaultValue = "1") Integer page,
                                     ModelMap model) {
@@ -123,7 +123,7 @@ public class LeaveController {
         return LEAVE_LIST_PAGE;
     }
 
-    @RequestMapping(value = "/userPendingLeaveList", method = RequestMethod.GET)
+    @RequestMapping(value = "/myPendingLeaveList", method = RequestMethod.GET)
     public String showUserPendingLeaveList(@RequestParam long userId,
                                            @RequestParam(defaultValue = "1") Integer page,
                                            ModelMap model) {

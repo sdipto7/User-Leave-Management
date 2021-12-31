@@ -20,11 +20,11 @@
 
 <c:url var="addUserLink" value="/user/form"/>
 
-<c:url var="showSessionUserLeaveListLink" value="/leave/userLeaveList">
+<c:url var="showSessionUserLeaveListLink" value="/leave/myLeaveList">
     <c:param name="userId" value="${SESSION_USER.id}"/>
 </c:url>
 
-<c:url var="showSessionUserPendingLeaveListLink" value="/leave/userPendingLeaveList">
+<c:url var="showSessionUserPendingLeaveListLink" value="/leave/myPendingLeaveList">
     <c:param name="userId" value="${SESSION_USER.id}"/>
 </c:url>
 
