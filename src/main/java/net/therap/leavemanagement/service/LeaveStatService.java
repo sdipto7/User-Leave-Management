@@ -33,7 +33,7 @@ public class LeaveStatService {
     }
 
     @Transactional
-    public void update(Leave leave) {
+    public void updateByLeave(Leave leave) {
         LeaveStat leaveStat = findLeaveStatByUserId(leave.getUser().getId());
         int dayCount = DateTimeUtil.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());
 

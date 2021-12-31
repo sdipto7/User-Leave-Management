@@ -95,7 +95,7 @@ public class LeaveService {
     @Transactional
     public void saveOrUpdate(Leave leave) {
         if (leave.isApprovedByHrExecutive()) {
-            leaveStatService.update(leave);
+            leaveStatService.updateByLeave(leave);
         }
 
         leaveDao.saveOrUpdate(leave);
