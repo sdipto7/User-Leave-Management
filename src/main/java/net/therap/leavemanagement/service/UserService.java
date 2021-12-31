@@ -150,6 +150,7 @@ public class UserService {
         userDao.saveOrUpdate(user);
     }
 
+    @Transactional
     public void updatePassword(UserProfileCommand userProfileCommand) {
         User user = userProfileCommand.getUser();
         user.setPassword(HashGenerator.getMd5(userProfileCommand.getNewPassword()));
