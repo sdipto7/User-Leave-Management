@@ -84,7 +84,7 @@ public class UserController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     private String showProfile(@RequestParam(value = "id") long id,
-                               ModelMap model) {
+                               ModelMap modelMap) {
 
         User user = userService.find(id);
         authorizationHelper.checkAccess(user);
@@ -92,22 +92,22 @@ public class UserController {
         UserProfileCommand userProfileCommand = new UserProfileCommand();
         userProfileCommand.setUser(user);
 
-        model.addAttribute(USER_COMMAND_PROFILE, userProfileCommand);
-        userHelper.setDataForUpdatePasswordForm(user, model);
+        modelMap.addAttribute(USER_COMMAND_PROFILE, userProfileCommand);
+        userHelper.setDataForUpdatePasswordForm(user, modelMap);
 
         return USER_PROFILE_PAGE;
     }
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
     public String showTeamLeadList(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                   ModelMap model) {
+                                   ModelMap modelMap) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
 
         List<User> teamLeadList = userService.findAllTeamLead(page);
 
-        model.addAttribute("userList", teamLeadList);
-        model.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countTeamLead()));
+        modelMap.addAttribute("userList", teamLeadList);
+        modelMap.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countTeamLead()));
 
         return USER_LIST_PAGE;
     }
@@ -115,7 +115,7 @@ public class UserController {
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
     public String showDeveloperList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     HttpSession session,
-                                    ModelMap model) {
+                                    ModelMap modelMap) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
@@ -123,8 +123,8 @@ public class UserController {
 
         List<User> developerList = userService.findAllDeveloper(sessionUser, page);
 
-        model.addAttribute("userList", developerList);
-        model.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countDeveloper(sessionUser)));
+        modelMap.addAttribute("userList", developerList);
+        modelMap.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countDeveloper(sessionUser)));
 
         return USER_LIST_PAGE;
     }
@@ -132,7 +132,7 @@ public class UserController {
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
     public String showTesterList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                  HttpSession session,
-                                 ModelMap model) {
+                                 ModelMap modelMap) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
@@ -140,8 +140,8 @@ public class UserController {
 
         List<User> testerList = userService.findAllTester(sessionUser, page);
 
-        model.addAttribute("userList", testerList);
-        model.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countTester(sessionUser)));
+        modelMap.addAttribute("userList", testerList);
+        modelMap.addAttribute("pageNumber", userHelper.getTotalPageNumber((int) userService.countTester(sessionUser)));
 
         return USER_LIST_PAGE;
     }
@@ -149,26 +149,26 @@ public class UserController {
     @RequestMapping(value = "/details", method = RequestMethod.GET)
     public String showDetails(@RequestParam(value = "id") long id,
                               HttpSession session,
-                              ModelMap model) {
+                              ModelMap modelMap) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE, TEAM_LEAD);
 
         User user = userService.find(id);
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(id);
 
-        userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, model);
+        userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, modelMap);
 
-        userHelper.setupDataIfTeamLead(user, model);
+        userHelper.setupDataIfTeamLead(user, modelMap);
 
-        model.addAttribute(USER_COMMAND, user);
-        model.addAttribute("leaveStat", leaveStat);
+        modelMap.addAttribute(USER_COMMAND, user);
+        modelMap.addAttribute("leaveStat", leaveStat);
 
         return USER_DETAILS_PAGE;
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
     public String showForm(@RequestParam(value = "id", defaultValue = "0") long id,
-                           ModelMap model) {
+                           ModelMap modelMap) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
 
@@ -176,9 +176,9 @@ public class UserController {
         UserSaveCommand userSaveCommand = new UserSaveCommand();
         userSaveCommand.setUser(user);
 
-        model.addAttribute(USER_COMMAND_SAVE, userSaveCommand);
-        userHelper.setConditionalDataForUserSaveView(user, model);
-        userHelper.setDataForUserSaveForm(model);
+        modelMap.addAttribute(USER_COMMAND_SAVE, userSaveCommand);
+        userHelper.setConditionalDataForUserSaveView(user, modelMap);
+        userHelper.setDataForUserSaveForm(modelMap);
 
         return USER_SAVE_PAGE;
     }
@@ -187,14 +187,14 @@ public class UserController {
     public String saveOrUpdate(@Valid @ModelAttribute(USER_COMMAND_SAVE) UserSaveCommand userSaveCommand,
                                BindingResult bindingResult,
                                SessionStatus sessionStatus,
-                               ModelMap model,
+                               ModelMap modelMap,
                                RedirectAttributes redirectAttributes) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
 
         if (bindingResult.hasErrors()) {
-            userHelper.setConditionalDataForUserSaveView(userSaveCommand.getUser(), model);
-            userHelper.setDataForUserSaveForm(model);
+            userHelper.setConditionalDataForUserSaveView(userSaveCommand.getUser(), modelMap);
+            userHelper.setDataForUserSaveForm(modelMap);
 
             return USER_SAVE_PAGE;
         }
@@ -216,13 +216,13 @@ public class UserController {
                                  HttpSession session,
                                  SessionStatus sessionStatus,
                                  RedirectAttributes redirectAttributes,
-                                 ModelMap model) {
+                                 ModelMap modelMap) {
 
         User user = userProfileCommand.getUser();
         authorizationHelper.checkAccess(user);
 
         if (bindingResult.hasErrors()) {
-            userHelper.setDataForUpdatePasswordForm(user, model);
+            userHelper.setDataForUpdatePasswordForm(user, modelMap);
 
             return USER_PROFILE_PAGE;
         }

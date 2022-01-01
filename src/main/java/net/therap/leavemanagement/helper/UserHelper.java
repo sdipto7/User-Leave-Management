@@ -35,11 +35,11 @@ public class UserHelper {
     @Autowired
     private AuthorizationHelper authorizationHelper;
 
-    public void setupDataIfTeamLead(User user, ModelMap model) {
+    public void setupDataIfTeamLead(User user, ModelMap modelMap) {
         if (user.isTeamLead()) {
-            model.addAttribute("developerList",
+            modelMap.addAttribute("developerList",
                     userManagementService.findAllDeveloperUnderTeamLead(user.getId()));
-            model.addAttribute("testerList",
+            modelMap.addAttribute("testerList",
                     userManagementService.findAllTesterUnderTeamLead(user.getId()));
         }
     }
@@ -64,37 +64,37 @@ public class UserHelper {
         }
     }
 
-    public void checkAndAddAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap model) {
+    public void checkAndAddAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap modelMap) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
         User teamLead = userManagementService.findTeamLeadByUserId(user.getId());
 
         if ((user.isDeveloper() || user.isTester()) && (sessionUser.isTeamLead())) {
             authorizationHelper.checkAccess(teamLead);
         }
-        model.addAttribute("teamLead", teamLead);
+        modelMap.addAttribute("teamLead", teamLead);
     }
 
     public void setupNewPasswordForUser(User user, String newPassword) {
         user.setPassword(HashGenerator.getMd5(newPassword));
     }
 
-    public void setDataForUserSaveForm(ModelMap model) {
-        model.addAttribute("teamLeadList", userService.findAllTeamLead());
-        model.addAttribute("designationList", Arrays.asList(Designation.values()));
+    public void setDataForUserSaveForm(ModelMap modelMap) {
+        modelMap.addAttribute("teamLeadList", userService.findAllTeamLead());
+        modelMap.addAttribute("designationList", Arrays.asList(Designation.values()));
     }
 
-    public void setDataForUpdatePasswordForm(User user, ModelMap model) {
-        model.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(user.getId()));
-        model.addAttribute("leaveStat", leaveStatService.findLeaveStatByUserId(user.getId()));
+    public void setDataForUpdatePasswordForm(User user, ModelMap modelMap) {
+        modelMap.addAttribute("teamLead", userManagementService.findTeamLeadByUserId(user.getId()));
+        modelMap.addAttribute("leaveStat", leaveStatService.findLeaveStatByUserId(user.getId()));
     }
 
-    public void setConditionalDataForUserSaveView(User user, ModelMap model) {
+    public void setConditionalDataForUserSaveView(User user, ModelMap modelMap) {
         if (user.isNew() || (!user.isNew() && (user.isDeveloper() || user.isTester()))) {
-            model.addAttribute("canSelectDesignation", true);
+            modelMap.addAttribute("canSelectDesignation", true);
         }
 
         if (user.isNew()) {
-            model.addAttribute("canInputPassword", true);
+            modelMap.addAttribute("canInputPassword", true);
         }
     }
 }

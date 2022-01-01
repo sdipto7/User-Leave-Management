@@ -47,8 +47,8 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    private String showLoginForm(ModelMap model) {
-        model.addAttribute(LOGIN_COMMAND, new LoginCommand());
+    private String showLoginForm(ModelMap modelMap) {
+        modelMap.addAttribute(LOGIN_COMMAND, new LoginCommand());
 
         return LOGIN_PAGE;
     }

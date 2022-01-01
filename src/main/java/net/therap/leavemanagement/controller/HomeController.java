@@ -29,15 +29,15 @@ public class HomeController {
     }
 
     @RequestMapping("/success")
-    public String showSuccessPage(@ModelAttribute("doneMessage") String msg, ModelMap model) {
-        model.addAttribute("message", msg);
+    public String showSuccessPage(@ModelAttribute("doneMessage") String msg, ModelMap modelMap) {
+        modelMap.addAttribute("message", msg);
 
         return SUCCESS_PAGE;
     }
 
     @RequestMapping(value = "/error")
-    private String showError(HttpServletRequest request, ModelMap model) {
-        model.addAttribute("message", request.getAttribute("errorMessage"));
+    private String showError(HttpServletRequest request, ModelMap modelMap) {
+        modelMap.addAttribute("message", request.getAttribute("errorMessage"));
 
         return ERROR_PAGE;
     }

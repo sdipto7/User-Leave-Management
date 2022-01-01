@@ -31,11 +31,11 @@ public class NotificationController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showNotification(@RequestParam(value = "userId") long userId, ModelMap model) {
+    public String showNotification(@RequestParam(value = "userId") long userId, ModelMap modelMap) {
         User user = userService.find(userId);
         authorizationHelper.checkAccess(user);
 
-        notificationHelper.setupNotificationData(user, model);
+        notificationHelper.setupNotificationData(user, modelMap);
 
         return NOTIFICATION_PAGE;
     }

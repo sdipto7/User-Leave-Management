@@ -19,7 +19,7 @@ public class NotificationHelper {
     @Autowired
     private NotificationService notificationService;
 
-    public void setupNotificationData(User user, ModelMap model) {
+    public void setupNotificationData(User user, ModelMap modelMap) {
         List<Notification> notificationList = notificationService.findAllNotification(user.getId());
         if (notificationList.size() > 0) {
             notificationList.forEach(notification -> {
@@ -28,6 +28,6 @@ public class NotificationHelper {
             });
         }
 
-        model.addAttribute("notificationList", notificationList);
+        modelMap.addAttribute("notificationList", notificationList);
     }
 }

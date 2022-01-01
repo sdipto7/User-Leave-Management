@@ -41,7 +41,7 @@ public class LeaveHelper {
     @Autowired
     private UserHelper userHelper;
 
-    public void checkAccessByUserDesignation(User user, HttpSession session, ModelMap model) {
+    public void checkAccessByUserDesignation(User user, HttpSession session, ModelMap modelMap) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
         if (sessionUser.getDesignation().equals(user.getDesignation())) {
@@ -50,7 +50,7 @@ public class LeaveHelper {
                 (user.getDesignation().equals(DEVELOPER) ||
                         user.getDesignation().equals(TESTER))) {
 
-            userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, model);
+            userHelper.checkAndAddAuthorizedTeamLeadIfExist(user, session, modelMap);
         }
     }
 
@@ -73,25 +73,25 @@ public class LeaveHelper {
         return leave;
     }
 
-    public void setDataForLeaveSaveForm(User user, ModelMap model){
+    public void setDataForLeaveSaveForm(User user, ModelMap modelMap) {
         LeaveStat leaveStat = leaveStatService.findLeaveStatByUserId(user.getId());
 
-        model.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
-        model.addAttribute("casualLeaveCount", 15 - leaveStat.getCasualLeaveCount());
-        model.addAttribute("sickLeaveCount", 15 - leaveStat.getSickLeaveCount());
+        modelMap.addAttribute("leaveTypeList", Arrays.asList(LeaveType.values()));
+        modelMap.addAttribute("casualLeaveCount", 15 - leaveStat.getCasualLeaveCount());
+        modelMap.addAttribute("sickLeaveCount", 15 - leaveStat.getSickLeaveCount());
     }
 
-    public void setConditionalDataForLeaveDetailsView(Leave leave, HttpSession session, ModelMap model) {
+    public void setConditionalDataForLeaveDetailsView(Leave leave, HttpSession session, ModelMap modelMap) {
         User sessionUser = (User) session.getAttribute("SESSION_USER");
 
         if ((sessionUser.isTeamLead() && leave.isPendingByTeamLead())
                 || (sessionUser.isHrExecutive() && leave.isPendingByHrExecutive())) {
-            model.addAttribute("canReview", true);
+            modelMap.addAttribute("canReview", true);
         }
 
         if (((sessionUser.isDeveloper() || sessionUser.isTester()) && leave.isPendingByTeamLead())
                 || (sessionUser.isTeamLead() && leave.getUser().isTeamLead() && leave.isPendingByHrExecutive())) {
-            model.addAttribute("canDelete", true);
+            modelMap.addAttribute("canDelete", true);
         }
     }
 
