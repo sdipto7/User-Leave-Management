@@ -25,68 +25,32 @@ public class LeaveDao {
         return em.find(Leave.class, id);
     }
 
-    public List<Leave> findUserLeaveList(long id) {
-        return em.createNamedQuery("Leave.findUserLeaveList", Leave.class)
-                .setParameter("id", id)
+    public List<Leave> findSessionUserLeaveList(long userId) {
+        return em.createNamedQuery("Leave.findSessionUserLeaveList", Leave.class)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 
-    public List<Leave> findUserLeaveList(long id, int page) {
-        return em.createNamedQuery("Leave.findUserLeaveList", Leave.class)
-                .setParameter("id", id)
+    public List<Leave> findSessionUserLeaveList(long userId, int page) {
+        return em.createNamedQuery("Leave.findSessionUserLeaveList", Leave.class)
+                .setParameter("userId", userId)
                 .setFirstResult((page - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
     }
 
-    public long countUserLeave(long id) {
-        return em.createNamedQuery("Leave.countUserLeave", Long.class)
-                .setParameter("id", id)
-                .getSingleResult();
-    }
-
-    public List<Leave> findUserPendingLeaveList(long id) {
-        return em.createNamedQuery("Leave.findUserPendingLeaveList", Leave.class)
-                .setParameter("id", id)
+    public List<Leave> findSessionUserPendingLeaveList(long userId) {
+        return em.createNamedQuery("Leave.findSessionUserPendingLeaveList", Leave.class)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 
-    public List<Leave> findUserPendingLeaveList(long id, int page) {
-        return em.createNamedQuery("Leave.findUserPendingLeaveList", Leave.class)
-                .setParameter("id", id)
+    public List<Leave> findSessionUserPendingLeaveList(long userId, int page) {
+        return em.createNamedQuery("Leave.findSessionUserPendingLeaveList", Leave.class)
+                .setParameter("userId", userId)
                 .setFirstResult((page - 1) * pageSize)
                 .setMaxResults(pageSize)
                 .getResultList();
-    }
-
-    public long countUserPendingLeave(long id) {
-        return em.createNamedQuery("Leave.countUserPendingLeave", Long.class)
-                .setParameter("id", id)
-                .getSingleResult();
-    }
-
-    public List<Leave> findAllLeave(int page) {
-        return em.createNamedQuery("Leave.findAllLeave", Leave.class)
-                .setFirstResult((page - 1) * pageSize)
-                .setMaxResults(pageSize)
-                .getResultList();
-    }
-
-    public long countAllLeave() {
-        return em.createNamedQuery("Leave.countAllLeave", Long.class)
-                .getSingleResult();
-    }
-
-    public List<Leave> findAllPendingLeave(int page) {
-        return em.createNamedQuery("Leave.findAllPendingLeave", Leave.class)
-                .setFirstResult((page - 1) * pageSize)
-                .setMaxResults(pageSize)
-                .getResultList();
-    }
-
-    public long countAllPendingLeave() {
-        return em.createNamedQuery("Leave.countAllPendingLeave", Long.class)
-                .getSingleResult();
     }
 
     public List<Leave> findAllLeaveUnderTeamLead(long teamLeadId, int page) {
@@ -97,12 +61,6 @@ public class LeaveDao {
                 .getResultList();
     }
 
-    public long countAllLeaveUnderTeamLead(long teamLeadId) {
-        return em.createNamedQuery("Leave.countAllLeaveUnderTeamLead", Long.class)
-                .setParameter("teamLeadId", teamLeadId)
-                .getSingleResult();
-    }
-
     public List<Leave> findAllPendingLeaveUnderTeamLead(long teamLeadId, int page) {
         return em.createNamedQuery("Leave.findAllPendingLeaveUnderTeamLead", Leave.class)
                 .setParameter("teamLeadId", teamLeadId)
@@ -111,9 +69,51 @@ public class LeaveDao {
                 .getResultList();
     }
 
+    public List<Leave> findAllLeave(int page) {
+        return em.createNamedQuery("Leave.findAllLeave", Leave.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    public List<Leave> findAllPendingLeave(int page) {
+        return em.createNamedQuery("Leave.findAllPendingLeave", Leave.class)
+                .setFirstResult((page - 1) * pageSize)
+                .setMaxResults(pageSize)
+                .getResultList();
+    }
+
+    public long countSessionUserLeave(long userId) {
+        return em.createNamedQuery("Leave.countSessionUserLeave", Long.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
+    public long countSessionUserPendingLeave(long userId) {
+        return em.createNamedQuery("Leave.countSessionUserPendingLeave", Long.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
+    public long countAllLeaveUnderTeamLead(long teamLeadId) {
+        return em.createNamedQuery("Leave.countAllLeaveUnderTeamLead", Long.class)
+                .setParameter("teamLeadId", teamLeadId)
+                .getSingleResult();
+    }
+
     public long countAllPendingLeaveUnderTeamLead(long teamLeadId) {
         return em.createNamedQuery("Leave.countAllPendingLeaveUnderTeamLead", Long.class)
                 .setParameter("teamLeadId", teamLeadId)
+                .getSingleResult();
+    }
+
+    public long countAllLeave() {
+        return em.createNamedQuery("Leave.countAllLeave", Long.class)
+                .getSingleResult();
+    }
+
+    public long countAllPendingLeave() {
+        return em.createNamedQuery("Leave.countAllPendingLeave", Long.class)
                 .getSingleResult();
     }
 

@@ -108,33 +108,33 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/myLeaveList", method = RequestMethod.GET)
-    public String showUserLeaveList(@RequestParam long userId,
-                                    @RequestParam(defaultValue = "1") Integer page,
-                                    ModelMap model) {
-
-        User user = userService.find(userId);
-        authorizationHelper.checkAccess(user);
-
-        List<Leave> userLeaveList = leaveService.findUserLeaveList(userId, page);
-
-        model.addAttribute("leaveList", userLeaveList);
-        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countUserLeave(user.getId())));
-
-        return LEAVE_LIST_PAGE;
-    }
-
-    @RequestMapping(value = "/myPendingLeaveList", method = RequestMethod.GET)
-    public String showUserPendingLeaveList(@RequestParam long userId,
+    public String showSessionUserLeaveList(@RequestParam long userId,
                                            @RequestParam(defaultValue = "1") Integer page,
                                            ModelMap model) {
 
         User user = userService.find(userId);
         authorizationHelper.checkAccess(user);
 
-        List<Leave> userPendingLeaveList = leaveService.findUserPendingLeaveList(userId, page);
+        List<Leave> sessionUserLeaveList = leaveService.findSessionUserLeaveList(userId, page);
 
-        model.addAttribute("leaveList", userPendingLeaveList);
-        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countUserPendingLeave(user.getId())));
+        model.addAttribute("leaveList", sessionUserLeaveList);
+        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countSessionUserLeave(user.getId())));
+
+        return LEAVE_LIST_PAGE;
+    }
+
+    @RequestMapping(value = "/myPendingLeaveList", method = RequestMethod.GET)
+    public String showSessionUserPendingLeaveList(@RequestParam long userId,
+                                                  @RequestParam(defaultValue = "1") Integer page,
+                                                  ModelMap model) {
+
+        User user = userService.find(userId);
+        authorizationHelper.checkAccess(user);
+
+        List<Leave> sessionUserPendingLeaveList = leaveService.findSessionUserPendingLeaveList(userId, page);
+
+        model.addAttribute("leaveList", sessionUserPendingLeaveList);
+        model.addAttribute("pageNumber", leaveHelper.getTotalPageNumber((int) leaveService.countSessionUserPendingLeave(user.getId())));
 
         return LEAVE_LIST_PAGE;
     }
