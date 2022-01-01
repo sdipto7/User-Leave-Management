@@ -74,7 +74,7 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/leaveList", method = RequestMethod.GET)
-    public String showLeaveList(@RequestParam(defaultValue = "1") Integer page,
+    public String showLeaveList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                 HttpSession session,
                                 ModelMap model) {
 
@@ -91,7 +91,7 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/pendingLeaveList", method = RequestMethod.GET)
-    public String showPendingLeaveList(@RequestParam(defaultValue = "1") Integer page,
+    public String showPendingLeaveList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                        HttpSession session,
                                        ModelMap model) {
 
@@ -108,8 +108,8 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/myLeaveList", method = RequestMethod.GET)
-    public String showSessionUserLeaveList(@RequestParam long userId,
-                                           @RequestParam(defaultValue = "1") Integer page,
+    public String showSessionUserLeaveList(@RequestParam(value = "userId") long userId,
+                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
                                            ModelMap model) {
 
         User user = userService.find(userId);
@@ -124,8 +124,8 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/myPendingLeaveList", method = RequestMethod.GET)
-    public String showSessionUserPendingLeaveList(@RequestParam long userId,
-                                                  @RequestParam(defaultValue = "1") Integer page,
+    public String showSessionUserPendingLeaveList(@RequestParam(value = "userId") long userId,
+                                                  @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                   ModelMap model) {
 
         User user = userService.find(userId);
@@ -140,7 +140,7 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.GET)
-    public String showDetails(@RequestParam long id,
+    public String showDetails(@RequestParam(value = "id") long id,
                               HttpSession session,
                               ModelMap model) {
 
@@ -155,7 +155,7 @@ public class LeaveController {
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
-    public String showForm(@RequestParam long userId,
+    public String showForm(@RequestParam(value = "userId") long userId,
                            ModelMap model) {
 
         User user = userService.find(userId);

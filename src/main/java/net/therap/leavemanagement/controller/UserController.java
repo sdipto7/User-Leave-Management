@@ -83,7 +83,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    private String showProfile(@RequestParam long id,
+    private String showProfile(@RequestParam(value = "id") long id,
                                ModelMap model) {
 
         User user = userService.find(id);
@@ -99,7 +99,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/teamLeadList", method = RequestMethod.GET)
-    public String showTeamLeadList(@RequestParam(defaultValue = "1") Integer page,
+    public String showTeamLeadList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                    ModelMap model) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
@@ -113,7 +113,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/developerList", method = RequestMethod.GET)
-    public String showDeveloperList(@RequestParam(defaultValue = "1") Integer page,
+    public String showDeveloperList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     HttpSession session,
                                     ModelMap model) {
 
@@ -130,7 +130,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/testerList", method = RequestMethod.GET)
-    public String showTesterList(@RequestParam(defaultValue = "1") Integer page,
+    public String showTesterList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                  HttpSession session,
                                  ModelMap model) {
 
@@ -147,7 +147,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.GET)
-    public String showDetails(@RequestParam long id,
+    public String showDetails(@RequestParam(value = "id") long id,
                               HttpSession session,
                               ModelMap model) {
 
@@ -167,7 +167,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
-    public String showForm(@RequestParam(defaultValue = "0") long id,
+    public String showForm(@RequestParam(value = "id", defaultValue = "0") long id,
                            ModelMap model) {
 
         authorizationHelper.checkAccess(HR_EXECUTIVE);
