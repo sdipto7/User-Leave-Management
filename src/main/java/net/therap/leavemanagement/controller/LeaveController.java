@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -41,11 +42,15 @@ import static net.therap.leavemanagement.domain.Designation.TEAM_LEAD;
 @SessionAttributes(LEAVE_COMMAND)
 public class LeaveController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LeaveController.class);
     public static final String LEAVE_COMMAND = "leave";
+
     public static final String LEAVE_LIST_PAGE = "/leave/list";
+
     public static final String LEAVE_DETAILS_PAGE = "/leave/details";
+
     public static final String LEAVE_SAVE_PAGE = "/leave/save";
+
+    private static final Logger logger = LoggerFactory.getLogger(LeaveController.class);
 
     @Autowired
     private AuthorizationHelper authorizationHelper;
@@ -64,6 +69,9 @@ public class LeaveController {
 
     @Autowired
     private LeaveValidator leaveValidator;
+
+    @Autowired
+    private MessageSourceAccessor messageSourceAccessor;
 
     @InitBinder(LEAVE_COMMAND)
     public void initBinder(WebDataBinder binder) {
@@ -192,7 +200,7 @@ public class LeaveController {
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "Leave request is submitted successfully");
+                messageSourceAccessor.getMessage("msg.success.leave.save"));
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }
@@ -215,7 +223,7 @@ public class LeaveController {
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "Leave Request is successfully deleted");
+                messageSourceAccessor.getMessage("msg.success.leave.delete"));
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }
@@ -250,7 +258,7 @@ public class LeaveController {
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",
-                "Leave request is approved");
+                messageSourceAccessor.getMessage("msg.success.leave.approve"));
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }
@@ -286,7 +294,7 @@ public class LeaveController {
 
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("doneMessage",
-                "Leave request is denied");
+                messageSourceAccessor.getMessage("msg.success.leave.reject"));
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }

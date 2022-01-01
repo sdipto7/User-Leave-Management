@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,15 +31,20 @@ import static net.therap.leavemanagement.controller.LoginController.LOGIN_COMMAN
 @SessionAttributes(LOGIN_COMMAND)
 public class LoginController {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     public static final String LOGIN_COMMAND = "loginCommand";
+
     public static final String LOGIN_PAGE = "/login";
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private UserService userService;
 
     @Autowired
     private AuthenticationHelper authenticationHelper;
+
+    @Autowired
+    private MessageSourceAccessor messageSourceAccessor;
 
     @InitBinder(LOGIN_COMMAND)
     public void initBinder(WebDataBinder binder) {
@@ -73,7 +79,7 @@ public class LoginController {
 
             return "redirect:/" + Constant.DASHBOARD_URL;
         } else {
-            redirectAttributes.addFlashAttribute("error", "Enter credential correctly");
+            redirectAttributes.addFlashAttribute("error", messageSourceAccessor.getMessage("msg.error.login"));
 
             return "redirect:/" + Constant.LOGIN_URL;
         }

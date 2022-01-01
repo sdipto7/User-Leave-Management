@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -40,14 +41,21 @@ import static net.therap.leavemanagement.domain.Designation.TEAM_LEAD;
 @SessionAttributes({USER_COMMAND, USER_COMMAND_SAVE, USER_COMMAND_PROFILE})
 public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     public static final String USER_COMMAND = "user";
+
     public static final String USER_COMMAND_SAVE = "userSaveCommand";
+
     public static final String USER_COMMAND_PROFILE = "userProfileCommand";
+
     public static final String USER_PROFILE_PAGE = "/user/profile";
+
     public static final String USER_LIST_PAGE = "/user/list";
+
     public static final String USER_DETAILS_PAGE = "/user/details";
+
     public static final String USER_SAVE_PAGE = "/user/save";
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -66,6 +74,9 @@ public class UserController {
 
     @Autowired
     private UserProfileCommandValidator userProfileCommandValidator;
+
+    @Autowired
+    private MessageSourceAccessor messageSourceAccessor;
 
     @InitBinder(USER_COMMAND_SAVE)
     public void initBinderToSaveUser(WebDataBinder binder) {
@@ -205,7 +216,7 @@ public class UserController {
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "User " + userSaveCommand.getUser().getFullName() + " saved successfully");
+                messageSourceAccessor.getMessage("msg.success.user.save", new String[]{userSaveCommand.getUser().getFullName()}));
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }
@@ -235,7 +246,7 @@ public class UserController {
         sessionStatus.setComplete();
 
         redirectAttributes.addFlashAttribute("doneMessage",
-                "Password updated successfully");
+                messageSourceAccessor.getMessage("msg.success.user.updatePassword"));
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }
@@ -257,7 +268,7 @@ public class UserController {
 
         sessionStatus.setComplete();
         redirectAttributes.addAttribute("doneMessage",
-                "User " + user.getFullName() + " is deleted successfully");
+                messageSourceAccessor.getMessage("msg.success.user.delete", new String[]{user.getFullName()}));
 
         return "redirect:/" + Constant.SUCCESS_URL;
     }
