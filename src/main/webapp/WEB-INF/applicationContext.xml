@@ -22,6 +22,10 @@
         <property name="basename" value="classpath:messages"/>
     </bean>
 
+    <bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
+        <constructor-arg ref="messageSource"/>
+    </bean>
+
     <mvc:annotation-driven validator="validator"/>
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" primary="true">
         <property name="validationMessageSource" ref="messageSource"/>
