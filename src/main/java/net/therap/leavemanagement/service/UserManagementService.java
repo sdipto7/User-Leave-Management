@@ -57,9 +57,13 @@ public class UserManagementService {
     }
 
     @Transactional
-    public void saveOrUpdate(User user, User teamLead) {
-        UserManagement userManagement = new UserManagement();
-        userManagement.setUser(user);
+    public void saveOrUpdate(UserManagement userManagement) {
+        userManagementDao.saveOrUpdate(userManagement);
+    }
+
+    @Transactional
+    public void updateTeamLeadWithUserUpdate(User user, User teamLead) {
+        UserManagement userManagement = userManagementDao.findUserManagementByUserId(user.getId());
         userManagement.setTeamLead(teamLead);
 
         userManagementDao.saveOrUpdate(userManagement);
@@ -80,11 +84,16 @@ public class UserManagementService {
                 userManagementList.forEach(userManagement -> userManagementDao.delete(userManagement));
             }
         } else if (user.isDeveloper() || user.isTester()) {
-
             UserManagement userManagement = userManagementDao.findUserManagementByUserId(userId);
             if (Objects.nonNull(userManagement)) {
                 userManagementDao.delete(userManagement);
             }
         }
+    }
+
+    @Transactional
+    public void deleteWithUserDesignationUpdate(User user) {
+        UserManagement userManagement = userManagementDao.findUserManagementByUserId(user.getId());
+        userManagementDao.delete(userManagement);
     }
 }

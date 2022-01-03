@@ -112,39 +112,45 @@ public class UserService {
 
     @Transactional
     public void saveOrUpdate(User user, User teamLead) {
-        long id = user.getId();
+        if (user.isNew()) {
+            user.setPassword(HashGenerator.getMd5(user.getPassword()));
+            user.setActivated(false);
 
-        if (isDesignationChanged(user)) {
-            updateUserWithDesignationChange(user);
-        } else {
-            if (id == 0) {
-                user.setPassword(HashGenerator.getMd5(user.getPassword()));
-                user.setActivated(false);
-            }
             userDao.saveOrUpdate(user);
 
-            if (existsTeamLead(user, teamLead)) {
-                userManagementService.saveOrUpdate(user, teamLead);
+            createAndSaveUserManagementWithNewUser(user, teamLead);
+
+            createAndSaveLeaveStatWithNewUser(user);
+        } else {
+
+            if (isDesignationChanged(user)) {
+                userManagementService.deleteWithUserDesignationUpdate(user);
+                leaveService.updateLeaveStatusWithUserDesignationUpdate(user);
+            } else if (isTeamLeadChanged(user, teamLead)) {
+                userManagementService.updateTeamLeadWithUserUpdate(user, teamLead);
             }
 
-            if (id == 0) {
-                LeaveStat leaveStat = new LeaveStat();
-                leaveStat.setUser(user);
-                leaveStatService.saveOrUpdate(leaveStat);
-            }
+            userDao.saveOrUpdate(user);
         }
     }
 
     @Transactional
-    public void updateUserWithDesignationChange(User user) {
-        long userId = user.getId();
+    public void createAndSaveLeaveStatWithNewUser(User user) {
+        LeaveStat leaveStat = new LeaveStat();
+        leaveStat.setUser(user);
 
-        UserManagement userManagement = userManagementService.findUserManagementByUserId(userId);
-        userManagementService.delete(userManagement);
+        leaveStatService.saveOrUpdate(leaveStat);
+    }
 
-        leaveService.updateLeaveStatusWithUserDesignationUpdate(userId);
+    @Transactional
+    public void createAndSaveUserManagementWithNewUser(User user, User teamLead) {
+        if (canHaveTeamLead(user, teamLead)) {
+            UserManagement userManagement = new UserManagement();
+            userManagement.setUser(user);
+            userManagement.setTeamLead(teamLead);
 
-        userDao.saveOrUpdate(user);
+            userManagementService.saveOrUpdate(userManagement);
+        }
     }
 
     @Transactional
@@ -174,12 +180,21 @@ public class UserService {
         if (id != 0) {
             User dbUser = userDao.find(id);
             return (commandUser.isTeamLead() && ((dbUser.isDeveloper()) || (dbUser.isTester())));
-        } else {
-            return false;
         }
+
+        return false;
     }
 
-    public boolean existsTeamLead(User user, User teamLead) {
+    public boolean isTeamLeadChanged(User commandUser, User commandTeamLead) {
+        if (Objects.nonNull(commandTeamLead) && (commandUser.isDeveloper() || commandUser.isTester())) {
+            User dbTeamLead = userManagementService.findTeamLeadByUserId(commandUser.getId());
+            return !(commandTeamLead.equals(dbTeamLead));
+        }
+
+        return false;
+    }
+
+    public boolean canHaveTeamLead(User user, User teamLead) {
         return (Objects.nonNull(teamLead) && (user.isDeveloper() || user.isTester()));
     }
 }

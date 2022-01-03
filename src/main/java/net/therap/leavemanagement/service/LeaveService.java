@@ -102,8 +102,8 @@ public class LeaveService {
     }
 
     @Transactional
-    public void updateLeaveStatusWithUserDesignationUpdate(long userId) {
-        List<Leave> pendingLeaveList = leaveDao.findUserPendingLeaveList(userId);
+    public void updateLeaveStatusWithUserDesignationUpdate(User user) {
+        List<Leave> pendingLeaveList = leaveDao.findUserPendingLeaveList(user.getId());
         for (Leave pendingLeave : pendingLeaveList) {
             if (pendingLeave.isPendingByTeamLead()) {
                 pendingLeave.setLeaveStatus(PENDING_BY_HR_EXECUTIVE);
