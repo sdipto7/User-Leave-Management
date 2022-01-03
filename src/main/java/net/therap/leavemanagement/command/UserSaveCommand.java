@@ -18,8 +18,6 @@ public class UserSaveCommand implements Serializable {
 
     private User teamLead;
 
-    private boolean roleChanged;
-
     public User getUser() {
         return user;
     }
@@ -34,13 +32,5 @@ public class UserSaveCommand implements Serializable {
 
     public void setTeamLead(User teamLead) {
         this.teamLead = teamLead;
-    }
-
-    public boolean isRoleChanged() {
-        return roleChanged;
-    }
-
-    public void setRoleChanged(boolean roleChanged) {
-        this.roleChanged = roleChanged;
     }
 }

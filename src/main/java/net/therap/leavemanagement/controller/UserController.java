@@ -210,8 +210,7 @@ public class UserController {
             return USER_SAVE_PAGE;
         }
 
-        userHelper.checkAndSetRoleChange(userSaveCommand);
-        userService.saveOrUpdate(userSaveCommand);
+        userService.saveOrUpdate(userSaveCommand.getUser(), userSaveCommand.getTeamLead());
         logger.info("[user_save] {} saved successfully", userSaveCommand.getUser().getFullName());
 
         sessionStatus.setComplete();

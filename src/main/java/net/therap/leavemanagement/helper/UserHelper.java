@@ -1,6 +1,5 @@
 package net.therap.leavemanagement.helper;
 
-import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.domain.Designation;
 import net.therap.leavemanagement.domain.User;
 import net.therap.leavemanagement.service.LeaveStatService;
@@ -50,18 +49,6 @@ public class UserHelper {
 
     public User getOrCreateUser(long id) {
         return id == 0 ? new User() : userService.find(id);
-    }
-
-    public void checkAndSetRoleChange(UserSaveCommand userSaveCommand) {
-        User commandUser = userSaveCommand.getUser();
-        long id = commandUser.getId();
-
-        if (id != 0) {
-            User dbUser = userService.find(id);
-            if (commandUser.isTeamLead() && ((dbUser.isDeveloper()) || (dbUser.isTester()))) {
-                userSaveCommand.setRoleChanged(true);
-            }
-        }
     }
 
     public void checkAndAddAuthorizedTeamLeadIfExist(User user, HttpSession session, ModelMap modelMap) {

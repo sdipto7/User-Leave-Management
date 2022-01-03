@@ -1,6 +1,5 @@
 package net.therap.leavemanagement.service;
 
-import net.therap.leavemanagement.command.UserSaveCommand;
 import net.therap.leavemanagement.dao.UserDao;
 import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author rumi.dipto
@@ -111,12 +111,11 @@ public class UserService {
     }
 
     @Transactional
-    public void saveOrUpdate(UserSaveCommand userSaveCommand) {
-        User user = userSaveCommand.getUser();
+    public void saveOrUpdate(User user, User teamLead) {
         long id = user.getId();
 
-        if (userSaveCommand.isRoleChanged()) {
-            updateWithRoleChange(user);
+        if (isDesignationChanged(user)) {
+            updateUserWithDesignationChange(user);
         } else {
             if (id == 0) {
                 user.setPassword(HashGenerator.getMd5(user.getPassword()));
@@ -124,8 +123,7 @@ public class UserService {
             }
             userDao.saveOrUpdate(user);
 
-            if (user.isDeveloper() || user.isTester()) {
-                User teamLead = userSaveCommand.getTeamLead();
+            if (existsTeamLead(user, teamLead)) {
                 userManagementService.saveOrUpdate(user, teamLead);
             }
 
@@ -138,7 +136,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateWithRoleChange(User user) {
+    public void updateUserWithDesignationChange(User user) {
         long userId = user.getId();
 
         UserManagement userManagement = userManagementService.findUserManagementByUserId(userId);
@@ -168,5 +166,20 @@ public class UserService {
         userManagementService.deleteByUser(user);
 
         userDao.delete(user);
+    }
+
+    public boolean isDesignationChanged(User commandUser) {
+        long id = commandUser.getId();
+
+        if (id != 0) {
+            User dbUser = userDao.find(id);
+            return (commandUser.isTeamLead() && ((dbUser.isDeveloper()) || (dbUser.isTester())));
+        } else {
+            return false;
+        }
+    }
+
+    public boolean existsTeamLead(User user, User teamLead) {
+        return (Objects.nonNull(teamLead) && (user.isDeveloper() || user.isTester()));
     }
 }
