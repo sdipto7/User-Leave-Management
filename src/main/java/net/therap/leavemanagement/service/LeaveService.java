@@ -28,16 +28,16 @@ public class LeaveService {
         return leaveDao.find(id);
     }
 
-    public List<Leave> findSessionUserLeaveList(long userId, int page) {
-        return leaveDao.findSessionUserLeaveList(userId, page);
+    public List<Leave> findUserLeaveList(long userId, int page) {
+        return leaveDao.findUserLeaveList(userId, page);
     }
 
-    public List<Leave> findSessionUserPendingLeaveList(long userId) {
-        return leaveDao.findSessionUserPendingLeaveList(userId);
+    public List<Leave> findUserPendingLeaveList(long userId) {
+        return leaveDao.findUserPendingLeaveList(userId);
     }
 
-    public List<Leave> findSessionUserPendingLeaveList(long userId, int page) {
-        return leaveDao.findSessionUserPendingLeaveList(userId, page);
+    public List<Leave> findUserPendingLeaveList(long userId, int page) {
+        return leaveDao.findUserPendingLeaveList(userId, page);
     }
 
     public List<Leave> findAllLeave(User sessionUser, int page) {
@@ -63,11 +63,11 @@ public class LeaveService {
     }
 
     public long countSessionUserLeave(long userId) {
-        return leaveDao.countSessionUserLeave(userId);
+        return leaveDao.countUserLeave(userId);
     }
 
     public long countSessionUserPendingLeave(long userId) {
-        return leaveDao.countSessionUserPendingLeave(userId);
+        return leaveDao.countUserPendingLeave(userId);
     }
 
     public long countAllLeave(User sessionUser) {
@@ -103,7 +103,7 @@ public class LeaveService {
 
     @Transactional
     public void updateLeaveStatusWithUserDesignationUpdate(long userId) {
-        List<Leave> pendingLeaveList = leaveDao.findSessionUserPendingLeaveList(userId);
+        List<Leave> pendingLeaveList = leaveDao.findUserPendingLeaveList(userId);
         for (Leave pendingLeave : pendingLeaveList) {
             if (pendingLeave.isPendingByTeamLead()) {
                 pendingLeave.setLeaveStatus(PENDING_BY_HR_EXECUTIVE);
@@ -119,7 +119,7 @@ public class LeaveService {
 
     @Transactional
     public void deleteByUser(User user) {
-        List<Leave> leaveList = leaveDao.findSessionUserLeaveList(user.getId());
+        List<Leave> leaveList = leaveDao.findUserLeaveList(user.getId());
         if (leaveList.size() > 0) {
             leaveList.forEach(leave -> leaveDao.delete(leave));
         }

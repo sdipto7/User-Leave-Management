@@ -17,11 +17,11 @@ import static net.therap.leavemanagement.domain.LeaveStatus.*;
 @Entity
 @Table(name = "lm_leave_request")
 @NamedQueries({
-        @NamedQuery(name = "Leave.findSessionUserLeaveList",
+        @NamedQuery(name = "Leave.findUserLeaveList",
                 query = "SELECT l FROM Leave l WHERE l.user.id = :userId AND " +
                         "(l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE') ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.findSessionUserPendingLeaveList",
+        @NamedQuery(name = "Leave.findUserPendingLeaveList",
                 query = "SELECT l FROM Leave l " +
                         "WHERE l.user.id = :userId " +
                         "AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE') ORDER BY l.id"),
@@ -46,11 +46,11 @@ import static net.therap.leavemanagement.domain.LeaveStatus.*;
                 query = "SELECT l FROM Leave l " +
                         "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE' ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.countSessionUserLeave",
+        @NamedQuery(name = "Leave.countUserLeave",
                 query = "SELECT COUNT(l) FROM Leave l " +
                         "WHERE l.user.id = :userId AND (l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE')"),
 
-        @NamedQuery(name = "Leave.countSessionUserPendingLeave",
+        @NamedQuery(name = "Leave.countUserPendingLeave",
                 query = "SELECT COUNT(l) FROM Leave l " +
                         "WHERE l.user.id = :userId AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE')"),
 
