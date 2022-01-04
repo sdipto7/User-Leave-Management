@@ -58,7 +58,7 @@ public class LeaveValidator implements Validator {
 
     public void validateStartAndEndDate(Leave leave, Errors errors) {
         User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
-        List<Leave> pendingLeaveList = leaveService.findUserPendingLeaveList(sessionUser.getId());
+        List<Leave> pendingLeaveList = leaveService.findPendingLeavesOfUser(sessionUser.getId());
 
         Date startDate = leave.getStartDate();
         Date endDate = leave.getEndDate();
@@ -77,7 +77,7 @@ public class LeaveValidator implements Validator {
 
     public void validateOverlappingOfLeaveDuration(Leave leave, Errors errors) {
         User sessionUser = (User) WebUtils.getSessionAttribute(ServletUtil.getHttpServletRequest(), "SESSION_USER");
-        List<Leave> pendingLeaveList = leaveService.findUserPendingLeaveList(sessionUser.getId());
+        List<Leave> pendingLeaveList = leaveService.findPendingLeavesOfUser(sessionUser.getId());
 
         Date startDate = leave.getStartDate();
         Date endDate = leave.getEndDate();

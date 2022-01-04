@@ -20,62 +20,65 @@ import static net.therap.leavemanagement.domain.LeaveStatus.*;
         @NamedQuery(name = "Leave.findAllLeavesOfUser",
                 query = "SELECT l FROM Leave l WHERE l.user.id = :userId ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.findUserLeaveList",
+        @NamedQuery(name = "Leave.findProceededLeavesOfUser",
                 query = "SELECT l FROM Leave l WHERE l.user.id = :userId AND " +
-                        "(l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE') ORDER BY l.id"),
+                        "(l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' " +
+                        "OR l.leaveStatus = 'DENIED_BY_TEAM_LEAD') ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.findUserPendingLeaveList",
-                query = "SELECT l FROM Leave l " +
-                        "WHERE l.user.id = :userId " +
-                        "AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE') ORDER BY l.id"),
+        @NamedQuery(name = "Leave.findPendingLeavesOfUser",
+                query = "SELECT l FROM Leave l WHERE l.user.id = :userId AND " +
+                        "(l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE') ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.findAllLeaveUnderTeamLead",
+        @NamedQuery(name = "Leave.findAllProceededLeavesUnderTeamLead",
                 query = "SELECT l FROM Leave l " +
                         "WHERE (l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' " +
                         "OR l.leaveStatus = 'DENIED_BY_TEAM_LEAD') AND EXISTS (SELECT 1 FROM UserManagement um WHERE " +
                         "l.user.id = um.user.id AND um.teamLead.id = :teamLeadId) ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.findAllPendingLeaveUnderTeamLead",
+        @NamedQuery(name = "Leave.findAllPendingLeavesUnderTeamLead",
                 query = "SELECT l FROM Leave l " +
                         "WHERE (l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE' OR l.leaveStatus = 'PENDING_BY_TEAM_LEAD') AND " +
                         "EXISTS (SELECT 1 FROM UserManagement um WHERE " +
                         "l.user.id = um.user.id AND um.teamLead.id = :teamLeadId) ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.findAllLeave",
-                query = "SELECT l FROM Leave l " +
-                        "WHERE l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' ORDER BY l.id"),
+        @NamedQuery(name = "Leave.findAllProceededLeaves",
+                query = "SELECT l FROM Leave l WHERE " +
+                        "l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' " +
+                        "OR l.leaveStatus = 'DENIED_BY_TEAM_LEAD' ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.findAllPendingLeave",
-                query = "SELECT l FROM Leave l " +
-                        "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE' ORDER BY l.id"),
+        @NamedQuery(name = "Leave.findAllPendingLeaves",
+                query = "SELECT l FROM Leave l WHERE " +
+                        "l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE' ORDER BY l.id"),
 
-        @NamedQuery(name = "Leave.countUserLeave",
-                query = "SELECT COUNT(l) FROM Leave l " +
-                        "WHERE l.user.id = :userId AND (l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE')"),
+        @NamedQuery(name = "Leave.countProceededLeavesOfUser",
+                query = "SELECT COUNT(l) FROM Leave l WHERE l.user.id = :userId AND " +
+                        "(l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' " +
+                        "OR l.leaveStatus = 'DENIED_BY_TEAM_LEAD')"),
 
-        @NamedQuery(name = "Leave.countUserPendingLeave",
-                query = "SELECT COUNT(l) FROM Leave l " +
-                        "WHERE l.user.id = :userId AND (l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE')"),
+        @NamedQuery(name = "Leave.countPendingLeavesOfUser",
+                query = "SELECT COUNT(l) FROM Leave l WHERE l.user.id = :userId AND " +
+                        "(l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE')"),
 
-        @NamedQuery(name = "Leave.countAllLeaveUnderTeamLead",
-                query = "SELECT COUNT(l) FROM Leave l " +
-                        "WHERE (l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' " +
+        @NamedQuery(name = "Leave.countAllProceededLeavesUnderTeamLead",
+                query = "SELECT COUNT(l) FROM Leave l WHERE " +
+                        "(l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' " +
                         "OR l.leaveStatus = 'DENIED_BY_TEAM_LEAD') AND EXISTS (SELECT 1 FROM UserManagement um WHERE " +
                         "l.user.id = um.user.id AND um.teamLead.id = :teamLeadId)"),
 
-        @NamedQuery(name = "Leave.countAllPendingLeaveUnderTeamLead",
-                query = "SELECT COUNT(l) FROM Leave l " +
-                        "WHERE (l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE' OR l.leaveStatus = 'PENDING_BY_TEAM_LEAD') AND " +
+        @NamedQuery(name = "Leave.countAllPendingLeavesUnderTeamLead",
+                query = "SELECT COUNT(l) FROM Leave l WHERE " +
+                        "(l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE' OR l.leaveStatus = 'PENDING_BY_TEAM_LEAD') AND " +
                         "EXISTS (SELECT 1 FROM UserManagement um WHERE " +
                         "l.user.id = um.user.id AND um.teamLead.id = :teamLeadId)"),
 
-        @NamedQuery(name = "Leave.countAllLeave",
-                query = "SELECT COUNT(l) FROM Leave l " +
-                        "WHERE l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE'"),
+        @NamedQuery(name = "Leave.countAllProceededLeaves",
+                query = "SELECT COUNT(l) FROM Leave l WHERE " +
+                        "l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE' " +
+                        "OR l.leaveStatus = 'DENIED_BY_TEAM_LEAD'"),
 
-        @NamedQuery(name = "Leave.countAllPendingLeave",
-                query = "SELECT COUNT(l) FROM Leave l " +
-                        "WHERE l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE'")
+        @NamedQuery(name = "Leave.countAllPendingLeaves",
+                query = "SELECT COUNT(l) FROM Leave l WHERE " +
+                        "l.leaveStatus = 'PENDING_BY_TEAM_LEAD' OR l.leaveStatus = 'PENDING_BY_HR_EXECUTIVE'")
 })
 public class Leave extends Persistent {
 

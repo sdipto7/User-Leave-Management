@@ -28,65 +28,65 @@ public class LeaveService {
         return leaveDao.find(id);
     }
 
-    public List<Leave> findUserLeaveList(long userId, int page) {
-        return leaveDao.findUserLeaveList(userId, page);
+    public List<Leave> findProceededLeavesOfUser(long userId, int page) {
+        return leaveDao.findProceededLeavesOfUser(userId, page);
     }
 
-    public List<Leave> findUserPendingLeaveList(long userId) {
-        return leaveDao.findUserPendingLeaveList(userId);
+    public List<Leave> findPendingLeavesOfUser(long userId) {
+        return leaveDao.findPendingLeavesOfUser(userId);
     }
 
-    public List<Leave> findUserPendingLeaveList(long userId, int page) {
-        return leaveDao.findUserPendingLeaveList(userId, page);
+    public List<Leave> findPendingLeavesOfUser(long userId, int page) {
+        return leaveDao.findPendingLeavesOfUser(userId, page);
     }
 
-    public List<Leave> findAllLeave(User sessionUser, int page) {
+    public List<Leave> findAllProceededLeaves(User sessionUser, int page) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
-                return leaveDao.findAllLeave(page);
+                return leaveDao.findAllProceededLeaves(page);
             case TEAM_LEAD:
-                return leaveDao.findAllLeaveUnderTeamLead(sessionUser.getId(), page);
+                return leaveDao.findAllProceededLeavesUnderTeamLead(sessionUser.getId(), page);
             default:
                 return null;
         }
     }
 
-    public List<Leave> findAllPendingLeave(User sessionUser, int page) {
+    public List<Leave> findAllPendingLeaves(User sessionUser, int page) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
-                return leaveDao.findAllPendingLeave(page);
+                return leaveDao.findAllPendingLeaves(page);
             case TEAM_LEAD:
-                return leaveDao.findAllPendingLeaveUnderTeamLead(sessionUser.getId(), page);
+                return leaveDao.findAllPendingLeavesUnderTeamLead(sessionUser.getId(), page);
             default:
                 return null;
         }
     }
 
-    public long countSessionUserLeave(long userId) {
-        return leaveDao.countUserLeave(userId);
+    public long countProceededLeavesOfUser(long userId) {
+        return leaveDao.countProceededLeavesOfUser(userId);
     }
 
-    public long countSessionUserPendingLeave(long userId) {
-        return leaveDao.countUserPendingLeave(userId);
+    public long countPendingLeavesOfUser(long userId) {
+        return leaveDao.countPendingLeavesOfUser(userId);
     }
 
-    public long countAllLeave(User sessionUser) {
+    public long countAllProceededLeaves(User sessionUser) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
-                return leaveDao.countAllLeave();
+                return leaveDao.countAllProceededLeaves();
             case TEAM_LEAD:
-                return leaveDao.countAllLeaveUnderTeamLead(sessionUser.getId());
+                return leaveDao.countAllProceededLeavesUnderTeamLead(sessionUser.getId());
             default:
                 return 0;
         }
     }
 
-    public long countAllPendingLeave(User sessionUser) {
+    public long countAllPendingLeaves(User sessionUser) {
         switch (sessionUser.getDesignation()) {
             case HR_EXECUTIVE:
-                return leaveDao.countAllPendingLeave();
+                return leaveDao.countAllPendingLeaves();
             case TEAM_LEAD:
-                return leaveDao.countAllPendingLeaveUnderTeamLead(sessionUser.getId());
+                return leaveDao.countAllPendingLeavesUnderTeamLead(sessionUser.getId());
             default:
                 return 0;
         }
@@ -103,7 +103,7 @@ public class LeaveService {
 
     @Transactional
     public void updateLeaveStatusWithUserDesignationUpdate(User user) {
-        List<Leave> pendingLeaveList = leaveDao.findUserPendingLeaveList(user.getId());
+        List<Leave> pendingLeaveList = leaveDao.findPendingLeavesOfUser(user.getId());
         for (Leave pendingLeave : pendingLeaveList) {
             if (pendingLeave.isPendingByTeamLead()) {
                 pendingLeave.setLeaveStatus(PENDING_BY_HR_EXECUTIVE);
