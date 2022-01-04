@@ -1,0 +1,122 @@
+body {
+    background-color: white;
+}
+
+h1 {
+    color: blue;
+}
+
+p {
+    color: red;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
+.active {
+    background-color: #04AA6D;
+}
+
+.table{
+    margin: 50px 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
+.form-container{
+    position: absolute;
+    top: 20vh;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
+.button {
+    border: None;
+    background-color: seagreen;
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 25px;
+    margin-left: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px #000;
+}
+
+.button:hover {
+    background-color: #95f2cf;
+    color: white;
+}
+
+.nav-item{
+    margin-left: 25px;
+}
+
+#panel {
+    text-align: center;
+    padding: 3px;
+    background-color: #418771;
+    color: white;
+    align-items: center;
+}
+
+#error {
+    text-align: left;
+    padding: 3px;
+    color: #9c0202;
+}
+
+#success {
+    text-align: center;
+    padding: 3px;
+    color: #00ab00;
+}
+
+.errorBlock {
+    color: #000;
+    background-color: #ffEEEE;
+    border: 3px solid #a00000;
+    padding: 8px;
+    margin: 16px;
+}
+
+.form-group {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.radio-input {
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#successBlock {
+    color: #000;
+    align-items: center;
+    background-color: #ffEEEE;
+    border: 3px solid #00c27b;
+    padding: 8px;
+    margin: 16px;
+}

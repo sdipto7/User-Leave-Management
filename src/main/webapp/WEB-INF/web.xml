@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <display-name>RequestContextListener</display-name>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>invalidSessionFilter</filter-name>
+        <filter-class>net.therap.leavemanagement.filter.InvalidSessionFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>invalidSessionFilter</filter-name>
+        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/user/*</url-pattern>
+        <url-pattern>/notification</url-pattern>
+        <url-pattern>/leave/*</url-pattern>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/success</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>validSessionFilter</filter-name>
+        <filter-class>net.therap.leavemanagement.filter.ValidSessionFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>validSessionFilter</filter-name>
+        <url-pattern>/</url-pattern>
+        <url-pattern>/login</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>userActivationFilter</filter-name>
+        <filter-class>net.therap.leavemanagement.filter.UserActivationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>userActivationFilter</filter-name>
+        <url-pattern>/dashboard</url-pattern>
+        <url-pattern>/user/teamLeadList</url-pattern>
+        <url-pattern>/user/developerList</url-pattern>
+        <url-pattern>/user/testerList</url-pattern>
+        <url-pattern>/user/details</url-pattern>
+        <url-pattern>/user/form</url-pattern>
+        <url-pattern>/user/submit</url-pattern>
+        <url-pattern>/notification</url-pattern>
+        <url-pattern>/leave/*</url-pattern>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/success</url-pattern>
+    </filter-mapping>
+
+<!--    <filter>-->
+<!--        <filter-name>exceptionFilter</filter-name>-->
+<!--        <filter-class>net.therap.leavemanagement.filter.ExceptionFilter</filter-class>-->
+<!--    </filter>-->
+
+<!--    <filter-mapping>-->
+<!--        <filter-name>exceptionFilter</filter-name>-->
+<!--        <url-pattern>/*</url-pattern>-->
+<!--    </filter-mapping>-->
+</web-app>
