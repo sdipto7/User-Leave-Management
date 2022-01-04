@@ -38,6 +38,6 @@ public class NotificationDao {
 
     @Transactional
     public void delete(Notification notification) {
-        em.remove(em.getReference(Notification.class, notification.getId()));
+        em.remove(notification);
     }
 }

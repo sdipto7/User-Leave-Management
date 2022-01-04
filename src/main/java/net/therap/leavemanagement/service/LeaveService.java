@@ -119,7 +119,7 @@ public class LeaveService {
 
     @Transactional
     public void deleteByUser(User user) {
-        List<Leave> leaveList = leaveDao.findUserLeaveList(user.getId());
+        List<Leave> leaveList = leaveDao.findAllLeavesOfUser(user.getId());
         if (leaveList.size() > 0) {
             leaveList.forEach(leave -> leaveDao.delete(leave));
         }

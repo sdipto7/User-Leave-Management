@@ -25,6 +25,12 @@ public class LeaveDao {
         return em.find(Leave.class, id);
     }
 
+    public List<Leave> findAllLeavesOfUser(long userId) {
+        return em.createNamedQuery("Leave.findAllLeavesOfUser", Leave.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
     public List<Leave> findUserLeaveList(long userId) {
         return em.createNamedQuery("Leave.findUserLeaveList", Leave.class)
                 .setParameter("userId", userId)
@@ -130,6 +136,6 @@ public class LeaveDao {
 
     @Transactional
     public void delete(Leave leave) {
-        em.remove(em.getReference(Leave.class, leave.getId()));
+        em.remove(leave);
     }
 }

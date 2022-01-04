@@ -108,7 +108,6 @@ public class UserDao {
 
     @Transactional
     public void delete(User user) {
-        em.flush();
         em.remove(em.getReference(User.class, user.getId()));
     }
 }

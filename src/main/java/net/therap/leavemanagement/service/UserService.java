@@ -2,11 +2,14 @@ package net.therap.leavemanagement.service;
 
 import net.therap.leavemanagement.dao.UserDao;
 import net.therap.leavemanagement.domain.User;
+import net.therap.leavemanagement.util.Constant;
 import net.therap.leavemanagement.util.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,6 +19,9 @@ import java.util.Objects;
  */
 @Service
 public class UserService {
+
+    @PersistenceContext(unitName = Constant.PERSISTENCE_UNIT)
+    private EntityManager em;
 
     @Autowired
     private UserDao userDao;

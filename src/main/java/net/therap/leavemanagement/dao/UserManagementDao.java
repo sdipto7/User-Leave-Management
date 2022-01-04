@@ -98,6 +98,6 @@ public class UserManagementDao {
 
     @Transactional
     public void delete(UserManagement userManagement) {
-        em.remove(em.getReference(UserManagement.class, userManagement.getId()));
+        em.remove(userManagement);
     }
 }

@@ -17,6 +17,9 @@ import static net.therap.leavemanagement.domain.LeaveStatus.*;
 @Entity
 @Table(name = "lm_leave_request")
 @NamedQueries({
+        @NamedQuery(name = "Leave.findAllLeavesOfUser",
+                query = "SELECT l FROM Leave l WHERE l.user.id = :userId ORDER BY l.id"),
+
         @NamedQuery(name = "Leave.findUserLeaveList",
                 query = "SELECT l FROM Leave l WHERE l.user.id = :userId AND " +
                         "(l.leaveStatus = 'APPROVED_BY_HR_EXECUTIVE' OR l.leaveStatus = 'DENIED_BY_HR_EXECUTIVE') ORDER BY l.id"),
