@@ -14,7 +14,10 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "lm_notification")
 @NamedQueries({
-        @NamedQuery(name = "Notification.findAllNotification",
+        @NamedQuery(name = "Notification.findAllNotifications",
+                query = "SELECT n FROM Notification n WHERE n.user.id = :userId"),
+
+        @NamedQuery(name = "Notification.findAllUnseenNotifications",
                 query = "SELECT n FROM Notification n WHERE n.user.id = :userId AND n.seen = FALSE")
 })
 public class Notification extends Persistent {

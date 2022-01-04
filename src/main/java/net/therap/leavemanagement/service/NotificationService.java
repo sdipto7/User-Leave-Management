@@ -19,8 +19,8 @@ public class NotificationService {
     @Autowired
     private NotificationDao notificationDao;
 
-    public List<Notification> findAllNotification(long userId) {
-        return notificationDao.findAllNotification(userId);
+    public List<Notification> findAllUnseenNotifications(long userId) {
+        return notificationDao.findAllUnseenNotifications(userId);
     }
 
     @Transactional
@@ -30,7 +30,7 @@ public class NotificationService {
 
     @Transactional
     public void deleteByUser(User user) {
-        List<Notification> notificationList = notificationDao.findAllNotification(user.getId());
+        List<Notification> notificationList = notificationDao.findAllNotifications(user.getId());
         if (notificationList.size() > 0) {
             notificationList.forEach(notification -> notificationDao.delete(notification));
         }

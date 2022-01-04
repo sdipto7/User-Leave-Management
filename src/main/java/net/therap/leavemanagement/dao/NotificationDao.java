@@ -19,8 +19,14 @@ public class NotificationDao {
     @PersistenceContext(unitName = Constant.PERSISTENCE_UNIT)
     private EntityManager em;
 
-    public List<Notification> findAllNotification(long userId) {
-        return em.createNamedQuery("Notification.findAllNotification", Notification.class)
+    public List<Notification> findAllNotifications(long userId) {
+        return em.createNamedQuery("Notification.findAllNotifications", Notification.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    public List<Notification> findAllUnseenNotifications(long userId) {
+        return em.createNamedQuery("Notification.findAllUnseenNotifications", Notification.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }

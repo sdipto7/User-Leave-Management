@@ -20,14 +20,14 @@ public class NotificationHelper {
     private NotificationService notificationService;
 
     public void setupNotificationData(User user, ModelMap modelMap) {
-        List<Notification> notificationList = notificationService.findAllNotification(user.getId());
-        if (notificationList.size() > 0) {
-            notificationList.forEach(notification -> {
+        List<Notification> unseenNotifications = notificationService.findAllUnseenNotifications(user.getId());
+        if (unseenNotifications.size() > 0) {
+            unseenNotifications.forEach(notification -> {
                 notification.setSeen(true);
                 notificationService.saveOrUpdate(notification);
             });
         }
 
-        modelMap.addAttribute("notificationList", notificationList);
+        modelMap.addAttribute("notificationList", unseenNotifications);
     }
 }
