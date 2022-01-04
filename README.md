@@ -1,4 +1,4 @@
-This is a User Leave Management System Spring MVC project using JPA and Hibernate to manage database and embedded Tomcat-Server to deploy.
+This is my User Leave Management System Spring MVC project, in which I used MySql and JPA/Hibernate ORM framework to manage database and embedded Tomcat-Server to deploy.
 
 Required:
 
