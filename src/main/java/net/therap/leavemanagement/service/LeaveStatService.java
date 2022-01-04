@@ -33,6 +33,14 @@ public class LeaveStatService {
     }
 
     @Transactional
+    public void createAndSaveWithNewUser(User user) {
+        LeaveStat leaveStat = new LeaveStat();
+        leaveStat.setUser(user);
+
+        leaveStatDao.saveOrUpdate(leaveStat);
+    }
+
+    @Transactional
     public void updateByLeave(Leave leave) {
         LeaveStat leaveStat = findLeaveStatByUserId(leave.getUser().getId());
         int dayCount = DateTimeUtil.getLeaveDayCount(leave.getStartDate(), leave.getEndDate());

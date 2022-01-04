@@ -62,6 +62,17 @@ public class UserManagementService {
     }
 
     @Transactional
+    public void createAndSaveWithNewUser(User user, User teamLead) {
+        if (canHaveTeamLead(user, teamLead)) {
+            UserManagement userManagement = new UserManagement();
+            userManagement.setUser(user);
+            userManagement.setTeamLead(teamLead);
+
+            userManagementDao.saveOrUpdate(userManagement);
+        }
+    }
+
+    @Transactional
     public void updateTeamLeadWithUserUpdate(User user, User teamLead) {
         UserManagement userManagement = userManagementDao.findUserManagementByUserId(user.getId());
         userManagement.setTeamLead(teamLead);
@@ -95,5 +106,9 @@ public class UserManagementService {
     public void deleteWithUserDesignationUpdate(User user) {
         UserManagement userManagement = userManagementDao.findUserManagementByUserId(user.getId());
         userManagementDao.delete(userManagement);
+    }
+
+    public boolean canHaveTeamLead(User user, User teamLead) {
+        return (Objects.nonNull(teamLead) && (user.isDeveloper() || user.isTester()));
     }
 }

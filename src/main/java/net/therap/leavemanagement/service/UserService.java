@@ -1,9 +1,7 @@
 package net.therap.leavemanagement.service;
 
 import net.therap.leavemanagement.dao.UserDao;
-import net.therap.leavemanagement.domain.LeaveStat;
 import net.therap.leavemanagement.domain.User;
-import net.therap.leavemanagement.domain.UserManagement;
 import net.therap.leavemanagement.util.HashGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -117,10 +115,8 @@ public class UserService {
             user.setActivated(false);
 
             userDao.saveOrUpdate(user);
-
-            createAndSaveUserManagementWithNewUser(user, teamLead);
-
-            createAndSaveLeaveStatWithNewUser(user);
+            userManagementService.createAndSaveWithNewUser(user, teamLead);
+            leaveStatService.createAndSaveWithNewUser(user);
         } else {
 
             if (isDesignationChanged(user)) {
@@ -131,25 +127,6 @@ public class UserService {
             }
 
             userDao.saveOrUpdate(user);
-        }
-    }
-
-    @Transactional
-    public void createAndSaveLeaveStatWithNewUser(User user) {
-        LeaveStat leaveStat = new LeaveStat();
-        leaveStat.setUser(user);
-
-        leaveStatService.saveOrUpdate(leaveStat);
-    }
-
-    @Transactional
-    public void createAndSaveUserManagementWithNewUser(User user, User teamLead) {
-        if (canHaveTeamLead(user, teamLead)) {
-            UserManagement userManagement = new UserManagement();
-            userManagement.setUser(user);
-            userManagement.setTeamLead(teamLead);
-
-            userManagementService.saveOrUpdate(userManagement);
         }
     }
 
@@ -192,9 +169,5 @@ public class UserService {
         }
 
         return false;
-    }
-
-    public boolean canHaveTeamLead(User user, User teamLead) {
-        return (Objects.nonNull(teamLead) && (user.isDeveloper() || user.isTester()));
     }
 }
